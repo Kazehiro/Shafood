@@ -1,0 +1,254 @@
+package com.example.root.shafood;
+
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.location.Location;
+import android.location.LocationManager;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentActivity;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.example.root.shafood.Responses.Distance;
+import com.example.root.shafood.Responses.Duration;
+import com.example.root.shafood.Responses.LegsItem;
+import com.example.root.shafood.Responses.ResponseRoute;
+import com.example.root.shafood.network.*;
+import com.example.root.shafood.Responses.*;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.AutocompleteFilter;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlaceAutocomplete;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.maps.android.PolyUtil;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
+
+
+    private GoogleMap mMap;
+    String API_KEY = "AIzaSyAdXOOHbTv9D2DwmZ2o5M7VbyhLrd8Y8mw";
+    public static final int PICK_UP = 0;
+    public static final int DEST_LOC = 1;
+    private static int REQUEST_CODE = 0;
+    public LatLng pickUpLatLng = null;
+    public LatLng locationLatLng = null;
+    private static final int LOCATION_REQUEST = 500;
+
+    TextView etTitikAwal, etTitikAkhir;
+    private PlaceAutocomplete mPlaceAutocomplete;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_kurir__main);
+        widgetInit();
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        //minta permission
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST);
+            return;
+        }
+        //deklarasi widget
+        widgetInit();
+        //setting UI MAPS
+        mMap.setMyLocationEnabled(true);
+        mMap.getUiSettings().setMyLocationButtonEnabled(true);
+        mMap.getUiSettings().setAllGesturesEnabled(true);
+        mMap.getUiSettings().setCompassEnabled(true);
+        mMap.getUiSettings().setZoomControlsEnabled(true);
+
+    }
+
+    public void widgetInit() {
+        etTitikAkhir = findViewById(R.id.etTitikAkhir);
+        etTitikAwal = findViewById(R.id.etTitikAwal);
+    }
+
+    @SuppressLint("MissingPermission")
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case LOCATION_REQUEST:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    mMap.setMyLocationEnabled(true);
+                }
+                break;
+        }
+    }
+
+    public void showPlaceAutoComplete(int typeLocation) {
+        REQUEST_CODE = typeLocation;
+        AutocompleteFilter typeFilter = new AutocompleteFilter.Builder().setCountry("ID").build();
+        try {
+            Intent mIntent = new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
+                    .setFilter(typeFilter)
+                    .build(this);
+            startActivityForResult(mIntent, REQUEST_CODE);
+        } catch (GooglePlayServicesRepairableException e) {
+            e.printStackTrace();
+        } catch (GooglePlayServicesNotAvailableException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Layanan Tidak Tersedia", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //Toast.makeText(this, "Sini Gaes", Toast.LENGTH_SHORT).show();
+        // Pastikan Resultnya OK
+        if (resultCode == RESULT_OK) {
+            //Toast.makeText(this, "Sini Gaes2", Toast.LENGTH_SHORT).show();
+            // Tampung Data tempat ke variable
+            Place placeData = PlaceAutocomplete.getPlace(this, data);
+
+            if (placeData.isDataValid()) {
+                // Show in Log Cat
+                Log.d("autoCompletePlace Data", placeData.toString());
+
+                // Dapatkan Detail
+                String placeAddress = placeData.getAddress().toString();
+                LatLng placeLatLng = placeData.getLatLng();
+                String placeName = placeData.getName().toString();
+
+                // Cek user milih titik jemput atau titik tujuan
+                switch (REQUEST_CODE) {
+                    case PICK_UP:
+                        // Set ke widget lokasi asal
+                        etTitikAwal.setText(placeAddress);
+                        pickUpLatLng = placeData.getLatLng();
+                        break;
+                    case DEST_LOC:
+                        // Set ke widget lokasi tujuan
+                        etTitikAkhir.setText(placeAddress);
+                        locationLatLng = placeData.getLatLng();
+                        break;
+                }
+                if (pickUpLatLng != null && locationLatLng != null) {
+                    actionRoute(placeLatLng, REQUEST_CODE);
+                }
+
+            } else {
+                // Data tempat tidak valid
+                Toast.makeText(this, "Invalid Place !", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    public void etTitikAwal(View v) {
+        showPlaceAutoComplete(PICK_UP);
+    }
+
+    public void etTitikAkhir(View v) {
+        showPlaceAutoComplete(DEST_LOC);
+    }
+
+    public void actionRoute(LatLng placeLatLng, int REQUEST_CODE) {
+        String lokasiAwal = pickUpLatLng.latitude + "," + pickUpLatLng.longitude;
+        String lokasiAkhir = locationLatLng.latitude + "," + locationLatLng.longitude;
+
+        //clear maps
+        mMap.clear();
+        //declaring API
+        ApiServices api = InitLibrary.getInstance();
+        //siapkan request
+        Call<ResponseRoute> routeRequest = api.request_route(lokasiAwal, lokasiAkhir, API_KEY);
+        //kirim request
+        routeRequest.enqueue(new Callback<ResponseRoute>() {
+            @Override
+            public void onResponse(Call<ResponseRoute> call, Response<ResponseRoute> response) {
+                if (response.isSuccessful()) {
+                    // tampung response ke variable
+                    ResponseRoute dataDirection = response.body();
+                    Log.d("response", response.body().toString());
+                    //dataDirection.setRoutes();
+
+                    LegsItem dataLegs = dataDirection.getRoutes().get(0).getLegs().get(0);
+
+                    // Dapatkan garis polyline
+                    String polylinePoint = dataDirection.getRoutes().get(0).getOverviewPolyline().getPoints();
+                    // Decode
+                    List<LatLng> decodePath = PolyUtil.decode(polylinePoint);
+                    // Gambar garis ke maps
+                    mMap.addPolyline(new PolylineOptions().addAll(decodePath)
+                            .width(8f).color(Color.argb(255, 56, 167, 252)))
+                            .setGeodesic(true);
+
+                    // Tambah Marker
+                    mMap.addMarker(new MarkerOptions().position(pickUpLatLng).title("Lokasi Awal"));
+                    mMap.addMarker(new MarkerOptions().position(locationLatLng).title("Lokasi Akhir"));
+                    // Dapatkan jarak dan waktu
+                    Distance dataDistance = dataLegs.getDistance();
+                    Duration dataDuration = dataLegs.getDuration();
+
+                    // Set Nilai Ke Widget
+
+                    /** START
+                     * Logic untuk membuat layar berada ditengah2 dua koordinat
+                     */
+
+                    LatLngBounds.Builder latLongBuilder = new LatLngBounds.Builder();
+                    latLongBuilder.include(pickUpLatLng);
+                    latLongBuilder.include(locationLatLng);
+
+                    // Bounds Coordinata
+                    LatLngBounds bounds = latLongBuilder.build();
+
+                    int width = getResources().getDisplayMetrics().widthPixels;
+                    int height = getResources().getDisplayMetrics().heightPixels;
+                    int paddingMap = (int) (width * 0.2); //jarak dari
+                    CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, width, height, paddingMap);
+                    mMap.animateCamera(cu);
+
+                    /** END
+                     * Logic untuk membuat layar berada ditengah2 dua koordinat
+                     */
+                    // Tampilkan info panel
+
+                    mMap.setPadding(10, 180, 10, 180);
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseRoute> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
+}
