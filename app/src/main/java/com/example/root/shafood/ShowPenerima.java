@@ -21,6 +21,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.lang.ref.ReferenceQueue;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -107,18 +108,18 @@ public class ShowPenerima extends AppCompatActivity {
         int i = 0;
         ArrayList<String> list = new ArrayList<>();
         if (Nama != null) {
-            if (Request.get(i).equals("true")) {
-                while (Nama.size() > i) {
+            while (Nama.size() > i) {
+                if (Request.get(i).equals("true")) {
                     list.add(Nama.get(i));
-                    i++;
                 }
+                i++;
             }
             i = 0;
-            if (Request.get(i).equals("false")) {
-                while (Nama.size() > i) {
+            while (Nama.size() > i) {
+                if (Request.get(i).equals("false")) {
                     list.add(Nama.get(i));
-                    i++;
                 }
+                i++;
             }
             ArrayAdapter namaUser = new ArrayAdapter(this, android.R.layout.simple_list_item_1, list);
             mListViewPenerima.setAdapter(namaUser);
