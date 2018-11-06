@@ -23,6 +23,4 @@ public class Fragment_Dashboard extends Fragment{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.activity_fragment__dashboard, container, false);
     }
-
-
 }

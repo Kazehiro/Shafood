@@ -22,38 +22,11 @@ public class DonaturMain extends AppCompatActivity{
     private long backPressedTime;
     private Toast backToast;
     private GoogleMap mMap;
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            Fragment selectedFragment = null;
-
-            switch (item.getItemId()) {
-                case R.id.navigation_home:
-                    selectedFragment = new Fragment_Home();
-                    break;
-                case R.id.navigation_dashboard:
-                    selectedFragment = new Fragment_Dashboard();
-                    break;
-                case R.id.navigation_notifications:
-                    selectedFragment = new Fragment_Nontification();
-                    break;
-            }
-
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    selectedFragment).commit();
-
-            return true;
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_donatur_main);
-
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
 
     @Override
@@ -71,5 +44,4 @@ public class DonaturMain extends AppCompatActivity{
         }
         backPressedTime = System.currentTimeMillis();
     }
-
 }
