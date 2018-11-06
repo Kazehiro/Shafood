@@ -85,15 +85,15 @@ public final class R {
         public static final int dark = 0x7f09004b;
         public static final int hybrid = 0x7f090075;
         public static final int icon_only = 0x7f090078;
-        public static final int light = 0x7f090097;
-        public static final int none = 0x7f0900b0;
-        public static final int normal = 0x7f0900b1;
-        public static final int satellite = 0x7f0900d2;
-        public static final int standard = 0x7f0900fa;
-        public static final int terrain = 0x7f090107;
-        public static final int webview = 0x7f090125;
-        public static final int wide = 0x7f090126;
-        public static final int window = 0x7f090127;
+        public static final int light = 0x7f090098;
+        public static final int none = 0x7f0900b1;
+        public static final int normal = 0x7f0900b2;
+        public static final int satellite = 0x7f0900d3;
+        public static final int standard = 0x7f0900fb;
+        public static final int terrain = 0x7f090108;
+        public static final int webview = 0x7f090127;
+        public static final int wide = 0x7f090128;
+        public static final int window = 0x7f090129;
     }
     public static final class integer {
         private integer() {}
