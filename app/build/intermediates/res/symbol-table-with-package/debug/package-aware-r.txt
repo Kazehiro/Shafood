@@ -15,6 +15,7 @@ anim design_bottom_sheet_slide_in
 anim design_bottom_sheet_slide_out
 anim design_snackbar_in
 anim design_snackbar_out
+anim mytransition
 animator design_appbar_state_list_animator
 animator design_fab_hide_motion_spec
 animator design_fab_show_motion_spec
@@ -1289,6 +1290,7 @@ id info
 id invisible
 id italic
 id item_touch_helper_previous_elevation
+id iv
 id labeled
 id largeLabel
 id layout_button
@@ -1429,6 +1431,7 @@ id transition_layout_save
 id transition_position
 id transition_scene_layoutid_cache
 id transition_transform
+id tv
 id uniform
 id unlabeled
 id up
