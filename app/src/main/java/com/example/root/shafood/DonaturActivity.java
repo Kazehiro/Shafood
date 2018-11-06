@@ -33,6 +33,8 @@ public class DonaturActivity extends AppCompatActivity {
     private FirebaseStorage storage;
     private StorageReference storageRef;
     private ImageView imageView;
+    private long backPressedTime;
+    private Toast backToast;
 
 
     private static final String TAG = "AddToDatabase";
@@ -99,6 +101,22 @@ public class DonaturActivity extends AppCompatActivity {
     public void search(View view) {
         Intent search = new Intent(DonaturActivity.this, ShowPenerima.class);
         startActivity(search);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (backPressedTime + 2000 > System.currentTimeMillis()) {
+            backToast.cancel();
+            super.onBackPressed();
+            Intent intent = new Intent(DonaturActivity.this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra("EXIT", true);
+            startActivity(intent);
+        } else {
+            backToast = Toast.makeText(getBaseContext(), "Tekan Lagi Untuk Keluar", Toast.LENGTH_SHORT);
+            backToast.show();
+        }
+        backPressedTime = System.currentTimeMillis();
     }
 
     @Override
