@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml:2:1-50:12
-INJECTED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml:2:1-50:12
-INJECTED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml:2:1-50:12
-INJECTED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml:2:1-50:12
+ADDED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml:2:1-50:12
+INJECTED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml:2:1-50:12
+INJECTED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml:2:1-50:12
+INJECTED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml:2:1-50:12
 MERGED from [com.android.support:design:28.0.0] /root/.gradle/caches/transforms-1/files-1.1/design-28.0.0.aar/8cbaf9e8a7f298274d1b9aa3d554d56d/AndroidManifest.xml:17:1-24:12
 MERGED from [com.android.support:appcompat-v7:28.0.0] /root/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/75310b5450842604a50574109b810e3b/AndroidManifest.xml:17:1-22:12
 MERGED from [com.android.support.constraint:constraint-layout:1.1.3] /root/.gradle/caches/transforms-1/files-1.1/constraint-layout-1.1.3.aar/5a8f6276ba27fd6bed0333028157bc4e/AndroidManifest.xml:2:1-11:12
@@ -68,25 +68,25 @@ MERGED from [com.android.support:print:28.0.0] /root/.gradle/caches/transforms-1
 MERGED from [android.arch.lifecycle:viewmodel:1.1.1] /root/.gradle/caches/transforms-1/files-1.1/viewmodel-1.1.1.aar/a275027b856900a85345208c0deab9f9/AndroidManifest.xml:17:1-22:12
 MERGED from [com.android.support:interpolator:28.0.0] /root/.gradle/caches/transforms-1/files-1.1/interpolator-28.0.0.aar/8e7741b495a520a7f6672eb32f766a3a/AndroidManifest.xml:17:1-22:12
 MERGED from [com.google.android.gms:play-services-measurement-base:16.0.3] /root/.gradle/caches/transforms-1/files-1.1/play-services-measurement-base-16.0.3.aar/21ad9875c98264ff4feeabbc2ad71db1/AndroidManifest.xml:2:1-9:12
-INJECTED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml:2:1-50:12
-INJECTED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml:2:1-50:12
-INJECTED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml:2:1-50:12
+INJECTED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml:2:1-50:12
+INJECTED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml:2:1-50:12
+INJECTED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml:2:1-50:12
 	package
-		ADDED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml:3:5-39
-		INJECTED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml
-		INJECTED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml
+		ADDED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml:3:5-39
+		INJECTED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml
+		INJECTED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml
 	android:versionName
-		INJECTED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml
-		ADDED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml:2:1-50:12
-		INJECTED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml
+		INJECTED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml
+		ADDED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml:2:1-50:12
+		INJECTED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml
 	android:versionCode
-		INJECTED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml
-		ADDED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml:2:1-50:12
-		INJECTED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml
+		INJECTED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml
+		ADDED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml:2:1-50:12
+		INJECTED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml
 	xmlns:android
-		ADDED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml:2:11-69
+		ADDED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml:2:11-69
 uses-permission#android.permission.INTERNET
-ADDED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml:5:5-67
+ADDED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml:5:5-67
 MERGED from [com.google.android.gms:play-services-maps:16.0.0] /root/.gradle/caches/transforms-1/files-1.1/play-services-maps-16.0.0.aar/ebad26bc86fad1c091cd5dda4ea6b7e1/AndroidManifest.xml:24:5-67
 MERGED from [com.google.android.gms:play-services-maps:16.0.0] /root/.gradle/caches/transforms-1/files-1.1/play-services-maps-16.0.0.aar/ebad26bc86fad1c091cd5dda4ea6b7e1/AndroidManifest.xml:24:5-67
 MERGED from [com.google.firebase:firebase-database:16.0.4] /root/.gradle/caches/transforms-1/files-1.1/firebase-database-16.0.4.aar/e5ddb70589cbf772245997cacf94a2ad/AndroidManifest.xml:23:5-67
@@ -104,17 +104,17 @@ MERGED from [com.google.firebase:firebase-analytics-impl:16.2.2] /root/.gradle/c
 MERGED from [com.google.firebase:firebase-iid:17.0.3] /root/.gradle/caches/transforms-1/files-1.1/firebase-iid-17.0.3.aar/39cf39bbb0251ab279487ae9dae53459/AndroidManifest.xml:23:5-67
 MERGED from [com.google.firebase:firebase-iid:17.0.3] /root/.gradle/caches/transforms-1/files-1.1/firebase-iid-17.0.3.aar/39cf39bbb0251ab279487ae9dae53459/AndroidManifest.xml:23:5-67
 	android:name
-		ADDED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml:5:22-64
+		ADDED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml:5:22-64
 uses-permission#android.permission.ACCESS_FINE_LOCATION
-ADDED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml:12:5-79
+ADDED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml:12:5-79
 	android:name
-		ADDED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml:12:22-76
+		ADDED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml:12:22-76
 uses-permission#android.permission.ACCESS_COARSE_LOCATION
-ADDED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml:13:5-81
+ADDED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml:13:5-81
 	android:name
-		ADDED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml:13:22-78
+		ADDED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml:13:22-78
 application
-ADDED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml:15:5-48:19
+ADDED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml:15:5-48:19
 MERGED from [com.android.support:design:28.0.0] /root/.gradle/caches/transforms-1/files-1.1/design-28.0.0.aar/8cbaf9e8a7f298274d1b9aa3d554d56d/AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:design:28.0.0] /root/.gradle/caches/transforms-1/files-1.1/design-28.0.0.aar/8cbaf9e8a7f298274d1b9aa3d554d56d/AndroidManifest.xml:22:5-20
 MERGED from [com.android.support.constraint:constraint-layout:1.1.3] /root/.gradle/caches/transforms-1/files-1.1/constraint-layout-1.1.3.aar/5a8f6276ba27fd6bed0333028157bc4e/AndroidManifest.xml:9:5-20
@@ -180,95 +180,95 @@ MERGED from [com.google.android.gms:play-services-measurement-base:16.0.3] /root
 	android:appComponentFactory
 		ADDED from [com.android.support:support-compat:28.0.0] /root/.gradle/caches/transforms-1/files-1.1/support-compat-28.0.0.aar/53618849d5e91a69dc595b4f93cf0a2f/AndroidManifest.xml:22:18-91
 	android:supportsRtl
-		ADDED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml:20:9-35
+		ADDED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml:20:9-35
 	android:label
-		ADDED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml:18:9-41
+		ADDED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml:18:9-41
 	android:roundIcon
-		ADDED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml:19:9-54
+		ADDED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml:19:9-54
 	android:icon
-		ADDED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml:17:9-43
+		ADDED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml:17:9-43
 	android:allowBackup
-		ADDED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml:16:9-35
+		ADDED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml:16:9-35
 	android:theme
-		ADDED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml:21:9-40
+		ADDED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml:21:9-40
 activity#com.example.root.shafood.SplashScreen
-ADDED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml:22:9-27:20
+ADDED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml:22:9-27:20
 	android:name
-		ADDED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml:22:19-47
+		ADDED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml:22:19-47
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml:23:13-26:29
+ADDED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml:23:13-26:29
 action#android.intent.action.MAIN
-ADDED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml:24:17-69
+ADDED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml:24:17-69
 	android:name
-		ADDED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml:24:25-66
+		ADDED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml:24:25-66
 category#android.intent.category.LAUNCHER
-ADDED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml:25:17-77
+ADDED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml:25:17-77
 	android:name
-		ADDED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml:25:27-74
+		ADDED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml:25:27-74
 activity#com.example.root.shafood.MainActivity
-ADDED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml:28:9-50
+ADDED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml:28:9-50
 	android:name
-		ADDED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml:28:19-47
+		ADDED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml:28:19-47
 activity#com.example.root.shafood.Berhasil
-ADDED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml:29:9-46
+ADDED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml:29:9-46
 	android:name
-		ADDED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml:29:19-43
+		ADDED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml:29:19-43
 activity#com.example.root.shafood.ViewDatabase
-ADDED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml:30:9-50
+ADDED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml:30:9-50
 	android:name
-		ADDED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml:30:19-47
+		ADDED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml:30:19-47
 activity#com.example.root.shafood.Register
-ADDED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml:31:9-46
+ADDED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml:31:9-46
 	android:name
-		ADDED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml:31:19-43
+		ADDED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml:31:19-43
 activity#com.example.root.shafood.Penerima_Main
-ADDED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml:32:9-51
+ADDED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml:32:9-51
 	android:name
-		ADDED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml:32:19-48
+		ADDED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml:32:19-48
 meta-data#com.google.android.geo.API_KEY
-ADDED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml:33:9-35:55
+ADDED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml:33:9-35:55
 	android:value
-		ADDED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml:35:13-52
+		ADDED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml:35:13-52
 	android:name
-		ADDED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml:34:13-58
+		ADDED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml:34:13-58
 activity#com.example.root.shafood.Kurir_Main
-ADDED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml:36:9-38:66
+ADDED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml:36:9-38:66
 	android:label
-		ADDED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml:38:13-63
+		ADDED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml:38:13-63
 	android:name
-		ADDED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml:37:13-39
+		ADDED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml:37:13-39
 activity#com.example.root.shafood.DonaturActivity
-ADDED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml:39:9-42:47
+ADDED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml:39:9-42:47
 	android:label
-		ADDED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml:41:13-65
+		ADDED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml:41:13-65
 	android:theme
-		ADDED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml:42:13-44
+		ADDED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml:42:13-44
 	android:name
-		ADDED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml:40:13-44
+		ADDED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml:40:13-44
 activity#com.example.root.shafood.ShowPenerima
-ADDED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml:43:9-49
+ADDED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml:43:9-49
 	android:name
-		ADDED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml:43:19-47
+		ADDED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml:43:19-47
 activity#com.example.root.shafood.UploadImageActivity
-ADDED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml:44:9-57
+ADDED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml:44:9-57
 	android:name
-		ADDED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml:44:19-54
+		ADDED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml:44:19-54
 activity#com.example.root.shafood.lengkapidata_donatur
-ADDED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml:45:9-58
+ADDED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml:45:9-58
 	android:name
-		ADDED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml:45:19-55
+		ADDED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml:45:19-55
 activity#com.example.root.shafood.lengkapidata_kurir
-ADDED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml:46:9-56
+ADDED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml:46:9-56
 	android:name
-		ADDED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml:46:19-53
+		ADDED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml:46:19-53
 activity#com.example.root.shafood.DonaturMain
-ADDED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml:47:9-49
+ADDED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml:47:9-49
 	android:name
-		ADDED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml:47:19-46
+		ADDED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml:47:19-46
 uses-sdk
-INJECTED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml
-INJECTED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml
+INJECTED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml
+INJECTED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml
 MERGED from [com.android.support:design:28.0.0] /root/.gradle/caches/transforms-1/files-1.1/design-28.0.0.aar/8cbaf9e8a7f298274d1b9aa3d554d56d/AndroidManifest.xml:20:5-44
 MERGED from [com.android.support:design:28.0.0] /root/.gradle/caches/transforms-1/files-1.1/design-28.0.0.aar/8cbaf9e8a7f298274d1b9aa3d554d56d/AndroidManifest.xml:20:5-44
 MERGED from [com.android.support:appcompat-v7:28.0.0] /root/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/75310b5450842604a50574109b810e3b/AndroidManifest.xml:20:5-44
@@ -397,18 +397,18 @@ MERGED from [com.android.support:interpolator:28.0.0] /root/.gradle/caches/trans
 MERGED from [com.android.support:interpolator:28.0.0] /root/.gradle/caches/transforms-1/files-1.1/interpolator-28.0.0.aar/8e7741b495a520a7f6672eb32f766a3a/AndroidManifest.xml:20:5-44
 MERGED from [com.google.android.gms:play-services-measurement-base:16.0.3] /root/.gradle/caches/transforms-1/files-1.1/play-services-measurement-base-16.0.3.aar/21ad9875c98264ff4feeabbc2ad71db1/AndroidManifest.xml:5:5-44
 MERGED from [com.google.android.gms:play-services-measurement-base:16.0.3] /root/.gradle/caches/transforms-1/files-1.1/play-services-measurement-base-16.0.3.aar/21ad9875c98264ff4feeabbc2ad71db1/AndroidManifest.xml:5:5-44
-INJECTED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml
-INJECTED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml
+INJECTED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml
+INJECTED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml
 	tools:overrideLibrary
 		ADDED from [com.android.support:support-v4:26.1.0] /root/.gradle/caches/transforms-1/files-1.1/support-v4-26.1.0.aar/b6b361226446460a41650f887f0e831d/AndroidManifest.xml:23:9-51
 	android:targetSdkVersion
-		INJECTED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml
-		ADDED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml
-		INJECTED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml
+		INJECTED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml
+		ADDED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml
+		INJECTED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml
-		ADDED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml
-		INJECTED from /media/kazehiro/shafood/app/src/main/AndroidManifest.xml
+		INJECTED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml
+		ADDED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml
+		INJECTED from /root/AndroidStudioProjects/FIX/MANTAP/app/src/main/AndroidManifest.xml
 activity#com.google.android.gms.auth.api.signin.internal.SignInHubActivity
 ADDED from [com.google.android.gms:play-services-auth:16.0.1] /root/.gradle/caches/transforms-1/files-1.1/play-services-auth-16.0.1.aar/f51fb95a3e0e4181f909bd90c1b2987b/AndroidManifest.xml:23:9-27:75
 	android:excludeFromRecents

@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "/media/kazehiro/shafood/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-ca/values-ca.xml",
+            "outputFile": "/root/AndroidStudioProjects/FIX/MANTAP/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-ca/values-ca.xml",
             "map": [
                 {
                     "source": "/root/.gradle/caches/transforms-1/files-1.1/play-services-base-16.0.1.aar/5780b8eaa02ee0679e473b1ac9891fb3/res/values-ca/values.xml",

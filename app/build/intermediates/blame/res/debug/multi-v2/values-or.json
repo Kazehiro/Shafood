@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "/media/kazehiro/shafood/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-or/values-or.xml",
+            "outputFile": "/root/AndroidStudioProjects/FIX/MANTAP/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-or/values-or.xml",
             "map": [
                 {
                     "source": "/root/.gradle/caches/transforms-1/files-1.1/play-services-basement-16.1.0.aar/eaa4d3c045d6412fb0b0689bd50a5910/res/values-or/values.xml",

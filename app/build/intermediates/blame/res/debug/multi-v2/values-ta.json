@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "/media/kazehiro/shafood/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-ta/values-ta.xml",
+            "outputFile": "/root/AndroidStudioProjects/FIX/MANTAP/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-ta/values-ta.xml",
             "map": [
                 {
                     "source": "/root/.gradle/caches/transforms-1/files-1.1/firebase-messaging-17.3.3.aar/bc7621110bdf3ef4deeee083e8113d2f/res/values-ta/values.xml",
