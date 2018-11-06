@@ -51,7 +51,7 @@ public class ShowPenerima extends AppCompatActivity {
         //NOTE: Unless you are signed in, this will not be useable.
         mAuth = FirebaseAuth.getInstance();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
-        myRef = mFirebaseDatabase.getReference().child("SHAFOOD").child("USER").child("DONATUR");
+        myRef = mFirebaseDatabase.getReference().child("SHAFOOD").child("USER").child("PENERIMA");
         FirebaseUser user = mAuth.getCurrentUser();
         userID = user.getUid();
 
@@ -99,10 +99,28 @@ public class ShowPenerima extends AppCompatActivity {
             Map nama = (Map) entry.getValue();
             Nama.add((String) nama.get("nama"));
         }
+        ArrayList<String> Request = new ArrayList<>();
+        for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
+            Map request = (Map) entry.getValue();
+            Request.add((String) request.get("request"));
+        }
+        int i = 0;
+        ArrayList<String> list = new ArrayList<>();
         if (Nama != null) {
-            System.out.println(Nama);
-            ArrayAdapter namaUser = new ArrayAdapter(this, android.R.layout.simple_list_item_1, Nama);
-            System.out.println(namaUser);
+            if (Request.get(i).equals("true")) {
+                while (Nama.size() > i) {
+                    list.add(Nama.get(i));
+                    i++;
+                }
+            }
+            i = 0;
+            if (Request.get(i).equals("false")) {
+                while (Nama.size() > i) {
+                    list.add(Nama.get(i));
+                    i++;
+                }
+            }
+            ArrayAdapter namaUser = new ArrayAdapter(this, android.R.layout.simple_list_item_1, list);
             mListViewPenerima.setAdapter(namaUser);
         }
     }

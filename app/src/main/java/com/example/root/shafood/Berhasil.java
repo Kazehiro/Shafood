@@ -57,6 +57,7 @@ public class Berhasil extends AppCompatActivity {
                 // whenever data at this location is updated.
                 showData(dataSnapshot);
                 showData1(dataSnapshot);
+                showData2(dataSnapshot);
             }
 
             @Override
@@ -111,6 +112,27 @@ public class Berhasil extends AppCompatActivity {
 
                 if (kuInfo.getLevel() == 3) {
                     Intent mIntent = new Intent(Berhasil.this, Kurir_Main.class);
+                    startActivity(mIntent);
+                }
+
+
+            } catch (NullPointerException e) {
+                return e;
+            }
+        }
+        return null;
+    }
+
+    private NullPointerException showData2(DataSnapshot dataSnapshot) {
+        for (DataSnapshot ds : dataSnapshot.getChildren()) {
+            ProfileKurir kuInfo = new ProfileKurir();
+            try {
+
+                kuInfo.setLevel(ds.child("USER").child("PENERIMA").child(userID).getValue(ProfileKurir.class).getLevel());
+                System.out.println("kuInfo = " + kuInfo.getLevel());
+
+                if (kuInfo.getLevel() == 4) {
+                    Intent mIntent = new Intent(Berhasil.this, Penerima_Main.class);
                     startActivity(mIntent);
                 }
 
