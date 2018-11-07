@@ -13,6 +13,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,10 +24,15 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+
+import java.util.ArrayList;
 
 public class Donatur_Main extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -38,6 +45,7 @@ public class Donatur_Main extends AppCompatActivity
     private StorageReference storageRef;
     private long backPressedTime;
     private Toast backToast;
+    private String userID;
 
 
     private static final String TAG = "AddToDatabase";
@@ -45,6 +53,7 @@ public class Donatur_Main extends AppCompatActivity
     TextView namaDonatur;
     TextView emailDonatur;
     private ImageView imageProfile;
+    private NavigationView nav_view;
 
 
     @Override
@@ -63,14 +72,35 @@ public class Donatur_Main extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        namaDonatur = (TextView) findViewById(R.id.namaDonatur);
-        emailDonatur = (TextView) findViewById(R.id.emailDonatur);
-        imageProfile = (ImageView) findViewById(R.id.imageProfile);
+        View header = navigationView.getHeaderView(0);
+//        View nama = navigationView.getHeaderView(1);
+//        View email = navigationView.getHeaderView(2);
+
+        namaDonatur = (TextView) header.findViewById(R.id.namaDonatur);
+        emailDonatur = (TextView) header.findViewById(R.id.emailDonatur);
+        imageProfile = (ImageView) header.findViewById(R.id.imageProfile);
 
         mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         myRef = mFirebaseDatabase.getReference();
+        userID = user.getUid();
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                showData(dataSnapshot);
+            }
 
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+        emailDonatur.setText(user.getEmail());
         storage = FirebaseStorage.getInstance();
         storageRef = storage.getReferenceFromUrl("gs://shafood93.appspot.com");
 
@@ -83,8 +113,6 @@ public class Donatur_Main extends AppCompatActivity
                     // User is signed in
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
                     toastMessage("Successfully signed in with: " + user.getEmail());
-                    namaDonatur.setText(user.getDisplayName());
-                    emailDonatur.setText(user.getEmail());
                 } else {
                     // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");
@@ -93,9 +121,9 @@ public class Donatur_Main extends AppCompatActivity
                 // ...
             }
         };
-        FirebaseUser user = mAuth.getCurrentUser();
+
         final String userID = user.getUid();
-        storageRef.child("Donatur/FotoProfil/"+userID).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+        storageRef.child("Donatur/FotoProfil/" + userID).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
                 System.out.println(uri);
@@ -110,15 +138,33 @@ public class Donatur_Main extends AppCompatActivity
 
     }
 
+    private void showData(DataSnapshot dataSnapshot) {
+        for (DataSnapshot ds : dataSnapshot.getChildren()) {
+            ProfileDonatur uInfo = new ProfileDonatur();
+            uInfo.setNama(ds.child("USER").child("DONATUR").child(userID).getValue(ProfileDonatur.class).getNama());
+            namaDonatur.setText(uInfo.getNama());
+        }
+    }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
+        } else if (backPressedTime + 2000 > System.currentTimeMillis()) {
+            backToast.cancel();
             super.onBackPressed();
+            Intent intent = new Intent(Donatur_Main.this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra("EXIT", true);
+            startActivity(intent);
+        } else {
+            backToast = Toast.makeText(getBaseContext(), "Tekan Lagi Untuk Keluar", Toast.LENGTH_SHORT);
+            backToast.show();
         }
+        backPressedTime = System.currentTimeMillis();
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -167,7 +213,9 @@ public class Donatur_Main extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
     private void toastMessage(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
+
 }
