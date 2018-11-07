@@ -86,19 +86,19 @@ public class ShowPenerima extends AppCompatActivity {
 
             }
         });
-        mListViewPenerima.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                toastMessage("Posisi = " + position + "id = " + id);
 
-            }
-        });
     }
 
     private void showData(Map<String, Object> dataSnapshot) {
-        ArrayList<String> Nama = new ArrayList<>();
+        final ArrayList<String> Nama = new ArrayList<>();
         for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
             Map nama = (Map) entry.getValue();
             Nama.add((String) nama.get("nama"));
+        }
+        ArrayList<String> Id_penerima = new ArrayList<>();
+        for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
+            Map id_penerima = (Map) entry.getValue();
+            Id_penerima.add((String) id_penerima.get("id_penerima"));
         }
         ArrayList<String> Request = new ArrayList<>();
         for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
@@ -111,7 +111,7 @@ public class ShowPenerima extends AppCompatActivity {
             Transaksi.add((String) transaksi.get("transaksi"));
         }
         int i = 0;
-        ArrayList<String> list = new ArrayList<>();
+        final ArrayList<String> list = new ArrayList<>();
         if (Nama != null) {
             while (Nama.size() > i) {
                 if (Request.get(i).equals("true")) {
@@ -130,6 +130,12 @@ public class ShowPenerima extends AppCompatActivity {
                     i++;
                 }
             }
+            mListViewPenerima.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    toastMessage("Nama = " + list.get(position));
+
+                }
+            });
             ArrayAdapter namaUser = new ArrayAdapter(this, android.R.layout.simple_list_item_1, list);
             mListViewPenerima.setAdapter(namaUser);
         }
