@@ -105,21 +105,30 @@ public class ShowPenerima extends AppCompatActivity {
             Map request = (Map) entry.getValue();
             Request.add((String) request.get("request"));
         }
+        ArrayList<String> Transaksi = new ArrayList<>();
+        for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
+            Map transaksi = (Map) entry.getValue();
+            Transaksi.add((String) transaksi.get("transaksi"));
+        }
         int i = 0;
         ArrayList<String> list = new ArrayList<>();
         if (Nama != null) {
             while (Nama.size() > i) {
                 if (Request.get(i).equals("true")) {
-                    list.add(Nama.get(i));
+                    if (Transaksi.get(i).equals("false")) {
+                        list.add(Nama.get(i));
+                    }
                 }
                 i++;
             }
             i = 0;
             while (Nama.size() > i) {
                 if (Request.get(i).equals("false")) {
-                    list.add(Nama.get(i));
+                    if (Transaksi.get(i).equals("false")) {
+                        list.add(Nama.get(i));
+                    }
+                    i++;
                 }
-                i++;
             }
             ArrayAdapter namaUser = new ArrayAdapter(this, android.R.layout.simple_list_item_1, list);
             mListViewPenerima.setAdapter(namaUser);
