@@ -45,7 +45,7 @@
         <activity android:name=".UploadImageActivity" />
         <activity android:name=".lengkapidata_donatur" />
         <activity android:name=".lengkapidata_kurir" />
-        <activity android:name=".DonaturMain" />
+        <activity android:name=".Donatur_Main" />
     </application>
 
 </manifest>
