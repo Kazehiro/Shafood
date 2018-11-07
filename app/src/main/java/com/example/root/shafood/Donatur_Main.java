@@ -73,8 +73,6 @@ public class Donatur_Main extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         View header = navigationView.getHeaderView(0);
-//        View nama = navigationView.getHeaderView(1);
-//        View email = navigationView.getHeaderView(2);
 
         namaDonatur = (TextView) header.findViewById(R.id.namaDonatur);
         emailDonatur = (TextView) header.findViewById(R.id.emailDonatur);
