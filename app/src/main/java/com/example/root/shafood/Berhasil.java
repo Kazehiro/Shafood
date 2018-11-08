@@ -159,7 +159,6 @@ public class Berhasil extends AppCompatActivity {
         }
     }
 
-
     /**
      * customizable toast
      *
