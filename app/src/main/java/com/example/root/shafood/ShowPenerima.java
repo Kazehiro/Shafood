@@ -98,6 +98,16 @@ public class ShowPenerima extends AppCompatActivity {
             Map id_penerima = (Map) entry.getValue();
             Id_penerima.add((String) id_penerima.get("id_user"));
         }
+        ArrayList<String> Lat = new ArrayList<>();
+        for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
+            Map lat = (Map) entry.getValue();
+            Lat.add((String) lat.get("latitude"));
+        }
+        ArrayList<String> Lng = new ArrayList<>();
+        for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
+            Map lng = (Map) entry.getValue();
+            Lng.add((String) lng.get("longitude"));
+        }
         ArrayList<String> Request = new ArrayList<>();
         for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
             Map request = (Map) entry.getValue();
@@ -111,12 +121,16 @@ public class ShowPenerima extends AppCompatActivity {
         int i = 0;
         final ArrayList<String> listNama = new ArrayList<>();
         final ArrayList<String> listId = new ArrayList<>();
+        final ArrayList<String> listLat = new ArrayList<>();
+        final ArrayList<String> listLng = new ArrayList<>();
         if (Nama != null) {
             while (Nama.size() > i) {
                 if (Request.get(i).equals("true")) {
                     if (Transaksi.get(i).equals("false")) {
                         listNama.add(Nama.get(i));
                         listId.add(Id_penerima.get(i));
+                        listLat.add(Lat.get(i));
+                        listLng.add(Lng.get(i));
                     }
                 }
                 i++;
@@ -127,13 +141,33 @@ public class ShowPenerima extends AppCompatActivity {
                     if (Transaksi.get(i).equals("false")) {
                         listNama.add(Nama.get(i));
                         listId.add(Id_penerima.get(i));
+                        listLat.add(Lat.get(i));
+                        listLng.add(Lng.get(i));
                     }
                     i++;
                 }
             }
             mListViewPenerima.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    toastMessage("Nama = " + listNama.get(position) + "id = " + listId.get(position));
+                    String Barang = getIntent().getStringExtra("Barang");
+                    String Kuantitas = getIntent().getStringExtra("Kuantitas");
+                    String NamaDonatur = getIntent().getStringExtra("Nama Donatur");
+                    String Id_Donatur = getIntent().getStringExtra("Id Donatur");
+                    String Lat_Donatur = getIntent().getStringExtra("Latitude Donatur");
+                    String Lng_Donatur = getIntent().getStringExtra("Longitude Donatur");
+                    toastMessage("Nama = " + listNama.get(position) + " id = " + listId.get(position) + " Barang = " + Barang + " Kuantitas = " + Kuantitas + " Lat Penerima = " + listLat.get(position) + " Lng Penerima = " + listLng.get(position));
+                    Intent mIntent = new Intent(ShowPenerima.this, ShowKurir.class);
+                    mIntent.putExtra("Barang", Barang);
+                    mIntent.putExtra("Kuantitas", Kuantitas);
+                    mIntent.putExtra("Id Penerima", listId.get(position));
+                    mIntent.putExtra("Id Donatur", Id_Donatur);
+                    mIntent.putExtra("Latitude Penerima", listLat.get(position));
+                    mIntent.putExtra("Longitude Penerima", listLng.get(position));
+                    mIntent.putExtra("Latitude Donatur", Lat_Donatur);
+                    mIntent.putExtra("Longitude Donatur", Lng_Donatur);
+                    mIntent.putExtra("Nama Donatur", NamaDonatur);
+                    mIntent.putExtra("Nama Penerima", listNama.get(position));
+                    startActivity(mIntent);
 
                 }
             });

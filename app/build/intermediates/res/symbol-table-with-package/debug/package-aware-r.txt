@@ -1157,7 +1157,6 @@ drawable ic_menu_manage
 drawable ic_menu_send
 drawable ic_menu_share
 drawable ic_menu_slideshow
-drawable ic_monochrome_photos
 drawable ic_mtrl_chip_checked_black
 drawable ic_mtrl_chip_checked_circle
 drawable ic_mtrl_chip_close_circle
@@ -1324,7 +1323,6 @@ id icon_group
 id icon_only
 id ifRoom
 id image
-id imageBtnScan
 id imageButton
 id imageProfile
 id imageView
@@ -1362,6 +1360,7 @@ id linearLayout1
 id listMode
 id list_item
 id listview
+id listviewKurir
 id listviewPenerima
 id login
 id login_form
@@ -1422,7 +1421,6 @@ id satellite
 id save_image_matrix
 id save_non_transition_alpha
 id save_scale_type
-id scan_btn
 id screen
 id scroll
 id scrollIndicatorDown
@@ -1520,6 +1518,7 @@ id zxing_decode
 id zxing_decode_failed
 id zxing_decode_succeeded
 id zxing_possible_result_points
+id zxing_preview_failed
 id zxing_prewiew_size_ready
 id zxing_status_view
 id zxing_viewfinder_view
@@ -1577,13 +1576,13 @@ layout activity_donatur__account
 layout activity_donatur__history
 layout activity_donatur__main
 layout activity_kurir__main
-layout activity_kurir__verifikasi
 layout activity_lengkapidata_donatur
 layout activity_lengkapidata_kurir
 layout activity_main
 layout activity_penerima__main
 layout activity_penerima__verifikasi
 layout activity_register
+layout activity_show_kurir
 layout activity_show_penerima
 layout activity_splash_screen
 layout activity_upload_image
