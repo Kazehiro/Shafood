@@ -94,7 +94,7 @@ public class DonaturActivity extends AppCompatActivity {
         String userID = user.getUid();
         Long tsLong = System.currentTimeMillis() / 1000;
         String ts = tsLong.toString();
-        Transaksi newTransaksi = new Transaksi(userID + ts, userID, userID + ts, userID + ts, userID + ts, userID + ts, userID + ts, userID + ts, userID + ts, userID + ts, 1, "");
+        Transaksi newTransaksi = new Transaksi(userID + ts, userID, userID + ts, userID + ts, userID + ts, userID + ts, userID + ts, userID + ts, userID + ts, userID + ts,userID + ts,userID + ts, 1);
         myRef.child("SHAFOOD").child("TRANSAKSI").child(userID + ts).setValue(newTransaksi);
         toastMessage("Adding User to database...");
     }

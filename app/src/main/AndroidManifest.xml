@@ -53,7 +53,8 @@
         <activity android:name=".Donatur_Main" />
         <activity android:name=".Donatur_Account" />
         <activity android:name=".Donatur_History" />
-        <activity android:name=".Penerima_Verifikasi"></activity>
+        <activity android:name=".Penerima_Verifikasi" />
+        <activity android:name=".ShowKurir"></activity>
     </application>
 
 </manifest>
