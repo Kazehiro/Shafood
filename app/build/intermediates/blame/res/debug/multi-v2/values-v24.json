@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\DELL\\AndroidStudioProjects\\Shafood\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v24\\values-v24.xml",
+            "outputFile": "D:\\Sekolah\\XII RPL 3\\Android\\FIX\\SUPERFIX\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v24\\values-v24.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\DELL\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-28.0.0.aar\\cdbd6607eaab77c33e9f15130a992717\\res\\values-v24\\values-v24.xml",
+                    "source": "C:\\Users\\Asus\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-28.0.0.aar\\f040c4e72b897d46260714d3e4f03686\\res\\values-v24\\values-v24.xml",
                     "from": {
                         "startLines": "2,3",
                         "startColumns": "4,4",
@@ -14,7 +14,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\DELL\\.gradle\\caches\\transforms-1\\files-1.1\\support-media-compat-26.1.0.aar\\6ff4ca937d7cec145d5584accdd546c9\\res\\values-v24\\values-v24.xml",
+                    "source": "C:\\Users\\Asus\\.gradle\\caches\\transforms-1\\files-1.1\\support-media-compat-26.1.0.aar\\7e800a9db4f469f355bc0406ff1c5b33\\res\\values-v24\\values-v24.xml",
                     "from": {
                         "startLines": "2,3,4,5",
                         "startColumns": "4,4,4,4",

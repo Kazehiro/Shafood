@@ -159,6 +159,11 @@ attr chipStrokeColor
 attr chipStrokeWidth
 attr chipStyle
 attr circleCrop
+attr civ_border_color
+attr civ_border_overlay
+attr civ_border_width
+attr civ_circle_background_color
+attr civ_fill_color
 attr closeIcon
 attr closeIconEnabled
 attr closeIconEndPadding
@@ -590,6 +595,15 @@ attr windowMinWidthMajor
 attr windowMinWidthMinor
 attr windowNoTitle
 attr zOrderOnTop
+attr zxing_framing_rect_height
+attr zxing_framing_rect_width
+attr zxing_possible_result_points
+attr zxing_preview_scaling_strategy
+attr zxing_result_view
+attr zxing_scanner_layout
+attr zxing_use_texture_view
+attr zxing_viewfinder_laser
+attr zxing_viewfinder_mask
 bool abc_action_bar_embed_tabs
 bool abc_allow_stacked_button_bar
 bool abc_config_actionMenuItemAllCaps
@@ -747,6 +761,16 @@ color tooltip_background_dark
 color tooltip_background_light
 color transparent
 color white
+color zxing_custom_possible_result_points
+color zxing_custom_result_view
+color zxing_custom_viewfinder_laser
+color zxing_custom_viewfinder_mask
+color zxing_possible_result_points
+color zxing_result_view
+color zxing_status_text
+color zxing_transparent
+color zxing_viewfinder_laser
+color zxing_viewfinder_mask
 dimen abc_action_bar_content_inset_material
 dimen abc_action_bar_content_inset_with_nav
 dimen abc_action_bar_default_height_material
@@ -942,6 +966,8 @@ dimen mtrl_textinput_box_stroke_width_default
 dimen mtrl_textinput_box_stroke_width_focused
 dimen mtrl_textinput_outline_box_expanded_padding
 dimen mtrl_toolbar_default_height
+dimen nav_header_height
+dimen nav_header_vertical_spacing
 dimen notification_action_icon_size
 dimen notification_action_text_size
 dimen notification_big_circle_margin
@@ -1085,6 +1111,7 @@ drawable baseline_phone_black_18
 drawable baseline_schedule_black_18
 drawable baseline_settings_black_18
 drawable baseline_warning_black_18
+drawable circle
 drawable common_full_open_on_phone
 drawable common_google_signin_btn_icon_dark
 drawable common_google_signin_btn_icon_dark_focused
@@ -1113,14 +1140,30 @@ drawable design_snackbar_background
 drawable food
 drawable googleg_disabled_color_18
 drawable googleg_standard_color_18
+drawable ic_account
+drawable ic_add_black_24dp
+drawable ic_arrow_white
+drawable ic_business_center_black_24dp
 drawable ic_dashboard_black_24dp
+drawable ic_history
+drawable ic_home
 drawable ic_home_black_24dp
 drawable ic_launcher_background
 drawable ic_launcher_foreground
+drawable ic_logout
+drawable ic_menu_camera
+drawable ic_menu_gallery
+drawable ic_menu_manage
+drawable ic_menu_send
+drawable ic_menu_share
+drawable ic_menu_slideshow
+drawable ic_monochrome_photos
 drawable ic_mtrl_chip_checked_black
 drawable ic_mtrl_chip_checked_circle
 drawable ic_mtrl_chip_close_circle
 drawable ic_notifications_black_24dp
+drawable ic_profile
+drawable img
 drawable mtrl_snackbar_background
 drawable mtrl_tabs_default_indicator
 drawable navigation_empty_icon
@@ -1141,9 +1184,11 @@ drawable places_ic_clear
 drawable places_ic_search
 drawable powered_by_google_dark
 drawable powered_by_google_light
+drawable side_nav_bar
 drawable tooltip_frame_dark
 drawable tooltip_frame_light
 id ALT
+id BtnQrcode
 id CTRL
 id EditTextNoPlat
 id EditTextalamat
@@ -1153,6 +1198,12 @@ id EditTextnohp
 id EditTexttanggallahir
 id FUNCTION
 id META
+id RlAlamat
+id RlAwal
+id RlFoto
+id RlNama
+id RlNoTelp
+id RlTanggalLahir
 id SHIFT
 id SYM
 id action0
@@ -1172,12 +1223,14 @@ id action_menu_presenter
 id action_mode_bar
 id action_mode_bar_stub
 id action_mode_close_button
+id action_settings
 id action_text
 id actions
 id activity_chooser_view_content
 id add
 id adjust_height
 id adjust_width
+id alamatProfile
 id alertTitle
 id all
 id always
@@ -1197,11 +1250,11 @@ id btnChooseSTNK
 id btnUpload
 id btn_signUp
 id buttonKirim
-id buttonLogout
 id buttonPanel
 id buttonSignup
 id cancel_action
 id center
+id centerCrop
 id center_horizontal
 id center_vertical
 id chains
@@ -1229,13 +1282,15 @@ id design_navigation_view
 id dimensions
 id direct
 id disableHome
-id editNamaBarang
+id drawer_layout
 id editTextEmail
 id editTextKuantitas
+id editTextNamaBarang
 id editTextPassword
 id editTextRePassword
 id edit_query
 id email
+id emailDonatur
 id email_login_form
 id email_sign_in_button
 id end
@@ -1251,9 +1306,12 @@ id fill
 id fill_horizontal
 id fill_vertical
 id filled
+id fitCenter
+id fitXY
 id fixed
 id forever
-id fragment_container
+id fotoProfile
+id gen_btn
 id ghost_view
 id gone
 id group_divider
@@ -1266,7 +1324,9 @@ id icon_group
 id icon_only
 id ifRoom
 id image
+id imageBtnScan
 id imageButton
+id imageProfile
 id imageView
 id imageView1
 id imgView
@@ -1314,12 +1374,16 @@ id mini
 id mtrl_child_content_container
 id mtrl_internal_children_alpha_tag
 id multiply
-id navigation
-id navigation_dashboard
+id namaDonatur
+id namaProfile
+id nav_account
+id nav_history
+id nav_kirim_barang
+id nav_logout
+id nav_view
 id navigation_header_container
-id navigation_home
-id navigation_notifications
 id never
+id noTelp
 id none
 id normal
 id notification_background
@@ -1358,6 +1422,7 @@ id satellite
 id save_image_matrix
 id save_non_transition_alpha
 id save_scale_type
+id scan_btn
 id screen
 id scroll
 id scrollIndicatorDown
@@ -1407,6 +1472,7 @@ id tag_unhandled_key_listeners
 id tambah
 id tambahDonatur
 id tambahKurir
+id tanggalLahir
 id terrain
 id text
 id text2
@@ -1423,6 +1489,7 @@ id time
 id title
 id titleDividerNoCustom
 id title_template
+id toolbar
 id top
 id topPanel
 id touch_outside
@@ -1436,6 +1503,7 @@ id uniform
 id unlabeled
 id up
 id useLogo
+id view
 id view_offset_helper
 id visible
 id webview
@@ -1444,6 +1512,17 @@ id window
 id withText
 id wrap
 id wrap_content
+id zxing_back_button
+id zxing_barcode_scanner
+id zxing_barcode_surface
+id zxing_camera_error
+id zxing_decode
+id zxing_decode_failed
+id zxing_decode_succeeded
+id zxing_possible_result_points
+id zxing_prewiew_size_ready
+id zxing_status_view
+id zxing_viewfinder_view
 integer abc_config_activityDefaultDur
 integer abc_config_activityShortDur
 integer app_bar_elevation_anim_duration
@@ -1494,15 +1573,16 @@ layout abc_select_dialog_material
 layout abc_tooltip
 layout activity_berhasil
 layout activity_donatur
-layout activity_donatur_main
-layout activity_fragment__dashboard
-layout activity_fragment__home
-layout activity_fragment__nontification
+layout activity_donatur__account
+layout activity_donatur__history
+layout activity_donatur__main
 layout activity_kurir__main
+layout activity_kurir__verifikasi
 layout activity_lengkapidata_donatur
 layout activity_lengkapidata_kurir
 layout activity_main
 layout activity_penerima__main
+layout activity_penerima__verifikasi
 layout activity_register
 layout activity_show_penerima
 layout activity_splash_screen
@@ -1511,6 +1591,8 @@ layout activity_view_database
 layout amu_info_window
 layout amu_text_bubble
 layout amu_webview
+layout app_bar_donatur__main
+layout content_donatur__main
 layout design_bottom_navigation_item
 layout design_bottom_sheet_dialog
 layout design_layout_snackbar
@@ -1527,6 +1609,7 @@ layout design_navigation_menu_item
 layout design_text_input_password_icon
 layout mtrl_layout_snackbar
 layout mtrl_layout_snackbar_include
+layout nav_header_donatur__main
 layout notification_action
 layout notification_action_tombstone
 layout notification_media_action
@@ -1550,7 +1633,10 @@ layout select_dialog_item_material
 layout select_dialog_multichoice_material
 layout select_dialog_singlechoice_material
 layout support_simple_spinner_dropdown_item
-menu navigation
+layout zxing_barcode_scanner
+layout zxing_capture
+menu activity_donatur__main_drawer
+menu donatur__main
 mipmap ic_launcher
 mipmap ic_launcher_round
 raw amu_ballon_gx_prefix
@@ -1573,6 +1659,7 @@ raw amu_poly_style_boolean_numeric
 raw amu_unknwown_folder
 raw amu_unsupported
 raw amu_visibility_ground_overlay
+raw zxing_beep
 string abc_action_bar_home_description
 string abc_action_bar_up_description
 string abc_action_menu_overflow_description
@@ -1612,6 +1699,7 @@ string abc_searchview_description_voice
 string abc_shareactionprovider_share_with
 string abc_shareactionprovider_share_with_application
 string abc_toolbar_collapse_description
+string action_settings
 string action_sign_in
 string action_sign_in_short
 string app_name
@@ -1654,6 +1742,11 @@ string google_maps_key
 string google_storage_bucket
 string hide_bottom_view_on_scroll_behavior
 string mtrl_chip_close_icon_content_description
+string nav_header_desc
+string nav_header_subtitle
+string nav_header_title
+string navigation_drawer_close
+string navigation_drawer_open
 string password_toggle_content_description
 string path_password_eye
 string path_password_eye_mask_strike_through
@@ -1670,9 +1763,15 @@ string status_bar_notification_info_overflow
 string title_activity_donatur__main
 string title_activity_donatur_main
 string title_activity_kurir__main
+string title_activity_navigation__drawer
+string title_activity_test
 string title_dashboard
 string title_home
 string title_notifications
+string zxing_app_name
+string zxing_button_ok
+string zxing_msg_camera_framework_bug
+string zxing_msg_default_status
 style AlertDialog_AppCompat
 style AlertDialog_AppCompat_Light
 style Animation_AppCompat_Dialog
@@ -2179,6 +2278,7 @@ style Widget_Support_CoordinatorLayout
 style amu_Bubble_TextAppearance_Dark
 style amu_Bubble_TextAppearance_Light
 style amu_ClusterIcon_TextAppearance
+style zxing_CaptureTheme
 styleable ActionBar background backgroundSplit backgroundStacked contentInsetEnd contentInsetEndWithActions contentInsetLeft contentInsetRight contentInsetStart contentInsetStartWithNavigation customNavigationLayout displayOptions divider elevation height hideOnContentScroll homeAsUpIndicator homeLayout icon indeterminateProgressStyle itemPadding logo navigationMode popupTheme progressBarPadding progressBarStyle subtitle subtitleTextStyle title titleTextStyle
 styleable ActionBarLayout android_layout_gravity
 styleable ActionMenuItemView android_minWidth
@@ -2204,6 +2304,7 @@ styleable ButtonBarLayout allowStacking
 styleable CardView android_minWidth android_minHeight cardBackgroundColor cardCornerRadius cardElevation cardMaxElevation cardPreventCornerOverlap cardUseCompatPadding contentPadding contentPaddingBottom contentPaddingLeft contentPaddingRight contentPaddingTop
 styleable Chip android_textAppearance android_ellipsize android_maxWidth android_text android_checkable checkedIcon checkedIconEnabled checkedIconVisible chipBackgroundColor chipCornerRadius chipEndPadding chipIcon chipIconEnabled chipIconSize chipIconTint chipIconVisible chipMinHeight chipStartPadding chipStrokeColor chipStrokeWidth closeIcon closeIconEnabled closeIconEndPadding closeIconSize closeIconStartPadding closeIconTint closeIconVisible hideMotionSpec iconEndPadding iconStartPadding rippleColor showMotionSpec textEndPadding textStartPadding
 styleable ChipGroup checkedChip chipSpacing chipSpacingHorizontal chipSpacingVertical singleLine singleSelection
+styleable CircleImageView civ_border_color civ_border_overlay civ_border_width civ_circle_background_color civ_fill_color
 styleable CollapsingToolbarLayout collapsedTitleGravity collapsedTitleTextAppearance contentScrim expandedTitleGravity expandedTitleMargin expandedTitleMarginBottom expandedTitleMarginEnd expandedTitleMarginStart expandedTitleMarginTop expandedTitleTextAppearance scrimAnimationDuration scrimVisibleHeightTrigger statusBarScrim title titleEnabled toolbarId
 styleable CollapsingToolbarLayout_Layout layout_collapseMode layout_collapseParallaxMultiplier
 styleable ColorStateListItem android_color android_alpha alpha
@@ -2259,3 +2360,7 @@ styleable Toolbar android_gravity android_minHeight buttonGravity collapseConten
 styleable View android_theme android_focusable paddingEnd paddingStart theme
 styleable ViewBackgroundHelper android_background backgroundTint backgroundTintMode
 styleable ViewStubCompat android_id android_layout android_inflatedId
+styleable zxing_camera_preview zxing_framing_rect_height zxing_framing_rect_width zxing_preview_scaling_strategy zxing_use_texture_view
+styleable zxing_finder zxing_possible_result_points zxing_result_view zxing_viewfinder_laser zxing_viewfinder_mask
+styleable zxing_view zxing_scanner_layout
+xml filepaths

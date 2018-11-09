@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\DELL\\AndroidStudioProjects\\Shafood\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-ml\\values-ml.xml",
+            "outputFile": "D:\\Sekolah\\XII RPL 3\\Android\\FIX\\SUPERFIX\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-ml\\values-ml.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\DELL\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-16.0.1.aar\\ac5d8f23b8aab9167e2ab78c9c1902f4\\res\\values-ml\\values.xml",
+                    "source": "C:\\Users\\Asus\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-16.0.1.aar\\536af29a60776b154f0dc9b130ae76e9\\res\\values-ml\\values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
                         "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
@@ -21,41 +21,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\DELL\\.gradle\\caches\\transforms-1\\files-1.1\\firebase-messaging-17.3.3.aar\\8bdfcb59a7a8ece7419ba9dbfaa9d679\\res\\values-ml\\values.xml",
-                    "from": {
-                        "startLines": "4",
-                        "startColumns": "0",
-                        "startOffsets": "205",
-                        "endColumns": "98",
-                        "endOffsets": "303"
-                    },
-                    "to": {
-                        "startLines": "47",
-                        "startColumns": "4",
-                        "startOffsets": "5723",
-                        "endColumns": "102",
-                        "endOffsets": "5821"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\DELL\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-places-16.0.0.aar\\3e9b2760c6395bea70f784d651cbfae9\\res\\values-ml\\values.xml",
-                    "from": {
-                        "startLines": "4,5",
-                        "startColumns": "0,0",
-                        "startOffsets": "193,301",
-                        "endColumns": "107,91",
-                        "endOffsets": "300,392"
-                    },
-                    "to": {
-                        "startLines": "48,49",
-                        "startColumns": "4,4",
-                        "startOffsets": "5826,5938",
-                        "endColumns": "111,95",
-                        "endOffsets": "5933,6029"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\DELL\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-basement-16.1.0.aar\\677debdab019c9acfbc221f12bcbdc12\\res\\values-ml\\values.xml",
+                    "source": "C:\\Users\\Asus\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-basement-16.1.0.aar\\4775f0f7e192f20bbe4741d347f9b4fd\\res\\values-ml\\values.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "0",
@@ -72,7 +38,24 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\DELL\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-28.0.0.aar\\cdbd6607eaab77c33e9f15130a992717\\res\\values-ml\\values-ml.xml",
+                    "source": "C:\\Users\\Asus\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-28.0.0.aar\\c6c9ddbede9ac6927f81f473e4ed3a50\\res\\values-ml\\values-ml.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    },
+                    "to": {
+                        "startLines": "51",
+                        "startColumns": "4",
+                        "startOffsets": "6116",
+                        "endColumns": "100",
+                        "endOffsets": "6212"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Asus\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-28.0.0.aar\\f040c4e72b897d46260714d3e4f03686\\res\\values-ml\\values-ml.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -89,20 +72,37 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\DELL\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-28.0.0.aar\\1a3629ceda3240122438b7efdb57fdc6\\res\\values-ml\\values-ml.xml",
+                    "source": "C:\\Users\\Asus\\.gradle\\caches\\transforms-1\\files-1.1\\firebase-messaging-17.3.4.aar\\8463659795ad95a7b6fa1c4242f1e604\\res\\values-ml\\values.xml",
                     "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "55",
-                        "endColumns": "100",
-                        "endOffsets": "151"
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "205",
+                        "endColumns": "98",
+                        "endOffsets": "303"
                     },
                     "to": {
-                        "startLines": "51",
+                        "startLines": "47",
                         "startColumns": "4",
-                        "startOffsets": "6116",
-                        "endColumns": "100",
-                        "endOffsets": "6212"
+                        "startOffsets": "5723",
+                        "endColumns": "102",
+                        "endOffsets": "5821"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Asus\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-places-16.0.0.aar\\dcba7a459c0c923fbb3c7637c6d29bc2\\res\\values-ml\\values.xml",
+                    "from": {
+                        "startLines": "4,5",
+                        "startColumns": "0,0",
+                        "startOffsets": "193,301",
+                        "endColumns": "107,91",
+                        "endOffsets": "300,392"
+                    },
+                    "to": {
+                        "startLines": "48,49",
+                        "startColumns": "4,4",
+                        "startOffsets": "5826,5938",
+                        "endColumns": "111,95",
+                        "endOffsets": "5933,6029"
                     }
                 }
             ]

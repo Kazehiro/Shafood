@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\DELL\\AndroidStudioProjects\\Shafood\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-large-v4\\values-large-v4.xml",
+            "outputFile": "D:\\Sekolah\\XII RPL 3\\Android\\FIX\\SUPERFIX\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-large-v4\\values-large-v4.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\DELL\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-28.0.0.aar\\cdbd6607eaab77c33e9f15130a992717\\res\\values-large-v4\\values-large-v4.xml",
+                    "source": "C:\\Users\\Asus\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-28.0.0.aar\\f040c4e72b897d46260714d3e4f03686\\res\\values-large-v4\\values-large-v4.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10",
                         "startColumns": "4,4,4,4,4,4,4,4,4",
@@ -14,7 +14,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\DELL\\.gradle\\caches\\transforms-1\\files-1.1\\design-28.0.0.aar\\853115a9ae8e09d85e106528b3d4c0c4\\res\\values-large-v4\\values-large-v4.xml",
+                    "source": "C:\\Users\\Asus\\.gradle\\caches\\transforms-1\\files-1.1\\design-28.0.0.aar\\2af301d60305f37bd171799116fdd6c8\\res\\values-large-v4\\values-large-v4.xml",
                     "from": {
                         "startLines": "2,3",
                         "startColumns": "4,4",
