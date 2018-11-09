@@ -250,7 +250,8 @@
                     <ImageView
                         android:id="@+id/imgViewIdentitas"
                         android:layout_width="wrap_content"
-                        android:layout_height="200dp" />
+                        android:layout_height="200dp"
+                        android:scaleType="fitCenter" />
 
                 </LinearLayout>
 
@@ -281,7 +282,8 @@
                     <ImageView
                         android:id="@+id/imgViewSTNK"
                         android:layout_width="wrap_content"
-                        android:layout_height="200dp" />
+                        android:layout_height="200dp"
+                        android:scaleType="fitCenter" />
 
                 </LinearLayout>
 
@@ -312,7 +314,8 @@
                     <ImageView
                         android:id="@+id/imgViewSIM"
                         android:layout_width="wrap_content"
-                        android:layout_height="200dp" />
+                        android:layout_height="200dp"
+                        android:scaleType="fitCenter" />
 
                 </LinearLayout>
 
