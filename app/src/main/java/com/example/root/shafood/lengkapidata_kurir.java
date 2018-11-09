@@ -300,7 +300,7 @@ public class lengkapidata_kurir extends AppCompatActivity {
                                 .centerCrop()
                                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                                 .into(imageViewIdentitas);
-                        tvPath.setText(imageFile.getAbsolutePath());
+                        filePath1 = Uri.fromFile(imageFile);
                         break;
                     case REQUEST_CODE_CAMERA_STNK:
                         Glide.with(lengkapidata_kurir.this)
@@ -308,7 +308,7 @@ public class lengkapidata_kurir extends AppCompatActivity {
                                 .centerCrop()
                                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                                 .into(imageViewSTNK);
-                        tvPath.setText(imageFile.getAbsolutePath());
+                        filePath2 = Uri.fromFile(imageFile);
                         break;
                     case REQUEST_CODE_GALLERY_STNK:
                         Glide.with(lengkapidata_kurir.this)
@@ -316,7 +316,7 @@ public class lengkapidata_kurir extends AppCompatActivity {
                                 .centerCrop()
                                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                                 .into(imageViewSTNK);
-                        tvPath.setText(imageFile.getAbsolutePath());
+                        filePath2 = Uri.fromFile(imageFile);
                         break;
                     case REQUEST_CODE_CAMERA_SIM:
                         Glide.with(lengkapidata_kurir.this)
@@ -324,7 +324,7 @@ public class lengkapidata_kurir extends AppCompatActivity {
                                 .centerCrop()
                                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                                 .into(imageViewSIM);
-                        tvPath.setText(imageFile.getAbsolutePath());
+                        filePath3 = Uri.fromFile(imageFile);
                         break;
                     case REQUEST_CODE_GALLERY_SIM:
                         Glide.with(lengkapidata_kurir.this)
@@ -332,12 +332,12 @@ public class lengkapidata_kurir extends AppCompatActivity {
                                 .centerCrop()
                                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                                 .into(imageViewSIM);
-                        tvPath.setText(imageFile.getAbsolutePath());
+                        filePath3 = Uri.fromFile(imageFile);
                         break;
                 }
             }
         });
-    }
+        }
 
     private void uploadImageIdentitas() {
 
