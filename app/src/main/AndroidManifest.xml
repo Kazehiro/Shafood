@@ -23,6 +23,7 @@
         <activity android:name=".SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -31,9 +32,11 @@
         <activity android:name=".ViewDatabase" />
         <activity android:name=".Register" />
         <activity android:name=".Penerima_Main" />
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
+
         <activity
             android:name=".Kurir_Main"
             android:label="@string/title_activity_kurir__main" />
@@ -41,13 +44,14 @@
             android:name=".DonaturActivity"
             android:label="@string/title_activity_donatur__main"
             android:theme="@style/AppTheme" />
-        <activity android:name=".ShowPenerima"/>
+        <activity android:name=".ShowPenerima" />
         <activity android:name=".UploadImageActivity" />
         <activity android:name=".lengkapidata_donatur" />
         <activity android:name=".lengkapidata_kurir" />
         <activity android:name=".Donatur_Main" />
-        <activity android:name=".Donatur_Account"/>
-        <activity android:name=".Donatur_History"/>
+        <activity android:name=".Donatur_Account" />
+        <activity android:name=".Donatur_History" />
+        <activity android:name=".Penerima_Verifikasi"></activity>
     </application>
 
 </manifest>

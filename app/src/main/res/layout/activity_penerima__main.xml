@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".Penerima_Main">
 
-
     <ImageButton
         android:id="@+id/imageButton"
         android:layout_width="150dp"
@@ -23,4 +22,14 @@
         android:gravity="center"
         android:text="Request"
         android:textSize="30dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="99dp"
+        android:text="QR CODE"
+        android:id="@+id/BtnQrcode"/>
+
 </RelativeLayout>
