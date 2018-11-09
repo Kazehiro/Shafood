@@ -10,11 +10,13 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,7 +54,10 @@ public class Donatur_Main extends AppCompatActivity
 
     TextView namaDonatur;
     TextView emailDonatur;
+    TextView etBarang;
+    TextView etKuantitas;
     private ImageView imageProfile;
+    private Button btnCari;
     private NavigationView nav_view;
 
 
@@ -76,7 +81,10 @@ public class Donatur_Main extends AppCompatActivity
 
         namaDonatur = (TextView) header.findViewById(R.id.namaDonatur);
         emailDonatur = (TextView) header.findViewById(R.id.emailDonatur);
+        etBarang = (TextView) findViewById(R.id.editTextNamaBarang);
+        etKuantitas = (TextView) findViewById(R.id.editTextKuantitas);
         imageProfile = (ImageView) header.findViewById(R.id.imageProfile);
+        btnCari = (Button) header.findViewById(R.id.buttonKirim);
 
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
@@ -169,6 +177,19 @@ public class Donatur_Main extends AppCompatActivity
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.donatur__main, menu);
         return true;
+    }
+
+    public void cari(View view) {
+        if (TextUtils.isEmpty(etBarang.toString())) {
+            Toast.makeText(this, "Masukan Nama Barang", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (TextUtils.isEmpty(etKuantitas.toString())) {
+            Toast.makeText(this, "Masukan Kuantitas", Toast.LENGTH_LONG).show();
+            return;
+        }
+        Intent search = new Intent(Donatur_Main.this, ShowPenerima.class);
+        startActivity(search);
     }
 
     @Override
