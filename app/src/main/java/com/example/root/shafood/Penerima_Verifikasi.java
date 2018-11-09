@@ -50,11 +50,12 @@ public class Penerima_Verifikasi extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_penerima__verifikasi);
 
+        image = (ImageView) findViewById(R.id.image);
         //declare the database reference object. This is what we use to access the database.
         //NOTE: Unless you are signed in, this will not be useable.
         mAuth = FirebaseAuth.getInstance();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
-        myRef = mFirebaseDatabase.getReference().child("SHAFOOD").child("USER").child("PENERIMA");
+        myRef = mFirebaseDatabase.getReference().child("SHAFOOD").child("TRANSAKSI");
         FirebaseUser user = mAuth.getCurrentUser();
         userID = user.getUid();
 
@@ -88,31 +89,10 @@ public class Penerima_Verifikasi extends AppCompatActivity {
 
             }
         });
-
-
-        text = (EditText) findViewById(R.id.text);
-        gen_btn = (Button) findViewById(R.id.gen_btn);
-        image = (ImageView) findViewById(R.id.image);
-        gen_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                text2Qr = "Dwiky Tolol";
-                MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
-                try{
-                    BitMatrix bitMatrix = multiFormatWriter.encode(text2Qr, BarcodeFormat.QR_CODE,200,200);
-                    BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
-                    Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
-                    image.setImageBitmap(bitmap);
-                }
-                catch (WriterException e){
-                    e.printStackTrace();
-                }
-            }
-        });
     }
 
     private void showData(Map<String, Object> dataSnapshot) {
-        final ArrayList<String> Id_donatur = new ArrayList<>();
+        ArrayList<String> Id_donatur = new ArrayList<>();
         for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
             Map id_donatur = (Map) entry.getValue();
             Id_donatur.add((String) id_donatur.get("id_donatur"));
@@ -131,6 +111,36 @@ public class Penerima_Verifikasi extends AppCompatActivity {
         for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
             Map id_kurir = (Map) entry.getValue();
             Id_kurir.add((String) id_kurir.get("id_kurir"));
+        }
+        ArrayList<String> Success = new ArrayList<>();
+        for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
+            Map success = (Map) entry.getValue();
+            Success.add((String) success.get("success"));
+        }
+        System.out.println(Id_donatur + " | " + Success);
+        int i = 0;
+        ArrayList<String> id = new ArrayList<>();
+        FirebaseUser user = mAuth.getCurrentUser();
+        String userID = user.getUid();
+        if(Id_transaksi.get(i) != null) {
+            while(Id_transaksi.size() > i){
+                if(userID.equals(Id_donatur.get(i))){
+                    if(Success.get(i).equals("false")){
+                        text2Qr = Id_transaksi.get(i);
+                    }
+                }
+                i++;
+            }
+        }
+        System.out.println(text2Qr);
+        MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
+        try {
+            BitMatrix bitMatrix = multiFormatWriter.encode(text2Qr, BarcodeFormat.QR_CODE, 200, 200);
+            BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
+            Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
+            image.setImageBitmap(bitmap);
+        } catch (WriterException e) {
+            e.printStackTrace();
         }
     }
 
