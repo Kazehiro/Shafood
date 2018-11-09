@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/colorPrimary"
     tools:context=".Kurir_Main">
 
     <LinearLayout
@@ -26,11 +27,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:maxLines="1"
+                android:onClick="etTitikAwal"
                 android:paddingLeft="10dp"
                 android:paddingTop="10dp"
                 android:paddingRight="230dp"
                 android:paddingBottom="10dp"
-                android:onClick="etTitikAwal"
                 android:text="Masukan Titik Awal" />
         </HorizontalScrollView>
 
@@ -53,13 +54,29 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
+                android:onClick="etTitikAkhir"
                 android:paddingLeft="10dp"
                 android:paddingTop="10dp"
                 android:paddingRight="230dp"
                 android:paddingBottom="10dp"
-                android:onClick="etTitikAkhir"
                 android:text="Masukan Titik Akhir" />
         </HorizontalScrollView>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageButton
+                android:id="@+id/imageBtnScan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="0dp"
+                android:src="@drawable/ic_monochrome_photos" />
+        </RelativeLayout>
+
     </LinearLayout>
 
     <fragment

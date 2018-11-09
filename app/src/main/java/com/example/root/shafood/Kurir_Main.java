@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -74,6 +75,8 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
     private FirebaseAuth.AuthStateListener mAuthListener;
     private DatabaseReference myRef;
 
+    ImageButton imageBtnScan;
+
     TextView etTitikAwal, etTitikAkhir;
     private PlaceAutocomplete mPlaceAutocomplete;
 
@@ -81,6 +84,8 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kurir__main);
+
+        imageBtnScan = (ImageButton) findViewById(R.id.imageBtnScan);
 
         mAuth = FirebaseAuth.getInstance();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
@@ -102,6 +107,14 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
+            }
+        });
+
+        imageBtnScan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent mIntent = new Intent(Kurir_Main.this, Kurir_Verifikasi.class);
+                startActivity(mIntent);
             }
         });
     }
