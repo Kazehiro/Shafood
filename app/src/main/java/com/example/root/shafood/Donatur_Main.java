@@ -180,15 +180,18 @@ public class Donatur_Main extends AppCompatActivity
     }
 
     public void cari(View view) {
-        if (TextUtils.isEmpty(etBarang.toString())) {
+        if (TextUtils.isEmpty(etBarang.getText())) {
             Toast.makeText(this, "Masukan Nama Barang", Toast.LENGTH_LONG).show();
             return;
         }
-        if (TextUtils.isEmpty(etKuantitas.toString())) {
+        if (TextUtils.isEmpty(etKuantitas.getText())) {
             Toast.makeText(this, "Masukan Kuantitas", Toast.LENGTH_LONG).show();
             return;
         }
+        int qty = Integer.parseInt(etKuantitas.getText().toString());
         Intent search = new Intent(Donatur_Main.this, ShowPenerima.class);
+        search.putExtra("Barang", etBarang.toString());
+        search.putExtra("Kuantitas", qty);
         startActivity(search);
     }
 

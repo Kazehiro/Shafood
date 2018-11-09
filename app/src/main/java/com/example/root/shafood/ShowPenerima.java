@@ -96,7 +96,7 @@ public class ShowPenerima extends AppCompatActivity {
         ArrayList<String> Id_penerima = new ArrayList<>();
         for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
             Map id_penerima = (Map) entry.getValue();
-            Id_penerima.add((String) id_penerima.get("id_penerima"));
+            Id_penerima.add((String) id_penerima.get("id_user"));
         }
         ArrayList<String> Request = new ArrayList<>();
         for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
@@ -109,12 +109,14 @@ public class ShowPenerima extends AppCompatActivity {
             Transaksi.add((String) transaksi.get("transaksi"));
         }
         int i = 0;
-        final ArrayList<String> list = new ArrayList<>();
+        final ArrayList<String> listNama = new ArrayList<>();
+        final ArrayList<String> listId = new ArrayList<>();
         if (Nama != null) {
             while (Nama.size() > i) {
                 if (Request.get(i).equals("true")) {
                     if (Transaksi.get(i).equals("false")) {
-                        list.add(Nama.get(i));
+                        listNama.add(Nama.get(i));
+                        listId.add(Id_penerima.get(i));
                     }
                 }
                 i++;
@@ -123,18 +125,19 @@ public class ShowPenerima extends AppCompatActivity {
             while (Nama.size() > i) {
                 if (Request.get(i).equals("false")) {
                     if (Transaksi.get(i).equals("false")) {
-                        list.add(Nama.get(i));
+                        listNama.add(Nama.get(i));
+                        listId.add(Id_penerima.get(i));
                     }
                     i++;
                 }
             }
             mListViewPenerima.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    toastMessage("Nama = " + list.get(position));
+                    toastMessage("Nama = " + listNama.get(position) + "id = " + listId.get(position));
 
                 }
             });
-            ArrayAdapter namaUser = new ArrayAdapter(this, android.R.layout.simple_list_item_1, list);
+            ArrayAdapter namaUser = new ArrayAdapter(this, android.R.layout.simple_list_item_1, listNama);
             mListViewPenerima.setAdapter(namaUser);
         }
     }
