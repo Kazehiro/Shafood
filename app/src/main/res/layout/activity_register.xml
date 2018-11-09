@@ -162,6 +162,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:textStyle="bold"
+                        android:textColor="@color/white"
                         android:text="Daftar Sebagai : "
                         android:textSize="20sp"/>
                 </RelativeLayout>
@@ -169,6 +170,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:background="@color/editTextBG"
                     android:layout_marginTop="10dp"
                     android:layout_marginLeft="30dp"
                     android:layout_marginRight="30dp">
