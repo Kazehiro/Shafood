@@ -1,11 +1,15 @@
 package com.example.root.shafood;
 
+import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,8 +17,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,11 +36,22 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.util.UUID;
+
+import pl.aprilapps.easyphotopicker.DefaultCallback;
+import pl.aprilapps.easyphotopicker.EasyImage;
 
 public class lengkapidata_kurir extends AppCompatActivity {
 
+    public static final int REQUEST_CODE_CAMERA_IDENTITAS = 0012;
+    public static final int REQUEST_CODE_GALLERY_IDENTITAS = 0013;
+    public static final int REQUEST_CODE_CAMERA_STNK = 0014;
+    public static final int REQUEST_CODE_GALLERY_STNK = 0015;
+    public static final int REQUEST_CODE_CAMERA_SIM = 0016;
+    public static final int REQUEST_CODE_GALLERY_SIM = 0017;
 
     private static final String TAG = "Kurir";
     EditText editTextNama;
@@ -45,15 +63,20 @@ public class lengkapidata_kurir extends AppCompatActivity {
     EditText editTextNoPlat;
     Button btnTambahKurir;
     Button btnChooseSIM;
+
     //Gambar
     private Button btnChooseSTNK, btnChooseIdentitas;
-    private ImageView imageViewIdentitas, imageViewSTNK,imageViewSIM;
+    private ImageView imageViewIdentitas, imageViewSTNK, imageViewSIM;
     private Uri filePath1;
     private Uri filePath2;
     private Uri filePath3;
     private final int PICK_IMAGE_REQUEST_1 = 1;
     private final int PICK_IMAGE_REQUEST_2 = 2;
     private final int PICK_IMAGE_REQUEST_3 = 3;
+    private Button btnLoadImage;
+    private ImageView ivImage;
+    private TextView tvPath;
+    private String[] items = {"Camera", "Gallery"};
 
     //add Firebase Database stuff
     private FirebaseDatabase mFirebaseDatabase;
@@ -89,6 +112,8 @@ public class lengkapidata_kurir extends AppCompatActivity {
         myRef = mFirebaseDatabase.getReference();
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
+
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, REQUEST_CODE_CAMERA_IDENTITAS);
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -167,34 +192,65 @@ public class lengkapidata_kurir extends AppCompatActivity {
 
             }
         });
+
     }
 
     private void chooseImageIdentitas() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST_1);
-
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Options");
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                if (items[i].equals("Camera")) {
+                    EasyImage.openCamera(lengkapidata_kurir.this, REQUEST_CODE_CAMERA_IDENTITAS);
+                } else if (items[i].equals("Gallery")) {
+                    EasyImage.openGallery(lengkapidata_kurir.this, REQUEST_CODE_GALLERY_IDENTITAS);
+                }
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private void chooseImageSTNK() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST_2);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Options");
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                if (items[i].equals("Camera")) {
+                    EasyImage.openCamera(lengkapidata_kurir.this, REQUEST_CODE_CAMERA_STNK);
+                } else if (items[i].equals("Gallery")) {
+                    EasyImage.openGallery(lengkapidata_kurir.this, REQUEST_CODE_GALLERY_STNK);
+                }
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private void chooseImageSIM() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST_3);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Options");
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                if (items[i].equals("Camera")) {
+                    EasyImage.openCamera(lengkapidata_kurir.this, REQUEST_CODE_CAMERA_SIM);
+                } else if (items[i].equals("Gallery")) {
+                    EasyImage.openGallery(lengkapidata_kurir.this, REQUEST_CODE_GALLERY_SIM);
+                }
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && data != null && data.getData() != null) {
+        /*if (resultCode == RESULT_OK && data != null && data.getData() != null) {
+
             if (requestCode == PICK_IMAGE_REQUEST_1) {
                 filePath1 = data.getData();
                 try {
@@ -223,8 +279,65 @@ public class lengkapidata_kurir extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
+        }*/
+        EasyImage.handleActivityResult(requestCode, resultCode, data, this, new DefaultCallback() {
+            @Override
+            public void onImagePicked(File imageFile, EasyImage.ImageSource source, int type) {
+                switch (type) {
+                    case REQUEST_CODE_CAMERA_IDENTITAS:
+                        Glide.with(lengkapidata_kurir.this)
+                                .load(imageFile)
+                                .centerCrop()
+                                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                .into(imageViewIdentitas);
+                        filePath1 = Uri.fromFile(imageFile);
+                        System.out.println("PATH ============== "+filePath1);
+                        System.out.println("PATH ============== "+DiskCacheStrategy.ALL.toString());
+                        break;
+                    case REQUEST_CODE_GALLERY_IDENTITAS:
+                        Glide.with(lengkapidata_kurir.this)
+                                .load(imageFile)
+                                .centerCrop()
+                                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                .into(imageViewIdentitas);
+                        filePath1 = Uri.fromFile(imageFile);
+                        break;
+                    case REQUEST_CODE_CAMERA_STNK:
+                        Glide.with(lengkapidata_kurir.this)
+                                .load(imageFile)
+                                .centerCrop()
+                                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                .into(imageViewSTNK);
+                        filePath2 = Uri.fromFile(imageFile);
+                        break;
+                    case REQUEST_CODE_GALLERY_STNK:
+                        Glide.with(lengkapidata_kurir.this)
+                                .load(imageFile)
+                                .centerCrop()
+                                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                .into(imageViewSTNK);
+                        filePath2 = Uri.fromFile(imageFile);
+                        break;
+                    case REQUEST_CODE_CAMERA_SIM:
+                        Glide.with(lengkapidata_kurir.this)
+                                .load(imageFile)
+                                .centerCrop()
+                                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                .into(imageViewSIM);
+                        filePath3 = Uri.fromFile(imageFile);
+                        break;
+                    case REQUEST_CODE_GALLERY_SIM:
+                        Glide.with(lengkapidata_kurir.this)
+                                .load(imageFile)
+                                .centerCrop()
+                                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                .into(imageViewSIM);
+                        filePath3 = Uri.fromFile(imageFile);
+                        break;
+                }
+            }
+        });
         }
-    }
 
     private void uploadImageIdentitas() {
 
@@ -330,6 +443,7 @@ public class lengkapidata_kurir extends AppCompatActivity {
                     });
         }
     }
+
 
     @Override
     public void onStart() {

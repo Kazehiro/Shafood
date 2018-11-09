@@ -69,11 +69,11 @@
                         android:layout_height="40dp"
                         android:background="@color/colorPrimary"
                         android:padding="8dp"
-                        app:srcCompat="@drawable/ic_business_center_black_24dp"
-                        android:tint="@color/white" />
+                        android:tint="@color/white"
+                        app:srcCompat="@drawable/ic_business_center_black_24dp" />
 
                     <EditText
-                        android:id="@+id/editNamaBarang"
+                        android:id="@+id/editTextNamaBarang"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignBottom="@+id/imgView_barangIcon"
@@ -102,8 +102,8 @@
                         android:layout_height="40dp"
                         android:background="@color/colorPrimary"
                         android:padding="8dp"
-                        app:srcCompat="@drawable/ic_add_black_24dp"
-                        android:tint="@color/white" />
+                        android:tint="@color/white"
+                        app:srcCompat="@drawable/ic_add_black_24dp" />
 
                     <EditText
                         android:id="@+id/editTextKuantitas"
@@ -130,6 +130,7 @@
                     android:layout_marginRight="30dp"
                     android:background="@color/colorPrimary"
                     android:fontFamily="sans-serif-medium"
+                    android:onClick="cari"
                     android:text="Cari Penerima"
                     android:textColor="@color/white" />
 

@@ -1,16 +1,16 @@
 package com.example.root.shafood;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.provider.ContactsContract;
+import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -20,16 +20,22 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.journeyapps.barcodescanner.BarcodeEncoder;
 
-import java.lang.ref.ReferenceQueue;
 import java.util.ArrayList;
 import java.util.Map;
 
-/**
- * Created by User on 2/8/2017.
- */
+public class Penerima_Verifikasi extends AppCompatActivity {
 
-public class ShowPenerima extends AppCompatActivity {
+    EditText text;
+    Button gen_btn;
+    ImageView image;
+    String text2Qr;
+
     private static final String TAG = "ViewDatabase";
 
     //add Firebase Database stuff
@@ -39,20 +45,17 @@ public class ShowPenerima extends AppCompatActivity {
     private DatabaseReference myRef;
     private String userID;
 
-    private ListView mListViewPenerima;
-
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_show_penerima);
+        setContentView(R.layout.activity_penerima__verifikasi);
 
-        mListViewPenerima = (ListView) findViewById(R.id.listviewPenerima);
-
+        image = (ImageView) findViewById(R.id.image);
         //declare the database reference object. This is what we use to access the database.
         //NOTE: Unless you are signed in, this will not be useable.
         mAuth = FirebaseAuth.getInstance();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
-        myRef = mFirebaseDatabase.getReference().child("SHAFOOD").child("USER").child("PENERIMA");
+        myRef = mFirebaseDatabase.getReference().child("SHAFOOD").child("TRANSAKSI");
         FirebaseUser user = mAuth.getCurrentUser();
         userID = user.getUid();
 
@@ -63,9 +66,11 @@ public class ShowPenerima extends AppCompatActivity {
                 if (user != null) {
                     // User is signed in
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                    toastMessage("Successfully signed in with: " + user.getEmail());
                 } else {
                     // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");
+                    toastMessage("Successfully signed out.");
                 }
             }
         };
@@ -84,64 +89,60 @@ public class ShowPenerima extends AppCompatActivity {
 
             }
         });
-
     }
 
     private void showData(Map<String, Object> dataSnapshot) {
-        final ArrayList<String> Nama = new ArrayList<>();
+        ArrayList<String> Id_donatur = new ArrayList<>();
         for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
-            Map nama = (Map) entry.getValue();
-            Nama.add((String) nama.get("nama"));
+            Map id_donatur = (Map) entry.getValue();
+            Id_donatur.add((String) id_donatur.get("id_donatur"));
         }
         ArrayList<String> Id_penerima = new ArrayList<>();
         for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
             Map id_penerima = (Map) entry.getValue();
-            Id_penerima.add((String) id_penerima.get("id_user"));
+            Id_penerima.add((String) id_penerima.get("id_penerima"));
         }
-        ArrayList<String> Request = new ArrayList<>();
+        ArrayList<String> Id_transaksi = new ArrayList<>();
         for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
-            Map request = (Map) entry.getValue();
-            Request.add((String) request.get("request"));
+            Map id_transaksi = (Map) entry.getValue();
+            Id_transaksi.add((String) id_transaksi.get("id_transaksi"));
         }
-        ArrayList<String> Transaksi = new ArrayList<>();
+        ArrayList<String> Id_kurir = new ArrayList<>();
         for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
-            Map transaksi = (Map) entry.getValue();
-            Transaksi.add((String) transaksi.get("transaksi"));
+            Map id_kurir = (Map) entry.getValue();
+            Id_kurir.add((String) id_kurir.get("id_kurir"));
         }
+        ArrayList<String> Success = new ArrayList<>();
+        for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
+            Map success = (Map) entry.getValue();
+            Success.add((String) success.get("success"));
+        }
+        System.out.println(Id_donatur + " | " + Success);
         int i = 0;
-        final ArrayList<String> listNama = new ArrayList<>();
-        final ArrayList<String> listId = new ArrayList<>();
-        if (Nama != null) {
-            while (Nama.size() > i) {
-                if (Request.get(i).equals("true")) {
-                    if (Transaksi.get(i).equals("false")) {
-                        listNama.add(Nama.get(i));
-                        listId.add(Id_penerima.get(i));
+        ArrayList<String> id = new ArrayList<>();
+        FirebaseUser user = mAuth.getCurrentUser();
+        String userID = user.getUid();
+        if(Id_transaksi.get(i) != null) {
+            while(Id_transaksi.size() > i){
+                if(userID.equals(Id_donatur.get(i))){
+                    if(Success.get(i).equals("false")){
+                        text2Qr = Id_transaksi.get(i);
                     }
                 }
                 i++;
             }
-            i = 0;
-            while (Nama.size() > i) {
-                if (Request.get(i).equals("false")) {
-                    if (Transaksi.get(i).equals("false")) {
-                        listNama.add(Nama.get(i));
-                        listId.add(Id_penerima.get(i));
-                    }
-                    i++;
-                }
-            }
-            mListViewPenerima.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    toastMessage("Nama = " + listNama.get(position) + "id = " + listId.get(position));
-
-                }
-            });
-            ArrayAdapter namaUser = new ArrayAdapter(this, android.R.layout.simple_list_item_1, listNama);
-            mListViewPenerima.setAdapter(namaUser);
+        }
+        System.out.println(text2Qr);
+        MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
+        try {
+            BitMatrix bitMatrix = multiFormatWriter.encode(text2Qr, BarcodeFormat.QR_CODE, 200, 200);
+            BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
+            Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
+            image.setImageBitmap(bitmap);
+        } catch (WriterException e) {
+            e.printStackTrace();
         }
     }
-
 
     @Override
     public void onStart() {
