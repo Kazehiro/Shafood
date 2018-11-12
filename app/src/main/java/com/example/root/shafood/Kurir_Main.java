@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -69,6 +70,7 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
     public LatLng pickUpLatLng = null;
     public LatLng locationLatLng = null;
     private static final int LOCATION_REQUEST = 500;
+    private FloatingActionButton fab_Scan, fab_Logout;
 
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseAuth mAuth;
@@ -91,6 +93,24 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         myRef = mFirebaseDatabase.getReference().child("SHAFOOD").child("USER").child("DONATUR");
         widgetInit();
+
+        fab_Logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mAuth.signOut();
+                Intent mIntent = new Intent(Kurir_Main.this, MainActivity.class);
+                startActivity(mIntent);
+            }
+        });
+
+        fab_Scan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -249,9 +269,7 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
     }
 
     public void etTitikAwal(View v) {
-        mAuth.signOut();
-        Intent mIntent = new Intent(Kurir_Main.this, MainActivity.class);
-        startActivity(mIntent);
+
     }
 
     public void etTitikAkhir(View v) {

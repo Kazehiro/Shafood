@@ -1,89 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:map="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/colorPrimary"
     tools:context=".Kurir_Main">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/white"
-        android:elevation="1dp"
-        android:orientation="vertical"
-        android:paddingHorizontal="20dp"
-        android:paddingVertical="15dp">
-
-        <HorizontalScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="none">
-
-            <TextView
-                android:id="@+id/etTitikAwal"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:maxLines="1"
-                android:onClick="etTitikAwal"
-                android:paddingLeft="10dp"
-                android:paddingTop="10dp"
-                android:paddingRight="230dp"
-                android:paddingBottom="10dp"
-                android:text="Masukan Titik Awal" />
-        </HorizontalScrollView>
+        android:layout_height="match_parent">
 
         <LinearLayout
+            android:id="@+id/awal"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginHorizontal="0dp"
-            android:layout_marginVertical="10dp"
-            android:background="@android:color/darker_gray">
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:elevation="1dp"
+            android:orientation="vertical"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="15dp">
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none">
+
+                <TextView
+                    android:id="@+id/etTitikAwal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:maxLines="1"
+                    android:onClick="etTitikAwal"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="10dp"
+                    android:paddingRight="230dp"
+                    android:paddingBottom="10dp"
+                    android:text="Masukan Titik Awal" />
+            </HorizontalScrollView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="0dp"
+                android:layout_marginVertical="10dp"
+                android:background="@android:color/darker_gray">
+
+            </LinearLayout>
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none">
+
+                <TextView
+                    android:id="@+id/etTitikAkhir"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:onClick="etTitikAkhir"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="10dp"
+                    android:paddingRight="230dp"
+                    android:paddingBottom="10dp"
+                    android:text="Masukan Titik Akhir" />
+            </HorizontalScrollView>
 
         </LinearLayout>
 
-        <HorizontalScrollView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scrollbars="none">
+            android:layout_height="match_parent"
+            android:layout_below="@+id/awal">
 
-            <TextView
-                android:id="@+id/etTitikAkhir"
+            <fragment
+                android:id="@+id/map"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:maxLines="1"
-                android:onClick="etTitikAkhir"
-                android:paddingLeft="10dp"
-                android:paddingTop="10dp"
-                android:paddingRight="230dp"
-                android:paddingBottom="10dp"
-                android:text="Masukan Titik Akhir" />
-        </HorizontalScrollView>
+                android:layout_height="match_parent" />
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+        </LinearLayout>
 
-            <ImageButton
-                android:id="@+id/imageBtnScan"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginStart="18dp"
-                android:layout_marginTop="0dp"
-                android:src="@drawable/ic_monochrome_photos" />
-        </RelativeLayout>
+    </RelativeLayout>
 
-    </LinearLayout>
-
-    <fragment
-        android:id="@+id/map"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
 
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_Scan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:layout_marginBottom="80dp"
+            android:layout_marginLeft="20dp"
+            android:layout_alignParentBottom="true"
+            map:srcCompat="@drawable/ic_camera_enhance_black_24dp" />
+    </RelativeLayout>
 
-</LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_Logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="20dp"
+            map:srcCompat="@drawable/ic_power_settings_new_black_24dp" />
+    </RelativeLayout>
+
+</RelativeLayout>
