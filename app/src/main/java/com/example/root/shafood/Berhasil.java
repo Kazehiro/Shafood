@@ -85,16 +85,13 @@ public class Berhasil extends AppCompatActivity {
     private NullPointerException showData(DataSnapshot dataSnapshot) {
         for (DataSnapshot ds : dataSnapshot.getChildren()) {
             ProfileDonatur uInfo = new ProfileDonatur();
-            ProfileKurir kuInfo = new ProfileKurir();
             try {
                 uInfo.setLevel(ds.child("USER").child("DONATUR").child(userID).getValue(ProfileDonatur.class).getLevel());
                 System.out.println("uInfo = " + uInfo.getLevel());
-
                 if (uInfo.getLevel() == 2) {
-                    Intent mIntent = new Intent(Berhasil.this, Penerima_Main.class);
+                    Intent mIntent = new Intent(Berhasil.this, Donatur_Main.class);
                     startActivity(mIntent);
                 }
-
             } catch (NullPointerException e) {
                 return e;
             }
