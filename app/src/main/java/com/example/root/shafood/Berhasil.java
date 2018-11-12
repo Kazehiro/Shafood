@@ -91,7 +91,7 @@ public class Berhasil extends AppCompatActivity {
                 System.out.println("uInfo = " + uInfo.getLevel());
 
                 if (uInfo.getLevel() == 2) {
-                    Intent mIntent = new Intent(Berhasil.this, Donatur_Main.class);
+                    Intent mIntent = new Intent(Berhasil.this, Penerima_Main.class);
                     startActivity(mIntent);
                 }
 

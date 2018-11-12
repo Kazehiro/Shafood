@@ -58,6 +58,7 @@ public class Donatur_Main extends AppCompatActivity
     TextView etKuantitas;
     private ImageView imageProfile;
     private Button btnCari;
+    private String NamaDonatur, LatDonatur, LngDonatur;
     private NavigationView nav_view;
 
 
@@ -148,7 +149,12 @@ public class Donatur_Main extends AppCompatActivity
         for (DataSnapshot ds : dataSnapshot.getChildren()) {
             ProfileDonatur uInfo = new ProfileDonatur();
             uInfo.setNama(ds.child("USER").child("DONATUR").child(userID).getValue(ProfileDonatur.class).getNama());
+            uInfo.setLatitude(ds.child("USER").child("DONATUR").child(userID).getValue(ProfileDonatur.class).getLatitude());
+            uInfo.setLongitude(ds.child("USER").child("DONATUR").child(userID).getValue(ProfileDonatur.class).getLongitude());
             namaDonatur.setText(uInfo.getNama());
+            NamaDonatur = uInfo.getNama();
+            LatDonatur = uInfo.getLatitude();
+            LngDonatur = uInfo.getLongitude();
         }
     }
 
@@ -179,7 +185,7 @@ public class Donatur_Main extends AppCompatActivity
         return true;
     }
 
-    public void cari(View view) {
+    public void cari(View v) {
         if (TextUtils.isEmpty(etBarang.getText())) {
             Toast.makeText(this, "Masukan Nama Barang", Toast.LENGTH_LONG).show();
             return;
@@ -188,10 +194,13 @@ public class Donatur_Main extends AppCompatActivity
             Toast.makeText(this, "Masukan Kuantitas", Toast.LENGTH_LONG).show();
             return;
         }
-        int qty = Integer.parseInt(etKuantitas.getText().toString());
         Intent search = new Intent(Donatur_Main.this, ShowPenerima.class);
-        search.putExtra("Barang", etBarang.toString());
-        search.putExtra("Kuantitas", qty);
+        search.putExtra("Barang", etBarang.getText().toString());
+        search.putExtra("Kuantitas", etKuantitas.getText().toString());
+        search.putExtra("Nama Donatur", NamaDonatur);
+        search.putExtra("Latitude Donatur", LatDonatur);
+        search.putExtra("Longitude Donatur", LngDonatur);
+        search.putExtra("Id Donatur", userID);
         startActivity(search);
     }
 
