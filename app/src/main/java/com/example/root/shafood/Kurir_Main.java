@@ -76,6 +76,7 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private DatabaseReference myRef;
+    private final int REQUEST_CODE_CAMERA_IDENTITAS = 001;
 
     ImageButton imageBtnScan;
 
@@ -102,7 +103,7 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
                 startActivity(mIntent);
             }
         });
-
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, REQUEST_CODE_CAMERA_IDENTITAS);
         fab_Scan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
