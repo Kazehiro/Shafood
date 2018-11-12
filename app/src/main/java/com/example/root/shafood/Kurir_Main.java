@@ -88,7 +88,8 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kurir__main);
 
-        imageBtnScan = (ImageButton) findViewById(R.id.imageBtnScan);
+        fab_Logout = (FloatingActionButton) findViewById(R.id.fab_Logout);
+        fab_Scan = (FloatingActionButton) findViewById(R.id.fab_Scan);
 
         mAuth = FirebaseAuth.getInstance();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
@@ -103,11 +104,12 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
                 startActivity(mIntent);
             }
         });
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, REQUEST_CODE_CAMERA_IDENTITAS);
+
         fab_Scan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent mIntent = new Intent(Kurir_Main.this,Scanner_Verifikasi.class);
+                startActivity(mIntent);
             }
         });
 
@@ -131,13 +133,6 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
             }
         });
 
-        imageBtnScan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent mIntent = new Intent(Kurir_Main.this, Kurir_Verifikasi.class);
-                startActivity(mIntent);
-            }
-        });
     }
 
 

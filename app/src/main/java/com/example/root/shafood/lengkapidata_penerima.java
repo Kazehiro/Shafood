@@ -285,7 +285,7 @@ public class lengkapidata_penerima extends AppCompatActivity implements OnMapRea
             progressDialog.show();
             FirebaseUser user = mAuth.getCurrentUser();
             String userID = user.getUid();
-            StorageReference ref = storageReference.child("Donatur/KTP/" + userID);
+            StorageReference ref = storageReference.child("Penerima/KTP/" + userID);
             ref.putFile(filePath1)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
@@ -322,7 +322,7 @@ public class lengkapidata_penerima extends AppCompatActivity implements OnMapRea
             progressDialog.show();
             FirebaseUser user = mAuth.getCurrentUser();
             String userID = user.getUid();
-            StorageReference ref = storageReference.child("Donatur/FotoProfil/" + userID);
+            StorageReference ref = storageReference.child("Penerima/FotoProfil/" + userID);
             ref.putFile(filePath2)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
