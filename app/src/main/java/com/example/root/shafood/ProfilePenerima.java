@@ -10,6 +10,7 @@ public class ProfilePenerima {
     private String latitude;
     private String longitude;
     private String transaksi;
+    private String verifikasi;
     private String request;
     private int level;
 
@@ -91,6 +92,14 @@ public class ProfilePenerima {
 
     public void setRequest(String request) {
         this.request = request;
+    }
+
+    public String getVerifikasi() {
+        return verifikasi;
+    }
+
+    public void setVerifikasi(String verifikasi) {
+        this.verifikasi = verifikasi;
     }
 
     public int getLevel() {
