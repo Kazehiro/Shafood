@@ -9,8 +9,7 @@ public class UserKurir {
     public String noplat;
     public int level;
 
-    public UserKurir(String id_user, String nama, String nohp, String alamat, String tanggallahir,
-                     String noplat, int level) {
+    public UserKurir(String id_user, String nama, String nohp, String alamat, String tanggallahir, String noplat, int level) {
         this.id_user = id_user;
         this.nama = nama;
         this.nohp = nohp;

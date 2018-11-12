@@ -1,11 +1,11 @@
 [
     {
-        "merged": "/root/AndroidStudioProjects/shafood/app/build/intermediates/res/merged/debug/anim_abc_fade_out.xml.flat",
-        "source": "/root/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/75310b5450842604a50574109b810e3b/res/anim/abc_fade_out.xml"
-    },
-    {
         "merged": "/root/AndroidStudioProjects/shafood/app/build/intermediates/res/merged/debug/color_mtrl_tabs_icon_color_selector_colored.xml.flat",
         "source": "/root/.gradle/caches/transforms-1/files-1.1/design-28.0.0.aar/8cbaf9e8a7f298274d1b9aa3d554d56d/res/color/mtrl_tabs_icon_color_selector_colored.xml"
+    },
+    {
+        "merged": "/root/AndroidStudioProjects/shafood/app/build/intermediates/res/merged/debug/anim_abc_fade_out.xml.flat",
+        "source": "/root/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/75310b5450842604a50574109b810e3b/res/anim/abc_fade_out.xml"
     },
     {
         "merged": "/root/AndroidStudioProjects/shafood/app/build/intermediates/res/merged/debug/drawable-xxxhdpi-v4_places_ic_search.png.flat",
@@ -28,12 +28,12 @@
         "source": "/root/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/75310b5450842604a50574109b810e3b/res/drawable-xxxhdpi-v4/abc_ic_menu_copy_mtrl_am_alpha.png"
     },
     {
-        "merged": "/root/AndroidStudioProjects/shafood/app/build/intermediates/res/merged/debug/drawable-xxxhdpi-v4_abc_ic_menu_selectall_mtrl_alpha.png.flat",
-        "source": "/root/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/75310b5450842604a50574109b810e3b/res/drawable-xxxhdpi-v4/abc_ic_menu_selectall_mtrl_alpha.png"
-    },
-    {
         "merged": "/root/AndroidStudioProjects/shafood/app/build/intermediates/res/merged/debug/color_common_google_signin_btn_text_dark.xml.flat",
         "source": "/root/.gradle/caches/transforms-1/files-1.1/play-services-base-16.0.1.aar/5780b8eaa02ee0679e473b1ac9891fb3/res/color/common_google_signin_btn_text_dark.xml"
+    },
+    {
+        "merged": "/root/AndroidStudioProjects/shafood/app/build/intermediates/res/merged/debug/drawable-xxxhdpi-v4_abc_ic_menu_selectall_mtrl_alpha.png.flat",
+        "source": "/root/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/75310b5450842604a50574109b810e3b/res/drawable-xxxhdpi-v4/abc_ic_menu_selectall_mtrl_alpha.png"
     },
     {
         "merged": "/root/AndroidStudioProjects/shafood/app/build/intermediates/res/merged/debug/drawable-mdpi-v4_abc_btn_switch_to_on_mtrl_00001.9.png.flat",
@@ -64,40 +64,40 @@
         "source": "/root/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/75310b5450842604a50574109b810e3b/res/color/abc_background_cache_hint_selector_material_light.xml"
     },
     {
-        "merged": "/root/AndroidStudioProjects/shafood/app/build/intermediates/res/merged/debug/drawable-ldpi_ic_launcher_foreground.png.flat",
-        "source": "/root/AndroidStudioProjects/shafood/app/build/generated/res/pngs/debug/drawable-ldpi/ic_launcher_foreground.png"
-    },
-    {
         "merged": "/root/AndroidStudioProjects/shafood/app/build/intermediates/res/merged/debug/animator_mtrl_fab_transformation_sheet_collapse_spec.xml.flat",
         "source": "/root/.gradle/caches/transforms-1/files-1.1/design-28.0.0.aar/8cbaf9e8a7f298274d1b9aa3d554d56d/res/animator/mtrl_fab_transformation_sheet_collapse_spec.xml"
+    },
+    {
+        "merged": "/root/AndroidStudioProjects/shafood/app/build/intermediates/res/merged/debug/drawable-ldpi_ic_launcher_foreground.png.flat",
+        "source": "/root/AndroidStudioProjects/shafood/app/build/generated/res/pngs/debug/drawable-ldpi/ic_launcher_foreground.png"
     },
     {
         "merged": "/root/AndroidStudioProjects/shafood/app/build/intermediates/res/merged/debug/drawable_design_password_eye.xml.flat",
         "source": "/root/.gradle/caches/transforms-1/files-1.1/design-28.0.0.aar/8cbaf9e8a7f298274d1b9aa3d554d56d/res/drawable/design_password_eye.xml"
     },
     {
-        "merged": "/root/AndroidStudioProjects/shafood/app/build/intermediates/res/merged/debug/drawable-mdpi-v4_abc_list_longpressed_holo.9.png.flat",
-        "source": "/root/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/75310b5450842604a50574109b810e3b/res/drawable-mdpi-v4/abc_list_longpressed_holo.9.png"
-    },
-    {
         "merged": "/root/AndroidStudioProjects/shafood/app/build/intermediates/res/merged/debug/drawable-mdpi-v4_abc_text_select_handle_middle_mtrl_dark.png.flat",
         "source": "/root/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/75310b5450842604a50574109b810e3b/res/drawable-mdpi-v4/abc_text_select_handle_middle_mtrl_dark.png"
+    },
+    {
+        "merged": "/root/AndroidStudioProjects/shafood/app/build/intermediates/res/merged/debug/drawable-mdpi-v4_abc_list_longpressed_holo.9.png.flat",
+        "source": "/root/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/75310b5450842604a50574109b810e3b/res/drawable-mdpi-v4/abc_list_longpressed_holo.9.png"
     },
     {
         "merged": "/root/AndroidStudioProjects/shafood/app/build/intermediates/res/merged/debug/drawable_abc_list_selector_holo_dark.xml.flat",
         "source": "/root/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/75310b5450842604a50574109b810e3b/res/drawable/abc_list_selector_holo_dark.xml"
     },
     {
-        "merged": "/root/AndroidStudioProjects/shafood/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_scrubber_control_to_pressed_mtrl_005.png.flat",
-        "source": "/root/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/75310b5450842604a50574109b810e3b/res/drawable-xhdpi-v4/abc_scrubber_control_to_pressed_mtrl_005.png"
+        "merged": "/root/AndroidStudioProjects/shafood/app/build/intermediates/res/merged/debug/layout_activity_upload_image.xml.flat",
+        "source": "/root/AndroidStudioProjects/shafood/app/src/main/res/layout/activity_upload_image.xml"
     },
     {
         "merged": "/root/AndroidStudioProjects/shafood/app/build/intermediates/res/merged/debug/drawable-xxhdpi-v4_abc_btn_radio_to_on_mtrl_000.png.flat",
         "source": "/root/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/75310b5450842604a50574109b810e3b/res/drawable-xxhdpi-v4/abc_btn_radio_to_on_mtrl_000.png"
     },
     {
-        "merged": "/root/AndroidStudioProjects/shafood/app/build/intermediates/res/merged/debug/layout_activity_upload_image.xml.flat",
-        "source": "/root/AndroidStudioProjects/shafood/app/src/main/res/layout/activity_upload_image.xml"
+        "merged": "/root/AndroidStudioProjects/shafood/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_scrubber_control_to_pressed_mtrl_005.png.flat",
+        "source": "/root/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/75310b5450842604a50574109b810e3b/res/drawable-xhdpi-v4/abc_scrubber_control_to_pressed_mtrl_005.png"
     },
     {
         "merged": "/root/AndroidStudioProjects/shafood/app/build/intermediates/res/merged/debug/animator_design_fab_show_motion_spec.xml.flat",
@@ -152,12 +152,12 @@
         "source": "/root/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/75310b5450842604a50574109b810e3b/res/drawable-hdpi-v4/abc_popup_background_mtrl_mult.9.png"
     },
     {
-        "merged": "/root/AndroidStudioProjects/shafood/app/build/intermediates/res/merged/debug/drawable-xxxhdpi-v4_abc_ic_star_black_48dp.png.flat",
-        "source": "/root/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/75310b5450842604a50574109b810e3b/res/drawable-xxxhdpi-v4/abc_ic_star_black_48dp.png"
-    },
-    {
         "merged": "/root/AndroidStudioProjects/shafood/app/build/intermediates/res/merged/debug/drawable-mdpi-v4_abc_btn_check_to_on_mtrl_000.png.flat",
         "source": "/root/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/75310b5450842604a50574109b810e3b/res/drawable-mdpi-v4/abc_btn_check_to_on_mtrl_000.png"
+    },
+    {
+        "merged": "/root/AndroidStudioProjects/shafood/app/build/intermediates/res/merged/debug/drawable-xxxhdpi-v4_abc_ic_star_black_48dp.png.flat",
+        "source": "/root/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/75310b5450842604a50574109b810e3b/res/drawable-xxxhdpi-v4/abc_ic_star_black_48dp.png"
     },
     {
         "merged": "/root/AndroidStudioProjects/shafood/app/build/intermediates/res/merged/debug/anim_abc_popup_exit.xml.flat",
@@ -168,12 +168,12 @@
         "source": "/root/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/75310b5450842604a50574109b810e3b/res/drawable-hdpi-v4/abc_list_pressed_holo_light.9.png"
     },
     {
-        "merged": "/root/AndroidStudioProjects/shafood/app/build/intermediates/res/merged/debug/drawable-v24_ic_launcher_foreground.xml.flat",
-        "source": "/root/AndroidStudioProjects/shafood/app/src/main/res/drawable-v24/ic_launcher_foreground.xml"
-    },
-    {
         "merged": "/root/AndroidStudioProjects/shafood/app/build/intermediates/res/merged/debug/mipmap-mdpi_ic_launcher.png.flat",
         "source": "/root/AndroidStudioProjects/shafood/app/src/main/res/mipmap-mdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/root/AndroidStudioProjects/shafood/app/build/intermediates/res/merged/debug/drawable-v24_ic_launcher_foreground.xml.flat",
+        "source": "/root/AndroidStudioProjects/shafood/app/src/main/res/drawable-v24/ic_launcher_foreground.xml"
     },
     {
         "merged": "/root/AndroidStudioProjects/shafood/app/build/intermediates/res/merged/debug/color_abc_secondary_text_material_dark.xml.flat",
@@ -2574,6 +2574,10 @@
     {
         "merged": "/root/AndroidStudioProjects/shafood/app/build/intermediates/res/merged/debug/drawable-xxhdpi-v4_abc_btn_check_to_on_mtrl_015.png.flat",
         "source": "/root/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/75310b5450842604a50574109b810e3b/res/drawable-xxhdpi-v4/abc_btn_check_to_on_mtrl_015.png"
+    },
+    {
+        "merged": "/root/AndroidStudioProjects/shafood/app/build/intermediates/res/merged/debug/layout_activity_lengkapidata_penerima.xml.flat",
+        "source": "/root/AndroidStudioProjects/shafood/app/src/main/res/layout/activity_lengkapidata_penerima.xml"
     },
     {
         "merged": "/root/AndroidStudioProjects/shafood/app/build/intermediates/res/merged/debug/drawable-mdpi-v4_abc_ic_menu_cut_mtrl_alpha.png.flat",

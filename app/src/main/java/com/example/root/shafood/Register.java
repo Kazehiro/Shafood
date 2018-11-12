@@ -107,6 +107,10 @@ public class Register extends AppCompatActivity {
                                 Intent register = new Intent(Register.this, lengkapidata_kurir.class);
                                 startActivity(register);
                             }
+                            else if(spPilih.getSelectedItem().toString().equals("Penerima")){
+                                Intent register = new Intent(Register.this, lengkapidata_penerima.class);
+                                startActivity(register);
+                            }
                             else{
                                 Toast.makeText(Register.this,"Pilih Level",Toast.LENGTH_LONG).show();
                             }

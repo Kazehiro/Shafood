@@ -122,13 +122,13 @@ public class Berhasil extends AppCompatActivity {
 
     private NullPointerException showData2(DataSnapshot dataSnapshot) {
         for (DataSnapshot ds : dataSnapshot.getChildren()) {
-            ProfileKurir kuInfo = new ProfileKurir();
+            ProfilePenerima peInfo = new ProfilePenerima();
             try {
 
-                kuInfo.setLevel(ds.child("USER").child("PENERIMA").child(userID).getValue(ProfileKurir.class).getLevel());
-                System.out.println("kuInfo = " + kuInfo.getLevel());
+                peInfo.setLevel(ds.child("USER").child("PENERIMA").child(userID).getValue(ProfileKurir.class).getLevel());
+                System.out.println("kuInfo = " + peInfo.getLevel());
 
-                if (kuInfo.getLevel() == 4) {
+                if (peInfo.getLevel() == 4) {
                     Intent mIntent = new Intent(Berhasil.this, Penerima_Main.class);
                     startActivity(mIntent);
                 }

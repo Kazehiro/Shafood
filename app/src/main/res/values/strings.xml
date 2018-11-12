@@ -22,6 +22,7 @@
     <string-array name="PemilihanUser">
         <item>Donatur</item>
         <item>Kurir</item>
+        <item>Penerima</item>
     </string-array>
     <string name="title_activity_navigation__drawer">Navigation_Drawer</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>

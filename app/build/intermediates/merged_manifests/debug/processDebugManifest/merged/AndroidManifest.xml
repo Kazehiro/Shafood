@@ -91,6 +91,7 @@
         <activity android:name="com.example.root.shafood.Donatur_Account" />
         <activity android:name="com.example.root.shafood.Donatur_History" />
         <activity android:name="com.example.root.shafood.Penerima_Verifikasi" />
+        <activity android:name="com.example.root.shafood.lengkapidata_penerima" />
         <activity android:name="com.example.root.shafood.ShowKurir" />
 
         <provider

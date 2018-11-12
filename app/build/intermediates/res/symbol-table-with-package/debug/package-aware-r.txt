@@ -1578,6 +1578,7 @@ layout activity_donatur__main
 layout activity_kurir__main
 layout activity_lengkapidata_donatur
 layout activity_lengkapidata_kurir
+layout activity_lengkapidata_penerima
 layout activity_main
 layout activity_penerima__main
 layout activity_penerima__verifikasi

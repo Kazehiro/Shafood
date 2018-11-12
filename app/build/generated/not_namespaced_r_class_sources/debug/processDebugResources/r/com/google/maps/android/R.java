@@ -103,9 +103,9 @@ public final class R {
     public static final class layout {
         private layout() {}
 
-        public static final int amu_info_window = 0x7f0c002d;
-        public static final int amu_text_bubble = 0x7f0c002e;
-        public static final int amu_webview = 0x7f0c002f;
+        public static final int amu_info_window = 0x7f0c002e;
+        public static final int amu_text_bubble = 0x7f0c002f;
+        public static final int amu_webview = 0x7f0c0030;
     }
     public static final class raw {
         private raw() {}
