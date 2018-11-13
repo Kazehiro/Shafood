@@ -123,6 +123,7 @@ public class ShowPenerima extends AppCompatActivity {
         final ArrayList<String> listId = new ArrayList<>();
         final ArrayList<String> listLat = new ArrayList<>();
         final ArrayList<String> listLng = new ArrayList<>();
+        System.out.println(Nama +" | "+ Transaksi + " | "+ Request);
         if (Nama != null) {
             while (Nama.size() > i) {
                 if (Request.get(i).equals("true")) {
@@ -147,6 +148,7 @@ public class ShowPenerima extends AppCompatActivity {
                     i++;
                 }
             }
+            System.out.println(listNama);
             mListViewPenerima.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     String Barang = getIntent().getStringExtra("Barang");

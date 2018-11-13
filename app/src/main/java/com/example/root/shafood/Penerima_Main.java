@@ -44,15 +44,14 @@ public class Penerima_Main extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_penerima__main);
 
-
         mAuth = FirebaseAuth.getInstance();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         myRef = mFirebaseDatabase.getReference();
         FirebaseUser user = mAuth.getCurrentUser();
         userID = user.getUid();
 
-    BtnQrcode = (Button) findViewById(R.id.BtnQrcode);
-    BtnRequest = (ImageButton) findViewById(R.id.imageButtonRequest);
+        BtnQrcode = (Button) findViewById(R.id.BtnQrcode);
+        BtnRequest = (ImageButton) findViewById(R.id.imageButtonRequest);
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -68,26 +67,27 @@ public class Penerima_Main extends AppCompatActivity {
             }
         });
 
-    BtnRequest.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            FirebaseUser user = mAuth.getCurrentUser();
-            String userID = user.getUid();
-            UserPenerima newUser = new UserPenerima(userID,nama,noktp,nohp,alamat,tanggallahir,latitude,longitude,transaksi,"true",verifikasi);
-            myRef.child("SHAFOOD").child("USER").child("PENERIMA").child(userID).setValue(newUser);
-        }
-    });
+        BtnRequest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseUser user = mAuth.getCurrentUser();
+                String userID = user.getUid();
+                UserPenerima newUser = new UserPenerima(userID, nama, noktp, nohp, alamat, tanggallahir, latitude, longitude, transaksi, "true", verifikasi);
+                myRef.child("SHAFOOD").child("USER").child("PENERIMA").child(userID).setValue(newUser);
+            }
+        });
 
-    BtnQrcode.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-        Intent mIntent = new Intent(Penerima_Main.this, Penerima_Verifikasi.class);
-        startActivity(mIntent);
-        }
-    });
+        BtnQrcode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent mIntent = new Intent(Penerima_Main.this, Penerima_Verifikasi.class);
+                startActivity(mIntent);
+            }
+        });
     }
+
     private void showData(DataSnapshot dataSnapshot) {
-        for(DataSnapshot ds : dataSnapshot.getChildren()) {
+        for (DataSnapshot ds : dataSnapshot.getChildren()) {
             ProfilePenerima uInfo = new ProfilePenerima();
             uInfo.setNama(ds.child("USER").child("PENERIMA").child(userID).getValue(ProfilePenerima.class).getNama());
             uInfo.setAlamat(ds.child("USER").child("PENERIMA").child(userID).getValue(ProfilePenerima.class).getAlamat());
