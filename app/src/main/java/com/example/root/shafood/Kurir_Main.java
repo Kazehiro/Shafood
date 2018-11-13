@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -69,11 +70,13 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
     public LatLng pickUpLatLng = null;
     public LatLng locationLatLng = null;
     private static final int LOCATION_REQUEST = 500;
+    private FloatingActionButton fab_Scan, fab_Logout;
 
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private DatabaseReference myRef;
+    private final int REQUEST_CODE_CAMERA_IDENTITAS = 001;
 
     ImageButton imageBtnScan;
 
@@ -85,12 +88,32 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kurir__main);
 
-        imageBtnScan = (ImageButton) findViewById(R.id.imageBtnScan);
+        fab_Logout = (FloatingActionButton) findViewById(R.id.fab_Logout);
+        fab_Scan = (FloatingActionButton) findViewById(R.id.fab_Scan);
 
         mAuth = FirebaseAuth.getInstance();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         myRef = mFirebaseDatabase.getReference().child("SHAFOOD").child("USER").child("DONATUR");
         widgetInit();
+
+        fab_Logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mAuth.signOut();
+                Intent mIntent = new Intent(Kurir_Main.this, MainActivity.class);
+                startActivity(mIntent);
+            }
+        });
+
+        fab_Scan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent mIntent = new Intent(Kurir_Main.this,Scanner_Verifikasi.class);
+                startActivity(mIntent);
+            }
+        });
+
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -110,13 +133,6 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
             }
         });
 
-        imageBtnScan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent mIntent = new Intent(Kurir_Main.this, Kurir_Verifikasi.class);
-                startActivity(mIntent);
-            }
-        });
     }
 
 
@@ -249,9 +265,7 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
     }
 
     public void etTitikAwal(View v) {
-        mAuth.signOut();
-        Intent mIntent = new Intent(Kurir_Main.this, MainActivity.class);
-        startActivity(mIntent);
+
     }
 
     public void etTitikAkhir(View v) {
