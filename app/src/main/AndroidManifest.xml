@@ -45,10 +45,6 @@
         <activity
             android:name=".Kurir_Main"
             android:label="@string/title_activity_kurir__main" />
-        <activity
-            android:name=".DonaturActivity"
-            android:label="@string/title_activity_donatur__main"
-            android:theme="@style/AppTheme" />
         <activity android:name=".ShowPenerima" />
         <activity android:name=".UploadImageActivity" />
         <activity android:name=".lengkapidata_donatur" />

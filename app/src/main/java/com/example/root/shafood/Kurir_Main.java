@@ -83,8 +83,20 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
     private String longitude;
     private String transaksi;
     private String verifikasi;
+
+    private String alamat_penerima_lat;
+    private String alamat_penerima_lng;
+    private String alamat_donatur_lat;
+    private String alamat_donatur_lng;
+    private String nama_donatur;
+    private String nama_kurir;
+    private String nama_penerima;
+    private String nama_barang;
+    private int kuantitas;
+
     private String QrVerifikasi;
     private int level;
+    private String Id_Donatur, Id_Penerima;
     String text2Qr;
 
     /*String API_KEY = "AIzaSyAdXOOHbTv9D2DwmZ2o5M7VbyhLrd8Y8mw";*/
@@ -99,7 +111,7 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-    private DatabaseReference myRef,myRef1;
+    private DatabaseReference myRef, myRef1, myRef2;
     private final int REQUEST_CODE_CAMERA_IDENTITAS = 001;
 
     ImageButton imageBtnScan;
@@ -119,9 +131,11 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         myRef = mFirebaseDatabase.getReference().child("SHAFOOD").child("USER").child("PENERIMA");
         myRef1 = mFirebaseDatabase.getReference().child("SHAFOOD").child("TRANSAKSI");
+        myRef2 = mFirebaseDatabase.getReference();
         FirebaseUser user = mAuth.getCurrentUser();
         userID = user.getUid();
         widgetInit();
+
 
         myRef1.addValueEventListener(new ValueEventListener() {
             @Override
@@ -278,19 +292,28 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
                 Toast.makeText(this, "You cancelled the scanning", Toast.LENGTH_LONG).show();
                 return;
             } else {
-                Toast.makeText(this, result.getContents(), Toast.LENGTH_LONG).show();
                 QrVerifikasi = result.getContents();
-                System.out.println("Hasil Scan === "+QrVerifikasi);
-                System.out.println("Hasil DB === "+text2Qr);
-                try {
-                    if (QrVerifikasi.equals(text2Qr)) {
-                        System.out.println("Transaksi Selesai");
-                        Toast.makeText(Kurir_Main.this,"Selesai",Toast.LENGTH_SHORT).show();
-                    }
-                }catch (NullPointerException e){
-                    e.printStackTrace();
+                System.out.println("Hasil Scan === " + QrVerifikasi);
+                System.out.println("Hasil DB === " + text2Qr);
+                if (QrVerifikasi.equals(text2Qr)) {
+                    myRef2.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            showData2(dataSnapshot);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+                    System.out.println("Transaksi Selesai");
+                    Toast.makeText(Kurir_Main.this, "Selesai", Toast.LENGTH_SHORT).show();
+                    //set
+                    Transaksi mTransaksi = new Transaksi(text2Qr, Id_Donatur, Id_Penerima, userID, alamat_penerima_lat, alamat_penerima_lng, alamat_donatur_lat, alamat_donatur_lng, nama_donatur, nama_kurir, nama_penerima, nama_barang, kuantitas, "true");
+                    myRef2.child("SHAFOOD").child("TRANSAKSI").child(text2Qr).setValue(mTransaksi);
+                    return;
                 }
-                return;
             }
         }
         if (resultCode == RESULT_OK) {
@@ -387,16 +410,45 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
         ArrayList<String> id = new ArrayList<>();
         FirebaseUser user = mAuth.getCurrentUser();
         String userID = user.getUid();
-        if(Id_transaksi.get(i) != null) {
-            while(Id_transaksi.size() > i){
-                if(userID.equals(Id_donatur.get(i))){
-                    if(Success.get(i).equals("false")){
+        if (Id_transaksi.get(i) != null) {
+            while (Id_transaksi.size() > i) {
+                if (userID.equals(Id_kurir.get(i))) {
+                    if (Success.get(i).equals("false")) {
                         text2Qr = Id_transaksi.get(i);
+                        Id_Donatur = Id_donatur.get(i);
+                        Id_Penerima = Id_penerima.get(i);
                     }
                 }
                 i++;
             }
         }
+    }
 
+    private void showData2(DataSnapshot dataSnapshot) {
+        for (DataSnapshot ds : dataSnapshot.getChildren()) {
+            getTransaksi mGetTransaksi = new getTransaksi();
+            mGetTransaksi.setAlamat_donatur_lat(ds.child("TRANSAKSI").child(text2Qr).getValue(getTransaksi.class).getAlamat_donatur_lat());
+            mGetTransaksi.setAlamat_donatur_lng(ds.child("TRANSAKSI").child(text2Qr).getValue(getTransaksi.class).getAlamat_donatur_lng());
+            mGetTransaksi.setAlamat_penerima_lat(ds.child("TRANSAKSI").child(text2Qr).getValue(getTransaksi.class).getAlamat_penerima_lat());
+            mGetTransaksi.setAlamat_penerima_lng(ds.child("TRANSAKSI").child(text2Qr).getValue(getTransaksi.class).getAlamat_penerima_lng());
+            mGetTransaksi.setKuantitas(ds.child("TRANSAKSI").child(text2Qr).getValue(getTransaksi.class).getKuantitas());
+            mGetTransaksi.setNama_barang(ds.child("TRANSAKSI").child(text2Qr).getValue(getTransaksi.class).getNama_barang());
+            mGetTransaksi.setNama_donatur(ds.child("TRANSAKSI").child(text2Qr).getValue(getTransaksi.class).getNama_donatur());
+            mGetTransaksi.setNama_kurir(ds.child("TRANSAKSI").child(text2Qr).getValue(getTransaksi.class).getNama_kurir());
+            mGetTransaksi.setNama_penerima(ds.child("TRANSAKSI").child(text2Qr).getValue(getTransaksi.class).getNama_penerima());
+
+            alamat_donatur_lat = mGetTransaksi.getAlamat_donatur_lat();
+            alamat_donatur_lng = mGetTransaksi.getAlamat_donatur_lng();
+            alamat_penerima_lat = mGetTransaksi.getAlamat_penerima_lat();
+            alamat_penerima_lng = mGetTransaksi.getAlamat_penerima_lng();
+            kuantitas = mGetTransaksi.getKuantitas();
+            nama_barang = mGetTransaksi.getNama_barang();
+            nama_donatur = mGetTransaksi.getNama_donatur();
+            nama_kurir = mGetTransaksi.getNama_kurir();
+            nama_penerima = mGetTransaksi.getNama_penerima();
+
+            System.out.println(alamat_donatur_lat + " | " + alamat_donatur_lng + " | " + alamat_penerima_lat + " | " + alamat_penerima_lng + " | " + nama_barang + " | " + kuantitas + " | " + nama_donatur + " | " + nama_kurir + " | " + nama_penerima);
+
+        }
     }
 }
