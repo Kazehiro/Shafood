@@ -111,7 +111,7 @@ public class ShowKurir extends AppCompatActivity {
                 String Id_Penerima = getIntent().getStringExtra("Id Penerima");
                 String Lat_Donatur = getIntent().getStringExtra("Latitude Donatur");
                 String Lng_Donatur = getIntent().getStringExtra("Longitude Donatur");
-                String Lat_Penerima = getIntent().getStringExtra("Longitude Penerima");
+                String Lat_Penerima = getIntent().getStringExtra("Latitude Penerima");
                 String Lng_Penerima = getIntent().getStringExtra("Longitude Penerima");
                 String NamaKurir = Nama.get(position);
                 String Id_Kurir = Id_kurir.get(position);
@@ -119,7 +119,7 @@ public class ShowKurir extends AppCompatActivity {
                 toastMessage(Barang + " | " + Kuantitas + " | " + NamaDonatur + " | " + NamaPenerima + " | " + Id_Donatur + " | " + Id_Penerima + " | " + Lat_Donatur + " | " + Lng_Donatur + " | " + Lat_Penerima + " | " + Lng_Penerima + " | " + NamaKurir + " | " + Id_Kurir);
                 Long tsLong = System.currentTimeMillis() / 1000;
                 String ts = tsLong.toString();
-                Transaksi newTransaksi = new Transaksi(userID + ts, userID, userID + ts, Id_Kurir, Lat_Penerima, Lng_Penerima, Lat_Donatur, Lng_Donatur, NamaDonatur, NamaKurir, NamaPenerima, Barang, Kuantitas,"false");
+                Transaksi newTransaksi = new Transaksi(userID + ts, userID, Id_Penerima, Id_Kurir, Lat_Penerima, Lng_Penerima, Lat_Donatur, Lng_Donatur, NamaDonatur, NamaKurir, NamaPenerima, Barang, Kuantitas);
                 myRefUpload.child("SHAFOOD").child("TRANSAKSI").child(userID + ts).setValue(newTransaksi);
                 toastMessage("Adding User to database...");
             }

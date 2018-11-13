@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="350dp"
@@ -23,13 +24,13 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imageViewFotoPenerima"
             android:layout_width="104dp"
             android:layout_height="111dp"
             android:layout_gravity="center"
             android:layout_marginTop="15dp"
-            android:src="@drawable/ic_account" />
+            app:srcCompat="@drawable/ic_account" />
         <TextView
             android:id="@+id/editTextNamaPenerimaPopup"
             android:layout_width="wrap_content"
