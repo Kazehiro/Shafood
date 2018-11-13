@@ -117,14 +117,13 @@ public class Penerima_Verifikasi extends AppCompatActivity {
             Map success = (Map) entry.getValue();
             Success.add((String) success.get("success"));
         }
-        System.out.println(Id_donatur + " | " + Success);
         int i = 0;
         ArrayList<String> id = new ArrayList<>();
         FirebaseUser user = mAuth.getCurrentUser();
         String userID = user.getUid();
         if(Id_transaksi.get(i) != null) {
             while(Id_transaksi.size() > i){
-                if(userID.equals(Id_donatur.get(i))){
+                if(userID.equals(Id_penerima.get(i))){
                     if(Success.get(i).equals("false")){
                         text2Qr = Id_transaksi.get(i);
                     }
