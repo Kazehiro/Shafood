@@ -9,7 +9,6 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -55,7 +54,8 @@
         <activity android:name=".Donatur_History" />
         <activity android:name=".Penerima_Verifikasi" />
         <activity android:name=".lengkapidata_penerima" />
-        <activity android:name=".ShowKurir"></activity>
+        <activity android:name=".ShowKurir" />
+        <activity android:name=".Authors"></activity>
     </application>
 
 </manifest>
