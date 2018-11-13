@@ -12,16 +12,18 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
 import android.util.Log;
 import android.widget.Toast;
 
 import com.google.zxing.Result;
+import com.journeyapps.barcodescanner.camera.AutoFocusManager;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 import static android.Manifest.permission.CAMERA;
 
-public class Scanner_Verifikasi extends AppCompatActivity implements ZXingScannerView.ResultHandler{
+public class Scanner_Verifikasi extends AppCompatActivity implements ZXingScannerView.ResultHandler {
 
     private static final int REQUEST_CAMERA = 1;
     private ZXingScannerView scannerView;
@@ -30,35 +32,31 @@ public class Scanner_Verifikasi extends AppCompatActivity implements ZXingScanne
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         scannerView = new ZXingScannerView(this);
+        setContentView(scannerView);
+
+
         setContentView(scannerView);
         int currentApiVersion = Build.VERSION.SDK_INT;
 
-        if(currentApiVersion >=  Build.VERSION_CODES.M)
-        {
-            if(checkPermission())
-            {
+        if (currentApiVersion >= Build.VERSION_CODES.M) {
+            if (checkPermission()) {
                 Toast.makeText(getApplicationContext(), "Permission already granted!", Toast.LENGTH_LONG).show();
-            }
-            else
-            {
+            } else {
                 requestPermission();
             }
-        }
-        else
-        {
+        } else {
             scannerView.startCamera();
         }
+
+
     }
 
-    private boolean checkPermission()
-    {
+    private boolean checkPermission() {
         return (ContextCompat.checkSelfPermission(getApplicationContext(), CAMERA) == PackageManager.PERMISSION_GRANTED);
     }
 
-    private void requestPermission()
-    {
+    private void requestPermission() {
         ActivityCompat.requestPermissions(this, new String[]{CAMERA}, REQUEST_CAMERA);
     }
 
@@ -66,10 +64,10 @@ public class Scanner_Verifikasi extends AppCompatActivity implements ZXingScanne
     public void onResume() {
         super.onResume();
 
-        int currentapiVersion = android.os.Build.VERSION.SDK_INT;
+        /*int currentapiVersion = android.os.Build.VERSION.SDK_INT;
         if (currentapiVersion >= android.os.Build.VERSION_CODES.M) {
             if (checkPermission()) {
-                if(scannerView == null) {
+                if (scannerView == null) {
                     scannerView = new ZXingScannerView(this);
                     setContentView(scannerView);
                 }
@@ -77,18 +75,21 @@ public class Scanner_Verifikasi extends AppCompatActivity implements ZXingScanne
                 scannerView.startCamera();
             } else {
                 requestPermission();
+                scannerView.setResultHandler(this);
+                scannerView.startCamera();
             }
-        }
-        else
-        {
-            if(scannerView == null) {
+        } else {
+            if (scannerView == null) {
                 scannerView = new ZXingScannerView(this);
                 setContentView(scannerView);
             }
             scannerView.setResultHandler(this);
             scannerView.startCamera();
-        }
+        }*/
+        scannerView.setResultHandler(this);
+        scannerView.startCamera();
     }
+
 
     @Override
     public void onDestroy() {
@@ -103,11 +104,12 @@ public class Scanner_Verifikasi extends AppCompatActivity implements ZXingScanne
                 if (grantResults.length > 0) {
 
                     boolean cameraAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
-                    if (cameraAccepted){
-                        ActivityCompat.requestPermissions(Scanner_Verifikasi.this,new String[] {Manifest.permission.CAMERA}, requestCode);
+                    if (cameraAccepted) {
+                        ActivityCompat.requestPermissions(Scanner_Verifikasi.this, new String[]{Manifest.permission.CAMERA}, requestCode);
+
                         Toast.makeText(getApplicationContext(), "Permission Granted, Now you can access camera", Toast.LENGTH_LONG).show();
-                    }else {
-                        ActivityCompat.requestPermissions(Scanner_Verifikasi.this,new String[] {Manifest.permission.CAMERA}, requestCode);
+                    } else {
+                        ActivityCompat.requestPermissions(Scanner_Verifikasi.this, new String[]{Manifest.permission.CAMERA}, requestCode);
                         Toast.makeText(getApplicationContext(), "Permission Denied, You cannot access and camera", Toast.LENGTH_LONG).show();
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                             if (shouldShowRequestPermissionRationale(CAMERA)) {
@@ -151,6 +153,7 @@ public class Scanner_Verifikasi extends AppCompatActivity implements ZXingScanne
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 scannerView.resumeCameraPreview(Scanner_Verifikasi.this);
+                scannerView.startCamera();
             }
         });
         builder.setNeutralButton("Visit", new DialogInterface.OnClickListener() {
