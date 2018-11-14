@@ -7,11 +7,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -57,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
                     // User is signed in
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
                     toastMessage("Successfully signed in with: " + user.getEmail());
+
                     Intent i = new Intent(MainActivity.this, Berhasil.class);
                     MainActivity.this.startActivity(i);
                 } else {
@@ -70,6 +74,19 @@ public class MainActivity extends AppCompatActivity {
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String email = mEmail.getText().toString();
+                String pass = mPassword.getText().toString();
+                if (!email.equals("") && !pass.equals("")) {
+                    mAuth.signInWithEmailAndPassword(email, pass);
+                    if (mAuth.getUid() == null){
+                        showSnackbar(view, "Email atau Password Salah", 3000);
+                    }
+                } else {
+                    if (mAuth.getUid() == null) {
+                        System.out.println("UUID : " + mAuth.getUid());
+                        showSnackbar(view,"Isi Semua Kolom", 3000);
+                    }
+                }
                 progressDialog.setMax(100);
                 progressDialog.setMessage("Tunggu Sebentar");
                 progressDialog.setTitle("Login");
@@ -107,18 +124,6 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 }).start();
-
-                String email = mEmail.getText().toString();
-                String pass = mPassword.getText().toString();
-                if (!email.equals("") && !pass.equals("")) {
-                    mAuth.signInWithEmailAndPassword(email, pass);
-                    if (mAuth.getUid() == null) {
-                        System.out.println("UUID : " + mAuth.getUid());
-                        toastMessage("Email atau Password Salah");
-                    }
-                } else {
-                    toastMessage("You didn't fill in all the fields.");
-                }
             }
         });
     }
@@ -169,5 +174,8 @@ public class MainActivity extends AppCompatActivity {
         }
         backPressedTime = System.currentTimeMillis();
     }
-
+    public void showSnackbar(View view, String message, int duration)
+    {
+        Snackbar.make(view, message, duration).show();
+    }
 }
