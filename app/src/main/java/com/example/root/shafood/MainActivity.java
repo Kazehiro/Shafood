@@ -78,15 +78,15 @@ public class MainActivity extends AppCompatActivity {
                 String pass = mPassword.getText().toString();
                 if (!email.equals("") && !pass.equals("")) {
                     mAuth.signInWithEmailAndPassword(email, pass);
-                    if (mAuth.getUid() == null){
-                        showSnackbar(view, "Email atau Password Salah", 3000);
-                    }
-                } else {
-                    if (mAuth.getUid() == null) {
-                        System.out.println("UUID : " + mAuth.getUid());
-                        showSnackbar(view,"Isi Semua Kolom", 3000);
-                    }
                 }
+                    else{
+                        showSnackbar(view, "Harap isi semua kolom", 3000);
+                        return;
+                    }
+                if (mAuth.getUid() == null){
+                    showSnackbar(view, "Email atau password salah", 3000);
+                }
+
                 progressDialog.setMax(100);
                 progressDialog.setMessage("Tunggu Sebentar");
                 progressDialog.setTitle("Login");
