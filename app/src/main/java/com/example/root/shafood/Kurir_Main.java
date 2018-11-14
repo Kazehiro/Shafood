@@ -82,6 +82,7 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
     private String latitude;
     private String longitude;
     private String transaksi;
+    private String request;
     private String verifikasi;
 
     private String alamat_penerima_lat;
@@ -131,7 +132,7 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         myRef = mFirebaseDatabase.getReference().child("SHAFOOD").child("USER").child("PENERIMA");
         myRef1 = mFirebaseDatabase.getReference().child("SHAFOOD").child("TRANSAKSI");
-        myRef2 = mFirebaseDatabase.getReference();
+        myRef2 = mFirebaseDatabase.getReference().child("SHAFOOD").child("USER").child("PENERIMA");
         FirebaseUser user = mAuth.getCurrentUser();
         userID = user.getUid();
         widgetInit();
@@ -310,11 +311,16 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
                     System.out.println("Transaksi Selesai");
                     //set
                     Toast.makeText(Kurir_Main.this, "Selesai", Toast.LENGTH_SHORT).show();
-                    Transaksi mTransaksi = new Transaksi(text2Qr, Id_Donatur, Id_Penerima, userID, alamat_penerima_lat, alamat_penerima_lng, alamat_donatur_lat, alamat_donatur_lng, nama_donatur, nama_kurir, nama_penerima, nama_barang, kuantitas, "true");
-                    myRef2.child("SHAFOOD").child("TRANSAKSI").child(text2Qr).setValue(mTransaksi);
+                    /*Transaksi mTransaksi = new Transaksi(text2Qr, Id_Donatur, Id_Penerima, userID, alamat_penerima_lat, alamat_penerima_lng, alamat_donatur_lat, alamat_donatur_lng, nama_donatur, nama_kurir, nama_penerima, nama_barang, kuantitas, "true");
+                     */
+                    myRef2.child("SHAFOOD").child("TRANSAKSI").child(text2Qr).child("success").setValue("true");
+                    myRef.child(Id_Penerima).child("transaksi").setValue("true");
                     return;
+                }else if (text2Qr.equals(Id_Penerima)){
+                    myRef2.child("SHAFOOD").child("TRANSAKSI").child(text2Qr).child("success").setValue("true");
+                    myRef.child(Id_Penerima).child("transaksi").setValue("true");
                 }
-                else{
+                else {
                     Toast.makeText(Kurir_Main.this, "Kode Tidak Sesuai", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -484,30 +490,26 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
 
     /*private void showData2(DataSnapshot dataSnapshot) {
         for (DataSnapshot ds : dataSnapshot.getChildren()) {
-            getTransaksi mGetTransaksi = new getTransaksi();
-            System.out.println("HAHAH ======== "+text2Qr);
-            mGetTransaksi.setAlamat_donatur_lat(ds.child("TRANSAKSI").child(text2Qr).getValue(getTransaksi.class).getAlamat_donatur_lat());
-            mGetTransaksi.setAlamat_donatur_lng(ds.child("TRANSAKSI").child(text2Qr).getValue(getTransaksi.class).getAlamat_donatur_lng());
-            mGetTransaksi.setAlamat_penerima_lat(ds.child("TRANSAKSI").child(text2Qr).getValue(getTransaksi.class).getAlamat_penerima_lat());
-            mGetTransaksi.setAlamat_penerima_lng(ds.child("TRANSAKSI").child(text2Qr).getValue(getTransaksi.class).getAlamat_penerima_lng());
-            mGetTransaksi.setKuantitas(ds.child("TRANSAKSI").child(text2Qr).getValue(getTransaksi.class).getKuantitas());
-            mGetTransaksi.setNama_barang(ds.child("TRANSAKSI").child(text2Qr).getValue(getTransaksi.class).getNama_barang());
-            mGetTransaksi.setNama_donatur(ds.child("TRANSAKSI").child(text2Qr).getValue(getTransaksi.class).getNama_donatur());
-            mGetTransaksi.setNama_kurir(ds.child("TRANSAKSI").child(text2Qr).getValue(getTransaksi.class).getNama_kurir());
-            mGetTransaksi.setNama_penerima(ds.child("TRANSAKSI").child(text2Qr).getValue(getTransaksi.class).getNama_penerima());
+            Update_Penerima mUpdate_penerima = new Update_Penerima();
+            mUpdate_penerima.setAlamat(ds.child(Id_Penerima).getValue(Update_Penerima.class).getAlamat());
+            mUpdate_penerima.setLatitude(ds.child(Id_Penerima).getValue(Update_Penerima.class).getLatitude());
+            mUpdate_penerima.setLongitude(ds.child(Id_Penerima).getValue(Update_Penerima.class).getLongitude());
+            mUpdate_penerima.setNama(ds.child(Id_Penerima).getValue(Update_Penerima.class).getNama());
+            mUpdate_penerima.setNohp(ds.child(Id_Penerima).getValue(Update_Penerima.class).getNohp());
+            mUpdate_penerima.setNoktp(ds.child(Id_Penerima).getValue(Update_Penerima.class).getNoktp());
+            mUpdate_penerima.setTanggallahir(ds.child(Id_Penerima).getValue(Update_Penerima.class).getTanggallahir());
+            mUpdate_penerima.setVerifikasi(ds.child(Id_Penerima).getValue(Update_Penerima.class).getVerifikasi());
+            mUpdate_penerima.setRequest(ds.child(Id_Penerima).getValue(Update_Penerima.class).getRequest());
 
-            alamat_donatur_lat = mGetTransaksi.getAlamat_donatur_lat();
-            alamat_donatur_lng = mGetTransaksi.getAlamat_donatur_lng();
-            alamat_penerima_lat = mGetTransaksi.getAlamat_penerima_lat();
-            alamat_penerima_lng = mGetTransaksi.getAlamat_penerima_lng();
-            kuantitas = mGetTransaksi.getKuantitas();
-            nama_barang = mGetTransaksi.getNama_barang();
-            nama_donatur = mGetTransaksi.getNama_donatur();
-            nama_kurir = mGetTransaksi.getNama_kurir();
-            nama_penerima = mGetTransaksi.getNama_penerima();
-
-            System.out.println( mGetTransaksi.getAlamat_donatur_lat() +"|"+alamat_donatur_lat + " | " + alamat_donatur_lng + " | " + alamat_penerima_lat + " | " + alamat_penerima_lng + " | " + nama_barang + " | " + kuantitas + " | " + nama_donatur + " | " + nama_kurir + " | " + nama_penerima);
-
+            alamat = mUpdate_penerima.getAlamat();
+            latitude = mUpdate_penerima.getLatitude();
+            longitude = mUpdate_penerima.getLongitude();
+            nama = mUpdate_penerima.getNama();
+            nohp = mUpdate_penerima.getNohp();
+            noktp = mUpdate_penerima.getNoktp();
+            tanggallahir = mUpdate_penerima.getTanggallahir();
+            verifikasi = mUpdate_penerima.getVerifikasi();
+            request = mUpdate_penerima.getRequest();
         }
     }*/
 }
