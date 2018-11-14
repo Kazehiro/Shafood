@@ -72,7 +72,7 @@ public class Penerima_Main extends AppCompatActivity {
             public void onClick(View v) {
                 FirebaseUser user = mAuth.getCurrentUser();
                 String userID = user.getUid();
-                UserPenerima newUser = new UserPenerima(userID, nama, noktp, nohp, alamat, tanggallahir, latitude, longitude, transaksi, "true", verifikasi);
+                UserPenerima newUser = new UserPenerima(userID, nama, noktp, nohp, alamat, tanggallahir, latitude, longitude, transaksi, "true", verifikasi,4);
                 myRef.child("SHAFOOD").child("USER").child("PENERIMA").child(userID).setValue(newUser);
             }
         });

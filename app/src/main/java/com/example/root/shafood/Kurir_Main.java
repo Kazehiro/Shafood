@@ -308,17 +308,18 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
 
                         }
                     });*/
-                    System.out.println("Transaksi Selesai");
                     //set
                     Toast.makeText(Kurir_Main.this, "Selesai", Toast.LENGTH_SHORT).show();
                     /*Transaksi mTransaksi = new Transaksi(text2Qr, Id_Donatur, Id_Penerima, userID, alamat_penerima_lat, alamat_penerima_lng, alamat_donatur_lat, alamat_donatur_lng, nama_donatur, nama_kurir, nama_penerima, nama_barang, kuantitas, "true");
                      */
-                    myRef2.child("SHAFOOD").child("TRANSAKSI").child(text2Qr).child("success").setValue("true");
+                    myRef1.child(text2Qr).child("success").setValue("true");
                     myRef.child(Id_Penerima).child("transaksi").setValue("true");
                     return;
-                }else if (text2Qr.equals(Id_Penerima)){
-                    myRef2.child("SHAFOOD").child("TRANSAKSI").child(text2Qr).child("success").setValue("true");
+                }else if (QrVerifikasi.equals(Id_Penerima)){
+                    myRef1.child(text2Qr).child("success").setValue("true");
                     myRef.child(Id_Penerima).child("transaksi").setValue("true");
+                    Toast.makeText(Kurir_Main.this, "Selesai", Toast.LENGTH_SHORT).show();
+                    return;
                 }
                 else {
                     Toast.makeText(Kurir_Main.this, "Kode Tidak Sesuai", Toast.LENGTH_SHORT).show();
