@@ -14,7 +14,7 @@ public class UserPenerima {
     public String verifikasi;
     public int level;
 
-    public UserPenerima(String id_user, String nama, String noktp, String nohp, String alamat, String tanggallahir, String latitude, String longitude, String transaksi, String request, String verifikasi) {
+    public UserPenerima(String id_user, String nama, String noktp, String nohp, String alamat, String tanggallahir, String latitude, String longitude, String transaksi, String request, String verifikasi, int level) {
         this.id_user = id_user;
         this.nama = nama;
         this.noktp = noktp;
@@ -26,6 +26,6 @@ public class UserPenerima {
         this.transaksi = transaksi;
         this.request = request;
         this.verifikasi = verifikasi;
-        this.level = 4;
+        this.level = level;
     }
 }
