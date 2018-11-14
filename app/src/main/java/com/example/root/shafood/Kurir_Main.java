@@ -308,7 +308,12 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
                         }
                     });*/
                     System.out.println("Transaksi Selesai");
-                    //set
+                    Toast.makeText(Kurir_Main.this, "Selesai", Toast.LENGTH_SHORT).show();
+                    Transaksi mTransaksi = new Transaksi(text2Qr, Id_Donatur, Id_Penerima, userID, alamat_penerima_lat, alamat_penerima_lng, alamat_donatur_lat, alamat_donatur_lng, nama_donatur, nama_kurir, nama_penerima, nama_barang, kuantitas, "true");
+                    myRef2.child("SHAFOOD").child("TRANSAKSI").child(text2Qr).setValue(mTransaksi);
+                    return;
+                }else if(QrVerifikasi.equals(Id_Penerima)){
+                    System.out.println("Transaksi Selesai");
                     Toast.makeText(Kurir_Main.this, "Selesai", Toast.LENGTH_SHORT).show();
                     Transaksi mTransaksi = new Transaksi(text2Qr, Id_Donatur, Id_Penerima, userID, alamat_penerima_lat, alamat_penerima_lng, alamat_donatur_lat, alamat_donatur_lng, nama_donatur, nama_kurir, nama_penerima, nama_barang, kuantitas, "true");
                     myRef2.child("SHAFOOD").child("TRANSAKSI").child(text2Qr).setValue(mTransaksi);
@@ -481,7 +486,7 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
             }
         }
     }
-
+    //Tidak Jalan
     /*private void showData2(DataSnapshot dataSnapshot) {
         for (DataSnapshot ds : dataSnapshot.getChildren()) {
             getTransaksi mGetTransaksi = new getTransaksi();
