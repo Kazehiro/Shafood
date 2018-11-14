@@ -21,7 +21,8 @@
         android:layout_below="@+id/imageButton"
         android:gravity="center"
         android:text="Request"
-        android:textSize="30dp" />
+        android:textSize="30dp"
+        android:onClick="out" />
 
     <Button
         android:layout_width="wrap_content"

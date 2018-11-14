@@ -145,8 +145,8 @@ public class ShowPenerima extends AppCompatActivity {
                         listLat.add(Lat.get(i));
                         listLng.add(Lng.get(i));
                     }
-                    i++;
                 }
+                i++;
             }
             System.out.println(listNama);
             mListViewPenerima.setOnItemClickListener(new AdapterView.OnItemClickListener() {
