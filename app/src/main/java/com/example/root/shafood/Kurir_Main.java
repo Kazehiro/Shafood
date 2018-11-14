@@ -321,7 +321,11 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
                     myRef2.child("SHAFOOD").child("TRANSAKSI").child(text2Qr).child("success").setValue("true");
                     myRef.child(Id_Penerima).child("transaksi").setValue("true");
                     return;
-                } else {
+                }else if (text2Qr.equals(Id_Penerima)){
+                    myRef2.child("SHAFOOD").child("TRANSAKSI").child(text2Qr).child("success").setValue("true");
+                    myRef.child(Id_Penerima).child("transaksi").setValue("true");
+                }
+                else {
                     Toast.makeText(Kurir_Main.this, "Kode Tidak Sesuai", Toast.LENGTH_SHORT).show();
                     return;
                 }
