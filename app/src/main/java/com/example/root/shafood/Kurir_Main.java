@@ -297,7 +297,7 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
                 System.out.println("Hasil Scan === " + QrVerifikasi);
                 System.out.println("Hasil DB === " + text2Qr);
                 if (QrVerifikasi.equals(text2Qr)) {
-                    myRef2.addValueEventListener(new ValueEventListener() {
+                    /*myRef2.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             showData2(dataSnapshot);
@@ -307,12 +307,14 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
                         public void onCancelled(@NonNull DatabaseError databaseError) {
 
                         }
-                    });
+                    });*/
                     System.out.println("Transaksi Selesai");
                     //set
                     Toast.makeText(Kurir_Main.this, "Selesai", Toast.LENGTH_SHORT).show();
-                    Transaksi mTransaksi = new Transaksi(text2Qr, Id_Donatur, Id_Penerima, userID, alamat_penerima_lat, alamat_penerima_lng, alamat_donatur_lat, alamat_donatur_lng, nama_donatur, nama_kurir, nama_penerima, nama_barang, kuantitas, "true");
-                    myRef2.child("SHAFOOD").child("TRANSAKSI").child(text2Qr).setValue(mTransaksi);
+                    /*Transaksi mTransaksi = new Transaksi(text2Qr, Id_Donatur, Id_Penerima, userID, alamat_penerima_lat, alamat_penerima_lng, alamat_donatur_lat, alamat_donatur_lng, nama_donatur, nama_kurir, nama_penerima, nama_barang, kuantitas, "true");
+                     */
+                    myRef2.child("SHAFOOD").child("TRANSAKSI").child(text2Qr).child("success").setValue("true");
+                    myRef.child(Id_Penerima).child("transaksi").setValue("true");
                     return;
                 } else {
                     Toast.makeText(Kurir_Main.this, "Kode Tidak Sesuai", Toast.LENGTH_SHORT).show();
@@ -482,7 +484,7 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
         }
     }
 
-    private void showData2(DataSnapshot dataSnapshot) {
+    /*private void showData2(DataSnapshot dataSnapshot) {
         for (DataSnapshot ds : dataSnapshot.getChildren()) {
             Update_Penerima mUpdate_penerima = new Update_Penerima();
             mUpdate_penerima.setAlamat(ds.child(Id_Penerima).getValue(Update_Penerima.class).getAlamat());
@@ -505,5 +507,5 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
             verifikasi = mUpdate_penerima.getVerifikasi();
             request = mUpdate_penerima.getRequest();
         }
-    }
+    }*/
 }
