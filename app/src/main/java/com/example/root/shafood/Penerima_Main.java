@@ -53,7 +53,7 @@ public class Penerima_Main extends AppCompatActivity {
         BtnQrcode = (Button) findViewById(R.id.BtnQrcode);
         BtnRequest = (ImageButton) findViewById(R.id.imageButtonRequest);
 
-        myRef.addValueEventListener(new ValueEventListener() {
+        /*myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
@@ -65,15 +65,14 @@ public class Penerima_Main extends AppCompatActivity {
             public void onCancelled(DatabaseError databaseError) {
 
             }
-        });
+        });*/
 
         BtnRequest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FirebaseUser user = mAuth.getCurrentUser();
                 String userID = user.getUid();
-                UserPenerima newUser = new UserPenerima(userID, nama, noktp, nohp, alamat, tanggallahir, latitude, longitude, transaksi, "true", verifikasi,4);
-                myRef.child("SHAFOOD").child("USER").child("PENERIMA").child(userID).setValue(newUser);
+                myRef.child("SHAFOOD").child("USER").child("PENERIMA").child(userID).child("request").setValue("true");
             }
         });
 
@@ -86,7 +85,7 @@ public class Penerima_Main extends AppCompatActivity {
         });
     }
 
-    private void showData(DataSnapshot dataSnapshot) {
+    /*private void showData(DataSnapshot dataSnapshot) {
         for (DataSnapshot ds : dataSnapshot.getChildren()) {
             ProfilePenerima uInfo = new ProfilePenerima();
             uInfo.setNama(ds.child("USER").child("PENERIMA").child(userID).getValue(ProfilePenerima.class).getNama());
@@ -111,7 +110,7 @@ public class Penerima_Main extends AppCompatActivity {
             transaksi = uInfo.getTransaksi();
             verifikasi = uInfo.getVerifikasi();
         }
-    }
+    }*/
     public void out(View view){
         mAuth.signOut();
         Intent mIntent = new Intent(Penerima_Main.this, MainActivity.class);
