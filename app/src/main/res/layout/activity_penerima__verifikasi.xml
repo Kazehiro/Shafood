@@ -7,19 +7,6 @@
     android:background="@color/colorPrimary"
     tools:context=".Penerima_Verifikasi">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="QR Code Generator"
-        android:layout_centerHorizontal="true"
-        android:textSize="15pt"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:layout_centerHorizontal="true"
-        android:text="GENERATE"
-        android:id="@+id/gen_btn"/>
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"

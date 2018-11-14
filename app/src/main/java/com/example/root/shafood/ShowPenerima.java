@@ -52,12 +52,11 @@ public class ShowPenerima extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener mAuthListener;
     private DatabaseReference myRef;
     private String userID;
-    private TextView etNama, etAlamat, etNoTelepon;
+    private TextView etNama,etAlamat,etNoTelepon;
 
     private ListView mListViewPenerima;
     private ImageView ivProfil;
-    private TextView txtclose;
-    private Button btnFollow;
+
 
     private FirebaseStorage storage;
     private StorageReference storageRef;
@@ -75,8 +74,7 @@ public class ShowPenerima extends AppCompatActivity {
         myDialog = new Dialog(this);
 
         mListViewPenerima = (ListView) findViewById(R.id.listviewPenerima);
-        storage = FirebaseStorage.getInstance();
-        storageRef = storage.getReferenceFromUrl("gs://shafood93.appspot.com");
+
         //declare the database reference object. This is what we use to access the database.
         //NOTE: Unless you are signed in, this will not be useable.
         mAuth = FirebaseAuth.getInstance();
@@ -84,6 +82,9 @@ public class ShowPenerima extends AppCompatActivity {
         myRef = mFirebaseDatabase.getReference().child("SHAFOOD").child("USER").child("PENERIMA");
         FirebaseUser user = mAuth.getCurrentUser();
         userID = user.getUid();
+
+        storage = FirebaseStorage.getInstance();
+        storageRef = storage.getReferenceFromUrl("gs://shafood93.appspot.com");
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -118,16 +119,20 @@ public class ShowPenerima extends AppCompatActivity {
 
     public void ShowPopup(View v) {
         System.out.println(Id_Penerima);
+        TextView txtclose;
+        Button btnFollow;
         myDialog.setContentView(R.layout.penerma_popup);
         ivProfil = (ImageView) myDialog.findViewById(R.id.imageViewFotoPenerima);
         etNama = (TextView) myDialog.findViewById(R.id.editTextNamaPenerimaPopup);
         etAlamat = (TextView) myDialog.findViewById(R.id.editTextAlamatPenerimaPopup);
         etNoTelepon = (TextView) myDialog.findViewById(R.id.editTextNoTelpPopup);
+
+
         storageRef.child("Penerima/FotoProfil/" + Id_Penerima).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
+                System.out.println(uri);
                 Glide.with(getApplicationContext()).load(uri).into(ivProfil);
-                System.out.println("Penerima === " + uri);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -136,7 +141,7 @@ public class ShowPenerima extends AppCompatActivity {
             }
         });
 
-        txtclose = (TextView) myDialog.findViewById(R.id.txtclose);
+        txtclose =(TextView) myDialog.findViewById(R.id.txtclose);
         txtclose.setText("X");
         btnFollow = (Button) myDialog.findViewById(R.id.btnfollow);
         etNama.setText(Nama_Penerima);
@@ -242,8 +247,8 @@ public class ShowPenerima extends AppCompatActivity {
                         listalamat.add(Alamat.get(i));
                         listtelepon.add(NoTelepon.get(i));
                     }
-                    i++;
                 }
+                i++;
             }
             mListViewPenerima.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

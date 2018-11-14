@@ -55,7 +55,6 @@
         <activity android:name=".Penerima_Verifikasi" />
         <activity android:name=".lengkapidata_penerima" />
         <activity android:name=".ShowKurir" />
-        <activity android:name=".Scanner_Verifikasi" />
 
         <meta-data
             android:name="io.fabric.ApiKey"
