@@ -296,7 +296,7 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
                 System.out.println("Hasil Scan === " + QrVerifikasi);
                 System.out.println("Hasil DB === " + text2Qr);
                 if (QrVerifikasi.equals(text2Qr)) {
-                    myRef2.addValueEventListener(new ValueEventListener() {
+                    /*myRef2.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             showData2(dataSnapshot);
@@ -306,12 +306,16 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
                         public void onCancelled(@NonNull DatabaseError databaseError) {
 
                         }
-                    });
+                    });*/
                     System.out.println("Transaksi Selesai");
-                    Toast.makeText(Kurir_Main.this, "Selesai", Toast.LENGTH_SHORT).show();
                     //set
+                    Toast.makeText(Kurir_Main.this, "Selesai", Toast.LENGTH_SHORT).show();
                     Transaksi mTransaksi = new Transaksi(text2Qr, Id_Donatur, Id_Penerima, userID, alamat_penerima_lat, alamat_penerima_lng, alamat_donatur_lat, alamat_donatur_lng, nama_donatur, nama_kurir, nama_penerima, nama_barang, kuantitas, "true");
                     myRef2.child("SHAFOOD").child("TRANSAKSI").child(text2Qr).setValue(mTransaksi);
+                    return;
+                }
+                else{
+                    Toast.makeText(Kurir_Main.this, "Kode Tidak Sesuai", Toast.LENGTH_SHORT).show();
                     return;
                 }
             }
@@ -380,6 +384,51 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
     }
 
     private void showData1(Map<String, Object> dataSnapshot) {
+        ArrayList<String> Nm_Donatur = new ArrayList<>();
+        for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
+            Map nm_donatur = (Map) entry.getValue();
+            Nm_Donatur.add((String) nm_donatur.get("nama_donatur"));
+        }
+        ArrayList<String> Nm_Kurir = new ArrayList<>();
+        for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
+            Map nm_kurir = (Map) entry.getValue();
+            Nm_Kurir.add((String) nm_kurir.get("nama_kurir"));
+        }
+        ArrayList<String> Nm_penerima = new ArrayList<>();
+        for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
+            Map nm_penerima = (Map) entry.getValue();
+            Nm_penerima.add((String) nm_penerima.get("nama_penerima"));
+        }
+        ArrayList<String> Lat_donatur = new ArrayList<>();
+        for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
+            Map lat_donatur = (Map) entry.getValue();
+            Lat_donatur.add((String) lat_donatur.get("alamat_donatur_lat"));
+        }
+        ArrayList<String> Lng_donatur = new ArrayList<>();
+        for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
+            Map lng_donatur = (Map) entry.getValue();
+            Lng_donatur.add((String) lng_donatur.get("alamat_donatur_lng"));
+        }
+        ArrayList<String> Lat_Penerima = new ArrayList<>();
+        for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
+            Map lat_penerima = (Map) entry.getValue();
+            Lat_Penerima.add((String) lat_penerima.get("alamat_penerima_lat"));
+        }
+        ArrayList<String> Lng_Penerima = new ArrayList<>();
+        for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
+            Map lng_penerima = (Map) entry.getValue();
+            Lng_Penerima.add((String) lng_penerima.get("alamat_penerima_lng"));
+        }
+        ArrayList<Long> Kuantitas = new ArrayList<>();
+        for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
+            Map kuantitas = (Map) entry.getValue();
+            Kuantitas.add((Long) kuantitas.get("kuantitas"));
+        }
+        ArrayList<String> Barang = new ArrayList<>();
+        for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
+            Map barang = (Map) entry.getValue();
+            Barang.add((String) barang.get("nama_barang"));
+        }
         ArrayList<String> Id_donatur = new ArrayList<>();
         for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
             Map id_donatur = (Map) entry.getValue();
@@ -417,6 +466,15 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
                         text2Qr = Id_transaksi.get(i);
                         Id_Donatur = Id_donatur.get(i);
                         Id_Penerima = Id_penerima.get(i);
+                        alamat_donatur_lat = Lat_donatur.get(i);
+                        alamat_donatur_lng = Lng_donatur.get(i);
+                        alamat_penerima_lat = Lat_Penerima.get(i);
+                        alamat_penerima_lng = Lng_Penerima.get(i);
+                        kuantitas = Integer.parseInt(String.valueOf(Kuantitas.get(i)));
+                        nama_barang = Barang.get(i);
+                        nama_donatur = Nm_Donatur.get(i);
+                        nama_kurir = Nm_Kurir.get(i);
+                        nama_penerima = Nm_penerima.get(i);
                     }
                 }
                 i++;
@@ -424,9 +482,10 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
         }
     }
 
-    private void showData2(DataSnapshot dataSnapshot) {
+    /*private void showData2(DataSnapshot dataSnapshot) {
         for (DataSnapshot ds : dataSnapshot.getChildren()) {
             getTransaksi mGetTransaksi = new getTransaksi();
+            System.out.println("HAHAH ======== "+text2Qr);
             mGetTransaksi.setAlamat_donatur_lat(ds.child("TRANSAKSI").child(text2Qr).getValue(getTransaksi.class).getAlamat_donatur_lat());
             mGetTransaksi.setAlamat_donatur_lng(ds.child("TRANSAKSI").child(text2Qr).getValue(getTransaksi.class).getAlamat_donatur_lng());
             mGetTransaksi.setAlamat_penerima_lat(ds.child("TRANSAKSI").child(text2Qr).getValue(getTransaksi.class).getAlamat_penerima_lat());
@@ -447,8 +506,8 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
             nama_kurir = mGetTransaksi.getNama_kurir();
             nama_penerima = mGetTransaksi.getNama_penerima();
 
-            System.out.println(alamat_donatur_lat + " | " + alamat_donatur_lng + " | " + alamat_penerima_lat + " | " + alamat_penerima_lng + " | " + nama_barang + " | " + kuantitas + " | " + nama_donatur + " | " + nama_kurir + " | " + nama_penerima);
+            System.out.println( mGetTransaksi.getAlamat_donatur_lat() +"|"+alamat_donatur_lat + " | " + alamat_donatur_lng + " | " + alamat_penerima_lat + " | " + alamat_penerima_lng + " | " + nama_barang + " | " + kuantitas + " | " + nama_donatur + " | " + nama_kurir + " | " + nama_penerima);
 
         }
-    }
+    }*/
 }
