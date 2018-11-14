@@ -178,7 +178,7 @@ public class lengkapidata_penerima extends AppCompatActivity implements OnMapRea
                 if (!nama.equals("")) {
                     FirebaseUser user = mAuth.getCurrentUser();
                     String userID = user.getUid();
-                    UserPenerima newUser = new UserPenerima(userID, nama, noIdentitas, nohp, alamat, tanggallahir,latitude,longitude,"false", "false", "false");
+                    UserPenerima newUser = new UserPenerima(userID, nama, noIdentitas, nohp, alamat, tanggallahir,latitude,longitude,"false", "false", "false",4);
                     myRef.child("SHAFOOD").child("USER").child("PENERIMA").child(userID).setValue(newUser);
                     Intent i = new Intent(lengkapidata_penerima.this, Berhasil.class);
                     startActivity(i);
