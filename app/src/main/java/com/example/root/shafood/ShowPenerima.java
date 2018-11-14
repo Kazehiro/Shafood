@@ -83,6 +83,9 @@ public class ShowPenerima extends AppCompatActivity {
         FirebaseUser user = mAuth.getCurrentUser();
         userID = user.getUid();
 
+        storage = FirebaseStorage.getInstance();
+        storageRef = storage.getReferenceFromUrl("gs://shafood93.appspot.com");
+
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -120,7 +123,11 @@ public class ShowPenerima extends AppCompatActivity {
         Button btnFollow;
         myDialog.setContentView(R.layout.penerma_popup);
         ivProfil = (ImageView) myDialog.findViewById(R.id.imageViewFotoPenerima);
-        storageRef = storage.getReferenceFromUrl("gs://shafood93.appspot.com");
+        etNama = (TextView) myDialog.findViewById(R.id.editTextNamaPenerimaPopup);
+        etAlamat = (TextView) myDialog.findViewById(R.id.editTextAlamatPenerimaPopup);
+        etNoTelepon = (TextView) myDialog.findViewById(R.id.editTextNoTelpPopup);
+
+
         storageRef.child("Penerima/FotoProfil/" + Id_Penerima).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
@@ -133,9 +140,7 @@ public class ShowPenerima extends AppCompatActivity {
                 // Handle any errors
             }
         });
-        etNama = (TextView) myDialog.findViewById(R.id.editTextNamaPenerimaPopup);
-        etAlamat = (TextView) myDialog.findViewById(R.id.editTextAlamatPenerimaPopup);
-        etNoTelepon = (TextView) myDialog.findViewById(R.id.editTextNoTelpPopup);
+
         txtclose =(TextView) myDialog.findViewById(R.id.txtclose);
         txtclose.setText("X");
         btnFollow = (Button) myDialog.findViewById(R.id.btnfollow);
@@ -242,8 +247,8 @@ public class ShowPenerima extends AppCompatActivity {
                         listalamat.add(Alamat.get(i));
                         listtelepon.add(NoTelepon.get(i));
                     }
-                    i++;
                 }
+                i++;
             }
             mListViewPenerima.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
