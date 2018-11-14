@@ -112,4 +112,9 @@ public class Penerima_Main extends AppCompatActivity {
             verifikasi = uInfo.getVerifikasi();
         }
     }
+    public void out(View view){
+        mAuth.signOut();
+        Intent mIntent = new Intent(Penerima_Main.this, MainActivity.class);
+        startActivity(mIntent);
+    }
 }
