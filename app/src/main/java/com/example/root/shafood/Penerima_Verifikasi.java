@@ -1,5 +1,6 @@
 package com.example.root.shafood;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -66,11 +67,9 @@ public class Penerima_Verifikasi extends AppCompatActivity {
                 if (user != null) {
                     // User is signed in
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                    toastMessage("Successfully signed in with: " + user.getEmail());
                 } else {
                     // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");
-                    toastMessage("Successfully signed out.");
                 }
             }
         };
@@ -138,8 +137,11 @@ public class Penerima_Verifikasi extends AppCompatActivity {
             BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
             Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
             image.setImageBitmap(bitmap);
-        } catch (WriterException e) {
+        } catch (WriterException | NullPointerException e) {
             e.printStackTrace();
+            toastMessage("Anda Belum Memiliki Pengirim");
+            Intent mIntent = new Intent(Penerima_Verifikasi.this, Penerima_Main.class);
+            startActivity(mIntent);
         }
     }
 
