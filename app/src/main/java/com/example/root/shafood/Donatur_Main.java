@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -187,11 +188,11 @@ public class Donatur_Main extends AppCompatActivity
 
     public void cari(View v) {
         if (TextUtils.isEmpty(etBarang.getText())) {
-            Toast.makeText(this, "Masukan Nama Barang", Toast.LENGTH_LONG).show();
+            showSnackbar(nav_view, "Jumlah Barang", 3000);
             return;
         }
         if (TextUtils.isEmpty(etKuantitas.getText())) {
-            Toast.makeText(this, "Masukan Kuantitas", Toast.LENGTH_LONG).show();
+            showSnackbar(nav_view, "Masukan Kuantitas", 3000);
             return;
         }
         Intent search = new Intent(Donatur_Main.this, ShowPenerima.class);
@@ -248,5 +249,8 @@ public class Donatur_Main extends AppCompatActivity
     private void toastMessage(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
-
+    public void showSnackbar(View view, String message, int duration)
+    {
+        Snackbar.make(view, message, duration).show();
+    }
 }

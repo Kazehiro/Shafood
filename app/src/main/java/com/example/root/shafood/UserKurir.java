@@ -8,8 +8,9 @@ public class UserKurir {
     public String tanggallahir;
     public String noplat;
     public int level;
+    public String status;
 
-    public UserKurir(String id_user, String nama, String nohp, String alamat, String tanggallahir, String noplat, int level) {
+    public UserKurir(String id_user, String nama, String nohp, String alamat, String tanggallahir, String noplat, int level,String status) {
         this.id_user = id_user;
         this.nama = nama;
         this.nohp = nohp;
@@ -17,5 +18,6 @@ public class UserKurir {
         this.tanggallahir = tanggallahir;
         this.noplat = noplat;
         this.level = level;
+        this.status = status;
     }
 }

@@ -108,7 +108,7 @@ public class Berhasil extends AppCompatActivity {
                 System.out.println("kuInfo = " + kuInfo.getLevel());
 
                 if (kuInfo.getLevel() == 3) {
-                    Intent mIntent = new Intent(Berhasil.this, Kurir_Main.class);
+                    Intent mIntent = new Intent(Berhasil.this, Kurir_Main_MAIN.class);
                     startActivity(mIntent);
                 }
 

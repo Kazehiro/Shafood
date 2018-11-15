@@ -16,6 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/white"
+            android:backgroundTint="@color/colorPrimary"
             android:elevation="1dp"
             android:orientation="vertical"
             android:paddingHorizontal="20dp"
@@ -26,17 +27,32 @@
                 android:layout_height="match_parent"
                 android:scrollbars="none">
 
-                <TextView
-                    android:id="@+id/etTitikAwal"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:maxLines="1"
-                    android:onClick="etTitikAwal"
-                    android:paddingLeft="10dp"
-                    android:paddingTop="10dp"
-                    android:paddingRight="230dp"
-                    android:paddingBottom="10dp"
-                    android:text="Masukan Titik Awal" />
+                    android:layout_height="40dp"
+                    android:id="@+id/tempatDonatur">
+
+                    <ImageView
+                        android:id="@+id/img_keDonatur"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@color/colorPrimary"
+                        android:src="@drawable/ic_navigation_black_24dp" />
+
+                    <TextView
+                        android:id="@+id/etTitikAwal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_toRightOf="@+id/img_keDonatur"
+                        android:maxLines="1"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="10dp"
+                        android:paddingRight="155dp"
+                        android:paddingBottom="10dp"
+                        android:text="Navigasi Ke Tempat Donatur"
+                        android:textColor="@color/white" />
+                </RelativeLayout>
+
             </HorizontalScrollView>
 
             <LinearLayout
@@ -53,17 +69,32 @@
                 android:layout_height="wrap_content"
                 android:scrollbars="none">
 
-                <TextView
-                    android:id="@+id/etTitikAkhir"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:maxLines="1"
-                    android:onClick="etTitikAkhir"
-                    android:paddingLeft="10dp"
-                    android:paddingTop="10dp"
-                    android:paddingRight="230dp"
-                    android:paddingBottom="10dp"
-                    android:text="Masukan Titik Akhir" />
+                    android:layout_height="40dp"
+                    android:id="@+id/tempatPenerima">
+
+                    <ImageView
+                        android:id="@+id/img_kePenerima"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@color/colorPrimary"
+                        android:rotation="180"
+                        android:src="@drawable/ic_navigation_black_24dp" />
+
+                    <TextView
+                        android:id="@+id/etTitikAkhir"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/img_kePenerima"
+                        android:maxLines="1"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="10dp"
+                        android:paddingRight="155dp"
+                        android:paddingBottom="10dp"
+                        android:text="Navigasi Ke Lokasi Penerima"
+                        android:textColor="@color/white" />
+                </RelativeLayout>
             </HorizontalScrollView>
 
         </LinearLayout>
@@ -91,11 +122,14 @@
             android:id="@+id/fab_Scan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end|bottom"
-            android:layout_marginBottom="80dp"
-            android:layout_marginLeft="20dp"
             android:layout_alignParentBottom="true"
-            map:srcCompat="@drawable/ic_camera_enhance_black_24dp" />
+            android:layout_gravity="end|bottom"
+            android:layout_marginLeft="20dp"
+            android:layout_marginBottom="80dp"
+            android:background="@color/colorPrimary"
+            android:backgroundTint="@color/colorPrimary"
+            android:rotation="45"
+            android:src="@drawable/ic_camera_enhance_black_24dp" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -108,7 +142,11 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_margin="20dp"
-            map:srcCompat="@drawable/ic_power_settings_new_black_24dp" />
+            android:background="@color/colorPrimary"
+            android:backgroundTint="@color/colorPrimary"
+            android:rotation="45"
+            android:src="@drawable/ic_power_settings_new_black_24dp" />
     </RelativeLayout>
+
 
 </RelativeLayout>
