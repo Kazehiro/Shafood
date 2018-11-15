@@ -1,12 +1,13 @@
 package com.example.root.shafood;
 
 public class ProfileKurir {
-        private String nama;
-        private String nohp;
-        private String alamat;
-        private String tanggallahir;
-        private String noplat;
-        private int level;
+    private String nama;
+    private String nohp;
+    private String alamat;
+    private String tanggallahir;
+    private String noplat;
+    private int level;
+    private String status;
 
     public String getNama() {
         return nama;
@@ -54,5 +55,13 @@ public class ProfileKurir {
 
     public void setLevel(int level) {
         this.level = level;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

@@ -184,7 +184,7 @@ public class lengkapidata_kurir extends AppCompatActivity {
                 if (!nama.equals("")) {
                     FirebaseUser user = mAuth.getCurrentUser();
                     String userID = user.getUid();
-                    UserKurir newUser = new UserKurir(userID, nama, nohp, alamat, tanggallahir, noPlat, 3);
+                    UserKurir newUser = new UserKurir(userID, nama, nohp, alamat, tanggallahir, noPlat, 3,"true");
                     myRef.child("SHAFOOD").child("USER").child("KURIR").child(userID).setValue(newUser);
                     Intent i = new Intent(lengkapidata_kurir.this, Berhasil.class);
                     startActivity(i);

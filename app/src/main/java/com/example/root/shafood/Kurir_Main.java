@@ -8,8 +8,10 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -17,6 +19,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -118,7 +121,7 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
     private final int REQUEST_CODE_CAMERA_IDENTITAS = 001;
 
     ImageButton imageBtnScan;
-
+    private RelativeLayout tempatDonatur,tempatPenerima;
     TextView etTitikAwal, etTitikAkhir;
     private PlaceAutocomplete mPlaceAutocomplete;
 
@@ -138,6 +141,8 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
         myRef2 = mFirebaseDatabase.getReference().child("SHAFOOD").child("USER").child("PENERIMA");
         FirebaseUser user = mAuth.getCurrentUser();
         userID = user.getUid();
+        tempatDonatur = (RelativeLayout) findViewById(R.id.tempatDonatur);
+        tempatPenerima = (RelativeLayout) findViewById(R.id.tempatPenerima);
         widgetInit();
 
         myRef1.addValueEventListener(new ValueEventListener() {
@@ -172,6 +177,39 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
                 integrator.setCaptureActivity(Capture_Scanner.class);
                 integrator.setBarcodeImageEnabled(false);
                 integrator.initiateScan();
+            }
+        });
+
+
+        tempatDonatur.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (latlngDonatur != null){
+                    Uri nav = Uri.parse("google.navigation:q="+latlngDonatur.latitude+","+latlngDonatur.longitude+"&avoid=tf");
+                    Intent mIntent = new Intent(Intent.ACTION_VIEW , nav);
+                    mIntent.setPackage("com.google.android.apps.maps");
+                    System.out.println("INI NAV Donatur ======== "+nav);
+                    startActivity(mIntent);
+                }else {
+                    Toast.makeText(Kurir_Main.this,"Anda Belum Memiliki Order",Toast.LENGTH_SHORT).show();
+                    Snackbar.make(view,"Anda Belum Memiliki Order",3000);
+                }
+            }
+        });
+
+        tempatPenerima.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (latlngPenerima != null){
+                    Uri nav = Uri.parse("google.navigation:q="+latlngPenerima.latitude+","+latlngPenerima.longitude+"&avoid=tf");
+                    Intent mIntent = new Intent(Intent.ACTION_VIEW,nav);
+                    mIntent.setPackage("com.google.android.apps.maps");
+                    System.out.println("INI NAV Penerima ======== "+nav);
+                    startActivity(mIntent);
+                }else {
+                    Toast.makeText(Kurir_Main.this,"Anda Belum Memiliki Order",Toast.LENGTH_SHORT).show();
+                    Snackbar.make(view,"Anda Belum Memiliki Order",3000);
+                }
             }
         });
 
@@ -218,7 +256,7 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
             System.out.println(Lat.get(i) + "," + Lng.get(i));
             Double lat = Double.parseDouble(Lat.get(i));
             Double lng = Double.parseDouble(Lng.get(i));
-            LatLng mLatLng = new LatLng(lat, lng);
+            LatLng mLatLng = new LatLng(lat, lng);cd
 
             mMap.addMarker(new MarkerOptions().position(mLatLng).title(Nama.get(i)));
             i++;
@@ -366,31 +404,6 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
                 Toast.makeText(this, "Invalid Place !", Toast.LENGTH_SHORT).show();
             }
         }
-    }
-
-
-    public void etTitikAwal(View v) {
-
-    }
-
-    public void etTitikAkhir(View v) {
-        showPlaceAutoComplete(DEST_LOC);
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (backPressedTime + 2000 > System.currentTimeMillis()) {
-            backToast.cancel();
-            super.onBackPressed();
-            Intent intent = new Intent(Kurir_Main.this, MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            intent.putExtra("EXIT", true);
-            startActivity(intent);
-        } else {
-            backToast = Toast.makeText(getBaseContext(), "Tekan Lagi Untuk Keluar", Toast.LENGTH_SHORT);
-            backToast.show();
-        }
-        backPressedTime = System.currentTimeMillis();
     }
 
     private void showData1(Map<String, Object> dataSnapshot) {
