@@ -130,7 +130,7 @@ public class Berhasil extends AppCompatActivity {
                 System.out.println("kuInfo = " + peInfo.getLevel());
 
                 if (peInfo.getLevel() == 4) {
-                    if(peInfo.getVerifikasi() == "true"){
+                    if(peInfo.getVerifikasi().equals("true")){
                         Intent mIntent = new Intent(Berhasil.this, Penerima_Main.class);
                         startActivity(mIntent);
                     } else{

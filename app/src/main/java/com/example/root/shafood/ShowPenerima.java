@@ -52,7 +52,7 @@ public class ShowPenerima extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener mAuthListener;
     private DatabaseReference myRef;
     private String userID;
-    private TextView etNama,etAlamat,etNoTelepon;
+    private TextView etNama,etAlamat,etNoTelepon,etNarasi;
 
     private ListView mListViewPenerima;
     private ImageView ivProfil;
@@ -62,7 +62,7 @@ public class ShowPenerima extends AppCompatActivity {
     private StorageReference storageRef;
 
     //Deklarasi Biodata Penerima
-    private String Barang, Kuantitas, NamaDonatur, Id_Donatur, Lat_Donatur, Lng_Donatur, Id_Penerima, Lat_Penerima, Lng_Penerima, Nama_Penerima, Alamat_Penerima, TeleponPenerima;
+    private String Barang, Kuantitas, NamaDonatur, Id_Donatur, Lat_Donatur, Lng_Donatur, Id_Penerima, Lat_Penerima, Lng_Penerima, Nama_Penerima, Alamat_Penerima, TeleponPenerima, Narasi;
 
     Dialog myDialog;
 
@@ -126,6 +126,7 @@ public class ShowPenerima extends AppCompatActivity {
         etNama = (TextView) myDialog.findViewById(R.id.editTextNamaPenerimaPopup);
         etAlamat = (TextView) myDialog.findViewById(R.id.editTextAlamatPenerimaPopup);
         etNoTelepon = (TextView) myDialog.findViewById(R.id.editTextNoTelpPopup);
+        etNarasi = (TextView) myDialog.findViewById(R.id.editTextDescPopup);
 
 
         storageRef.child("Penerima/FotoProfil/" + Id_Penerima).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -147,6 +148,7 @@ public class ShowPenerima extends AppCompatActivity {
         etNama.setText(Nama_Penerima);
         etAlamat.setText(Alamat_Penerima);
         etNoTelepon.setText(TeleponPenerima);
+        etNarasi.setText(Narasi);
         btnFollow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -215,6 +217,16 @@ public class ShowPenerima extends AppCompatActivity {
             Map notelepon = (Map) entry.getValue();
             NoTelepon.add((String) notelepon.get("nohp"));
         }
+        final ArrayList<String> Desc = new ArrayList<>();
+        for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
+            Map desc = (Map) entry.getValue();
+            Desc.add((String) desc.get("narasi"));
+        }
+        final ArrayList<String> Verifikasi = new ArrayList<>();
+        for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
+            Map verifikasi = (Map) entry.getValue();
+            Verifikasi.add((String) verifikasi.get("verifikasi"));
+        }
         int i = 0;
         final ArrayList<String> listNama = new ArrayList<>();
         final ArrayList<String> listId = new ArrayList<>();
@@ -222,16 +234,20 @@ public class ShowPenerima extends AppCompatActivity {
         final ArrayList<String> listLng = new ArrayList<>();
         final ArrayList<String> listalamat = new ArrayList<>();
         final ArrayList<String> listtelepon = new ArrayList<>();
+        final ArrayList<String> listNarasi= new ArrayList<>();
         if (Nama != null) {
             while (Nama.size() > i) {
                 if (Request.get(i).equals("true")) {
                     if (Transaksi.get(i).equals("false")) {
-                        listNama.add(Nama.get(i));
-                        listId.add(Id_penerima.get(i));
-                        listLat.add(Lat.get(i));
-                        listLng.add(Lng.get(i));
-                        listalamat.add(Alamat.get(i));
-                        listtelepon.add(NoTelepon.get(i));
+                        if (Verifikasi.get(i).equals("true")){
+                            listNama.add(Nama.get(i));
+                            listId.add(Id_penerima.get(i));
+                            listLat.add(Lat.get(i));
+                            listLng.add(Lng.get(i));
+                            listalamat.add(Alamat.get(i));
+                            listtelepon.add(NoTelepon.get(i));
+                            listNarasi.add(Desc.get(i));
+                        }
                     }
                 }
                 i++;
@@ -240,12 +256,15 @@ public class ShowPenerima extends AppCompatActivity {
             while (Nama.size() > i) {
                 if (Request.get(i).equals("false")) {
                     if (Transaksi.get(i).equals("false")) {
-                        listNama.add(Nama.get(i));
-                        listId.add(Id_penerima.get(i));
-                        listLat.add(Lat.get(i));
-                        listLng.add(Lng.get(i));
-                        listalamat.add(Alamat.get(i));
-                        listtelepon.add(NoTelepon.get(i));
+                        if (Verifikasi.get(i).equals("true")) {
+                            listNama.add(Nama.get(i));
+                            listId.add(Id_penerima.get(i));
+                            listLat.add(Lat.get(i));
+                            listLng.add(Lng.get(i));
+                            listalamat.add(Alamat.get(i));
+                            listtelepon.add(NoTelepon.get(i));
+                            listNarasi.add(Desc.get(i));
+                        }
                     }
                 }
                 i++;
@@ -264,6 +283,7 @@ public class ShowPenerima extends AppCompatActivity {
                     Nama_Penerima = listNama.get(position);
                     Alamat_Penerima = listalamat.get(position);
                     TeleponPenerima = listtelepon.get(position);
+                    Narasi = listNarasi.get(position);
                     ShowPopup(view);
 
                 }
