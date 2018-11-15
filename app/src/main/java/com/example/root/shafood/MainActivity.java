@@ -37,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
     // UI references.
     private EditText mEmail, mPassword;
     private Button btnSignIn;
+    private FirebaseAuth firebaseAuth;
+    ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,20 +55,19 @@ public class MainActivity extends AppCompatActivity {
 
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
+            private View view;
+
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     // User is signed in
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                    toastMessage("Successfully signed in with: " + user.getEmail());
-
                     Intent i = new Intent(MainActivity.this, Berhasil.class);
                     MainActivity.this.startActivity(i);
                 } else {
                     // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");
-                    toastMessage("Successfully signed out.");
                 }
             }
         };
@@ -81,9 +82,6 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     showSnackbar(view, "Harap isi semua kolom", 3000);
                     return;
-                }
-                if (mAuth.getUid() == null) {
-                    showSnackbar(view, "Email atau password salah", 3000);
                 }
 
                 progressDialog.setMax(100);
@@ -126,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
 
     public void register(View view) {
         Intent register = new Intent(MainActivity.this, Register.class);
@@ -173,7 +172,6 @@ public class MainActivity extends AppCompatActivity {
         }
         backPressedTime = System.currentTimeMillis();
     }
-
     public void showSnackbar(View view, String message, int duration) {
         Snackbar.make(view, message, duration).show();
     }
