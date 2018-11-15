@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -178,9 +179,25 @@ public class lengkapidata_kurir extends AppCompatActivity {
                 String tanggallahir = editTextTanggalLahir.getText().toString().trim();
                 String noPlat = editTextNoPlat.getText().toString().trim();
                 Log.d("ISI ====", nama + " , " + nohp + " , " + alamat + " , " + tanggallahir + " , " + " , " + noPlat);
-                uploadImageIdentitas();
-                uploadImageSTNK();
-                uploadImageSIM();
+
+                if (filePath1 == null && filePath2 == null && filePath3 == null){
+                    showSnackbar(v, "Harap Lengkapi Foto", 3000);
+                    return;
+                }else if (filePath1 == null){
+                    showSnackbar(v, "Harap Lengkapi Foto Profil", 3000);
+                    return;
+                }else if(filePath2 == null) {
+                    showSnackbar(v, "Harap Lengkapi Foto STNK", 3000);
+                    return;
+                }else if(filePath3 == null){
+                        showSnackbar(v, "Harap Lengkapi Foto SIM", 3000);
+                        return;
+                }else {
+                    uploadImageIdentitas();
+                    uploadImageSTNK();
+                    uploadImageSIM();
+                }
+
                 if (!nama.equals("")) {
                     FirebaseUser user = mAuth.getCurrentUser();
                     String userID = user.getUid();
@@ -464,5 +481,7 @@ public class lengkapidata_kurir extends AppCompatActivity {
      * customizable toast
      * @param message
      */
-
+    public void showSnackbar(View v, String message, int duration) {
+        Snackbar.make(v, message, duration).show();
+    }
 }

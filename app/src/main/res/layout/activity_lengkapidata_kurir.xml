@@ -150,6 +150,7 @@
                         android:background="@color/editTextBG"
                         android:hint="No.HandPhone"
                         android:inputType="phone"
+                        android:maxLength="13"
                         android:paddingLeft="20dp"
                         android:textSize="15sp" />
                 </RelativeLayout>
@@ -218,7 +219,6 @@
                         android:layout_toRightOf="@+id/imgView_noplatIcon"
                         android:background="@color/editTextBG"
                         android:hint="Plat Nomor"
-
                         android:paddingLeft="20dp"
                         android:textSize="15sp" />
                 </RelativeLayout>
