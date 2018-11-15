@@ -95,6 +95,7 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
     private String nama_penerima;
     private String nama_barang;
     private int kuantitas;
+    private Double LatPenerima, LngPenerima, LatDonatur, LngDonatur;
 
     private String QrVerifikasi;
     private int level;
@@ -107,6 +108,7 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
     private static int REQUEST_CODE = 0;
     public LatLng pickUpLatLng = null;
     public LatLng locationLatLng = null;
+    private LatLng latlngPenerima, latlngDonatur;
     private static final int LOCATION_REQUEST = 500;
     private FloatingActionButton fab_Scan, fab_Logout;
 
@@ -125,6 +127,7 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kurir__main);
+        System.out.println("Cycle CREATE");
 
         fab_Logout = (FloatingActionButton) findViewById(R.id.fab_Logout);
         fab_Scan = (FloatingActionButton) findViewById(R.id.fab_Scan);
@@ -137,7 +140,6 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
         FirebaseUser user = mAuth.getCurrentUser();
         userID = user.getUid();
         widgetInit();
-
 
         myRef1.addValueEventListener(new ValueEventListener() {
             @Override
@@ -179,8 +181,7 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
-        myRef.addValueEventListener(new ValueEventListener() {
+        /*myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
@@ -192,12 +193,12 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
             public void onCancelled(DatabaseError databaseError) {
 
             }
-        });
+        });*/
 
+        showMarker(latlngDonatur, latlngPenerima);
     }
 
-
-    private void showData(Map<String, Object> dataSnapshot) {
+    /*private void showData(Map<String, Object> dataSnapshot) {
         ArrayList<String> Lat = new ArrayList<>();
         for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
             Map lat = (Map) entry.getValue();
@@ -223,7 +224,7 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
             mMap.addMarker(new MarkerOptions().position(mLatLng).title(Nama.get(i)));
             i++;
         }
-    }
+    }*/
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -247,6 +248,9 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
         LatLng indonesia = new LatLng(lat, lng);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(indonesia));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(indonesia, 5));
+
+        //
+
 
     }
 
@@ -316,13 +320,12 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
                     myRef1.child(text2Qr).child("success").setValue("true");
                     myRef.child(Id_Penerima).child("transaksi").setValue("true");
                     return;
-                }else if (QrVerifikasi.equals(Id_Penerima)){
+                } else if (QrVerifikasi.equals(Id_Penerima)) {
                     myRef1.child(text2Qr).child("success").setValue("true");
                     myRef.child(Id_Penerima).child("transaksi").setValue("true");
                     Toast.makeText(Kurir_Main.this, "Selesai", Toast.LENGTH_SHORT).show();
                     return;
-                }
-                else {
+                } else {
                     Toast.makeText(Kurir_Main.this, "Kode Tidak Sesuai", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -488,6 +491,19 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
                 i++;
             }
         }
+        try {
+            LatPenerima = Double.parseDouble(alamat_penerima_lat);
+            LngPenerima = Double.parseDouble(alamat_penerima_lng);
+            LatDonatur = Double.parseDouble(alamat_donatur_lat);
+            LngDonatur = Double.parseDouble(alamat_donatur_lng);
+            latlngDonatur = new LatLng(LatDonatur, LngDonatur);
+            latlngPenerima = new LatLng(LatPenerima, LngPenerima);
+            System.out.println("HAI DADANGGGGGG ======= " + latlngDonatur + " | " + latlngPenerima + " | " + nama_donatur + " | " + nama_penerima);
+            showMarker(latlngDonatur, latlngPenerima);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+
     }
 
     /*private void showData2(DataSnapshot dataSnapshot) {
@@ -514,4 +530,29 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
             request = mUpdate_penerima.getRequest();
         }
     }*/
+
+    public LatLng showMarker(LatLng latlngDonatur, LatLng latlngPenerima) {
+        try {
+            System.out.println("MANTABSSSSSSSSS ======= " + latlngDonatur + " | " + latlngPenerima + " | ");
+            mMap.addMarker(new MarkerOptions().position(latlngPenerima).title("Penerima").snippet(nama_penerima));
+            mMap.addMarker(new MarkerOptions().position(latlngDonatur).title("Donatur").snippet(nama_donatur));
+        } catch (IllegalArgumentException | NullPointerException e) {
+            e.printStackTrace();
+        }
+        return latlngDonatur;
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        showMarker(latlngDonatur, latlngPenerima);
+        System.out.println("Cycle Start");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        showMarker(latlngDonatur, latlngPenerima);
+        System.out.println("Cycle RESUME");
+    }
 }
