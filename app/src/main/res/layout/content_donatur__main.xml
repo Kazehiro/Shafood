@@ -114,7 +114,7 @@
                         android:layout_toRightOf="@+id/imgView_kuantitasIcon"
                         android:background="@color/editTextBG"
                         android:hint="Jumlah Barang "
-                        android:inputType="textEmailAddress"
+                        android:inputType="phone"
                         android:paddingLeft="20dp"
                         android:textSize="15sp" />
 
