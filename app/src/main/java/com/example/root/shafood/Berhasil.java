@@ -125,12 +125,17 @@ public class Berhasil extends AppCompatActivity {
             ProfilePenerima peInfo = new ProfilePenerima();
             try {
 
-                peInfo.setLevel(ds.child("USER").child("PENERIMA").child(userID).getValue(ProfileKurir.class).getLevel());
+                peInfo.setLevel(ds.child("USER").child("PENERIMA").child(userID).getValue(ProfilePenerima.class).getLevel());
+                peInfo.setVerifikasi(ds.child("USER").child("PENERIMA").child(userID).getValue(ProfilePenerima.class).getVerifikasi());
                 System.out.println("kuInfo = " + peInfo.getLevel());
 
                 if (peInfo.getLevel() == 4) {
-                    Intent mIntent = new Intent(Berhasil.this, Penerima_Main.class);
-                    startActivity(mIntent);
+                    if(peInfo.getVerifikasi() == "true"){
+                        Intent mIntent = new Intent(Berhasil.this, Penerima_Main.class);
+                        startActivity(mIntent);
+                    } else{
+                        toastMessage("Akun Anda Belum Ter-Verifikasi");
+                    }
                 }
 
 

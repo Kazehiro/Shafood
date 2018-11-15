@@ -17,14 +17,15 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 
+import com.mukeshsolanki.sociallogin.google.GoogleHelper;
+import com.mukeshsolanki.sociallogin.google.GoogleListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements GoogleListener {
+    GoogleHelper mGoogle;
     private static final String TAG = "MainActivity";
 
     private FirebaseAuth mAuth;
@@ -38,7 +39,13 @@ public class MainActivity extends AppCompatActivity {
     private EditText mEmail, mPassword;
     private Button btnSignIn;
     private FirebaseAuth firebaseAuth;
-    ;
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+        mGoogle.onActivityResult(requestCode,resultCode,data);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +59,18 @@ public class MainActivity extends AppCompatActivity {
         btnSignIn = (Button) findViewById(R.id.email_sign_in_button);
         mAuth = FirebaseAuth.getInstance();
         progressDialog = new ProgressDialog(this);
+
+        mGoogle = new GoogleHelper(this, this, null);
+
+
+        Button btnGoogle;
+        btnGoogle = (Button) findViewById(R.id.btnGoogle);
+        btnGoogle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mGoogle.performSignIn(MainActivity.this);
+            }
+        });
 
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -174,5 +193,23 @@ public class MainActivity extends AppCompatActivity {
     }
     public void showSnackbar(View view, String message, int duration) {
         Snackbar.make(view, message, duration).show();
+    }
+
+    @Override
+    public void onGoogleAuthSignIn(String authToken, String userId) {
+        Toast.makeText(this, ""+userId, Toast.LENGTH_SHORT).show();
+        System.out.println(userId);
+    }
+
+    @Override
+    public void onGoogleAuthSignInFailed(String errorMessage) {
+        Toast.makeText(this, ""+errorMessage, Toast.LENGTH_SHORT).show();
+        System.out.println("GAGAl Login uy");
+    }
+
+    @Override
+    public void onGoogleAuthSignOut() {
+        Toast.makeText(this, "Sign Out", Toast.LENGTH_SHORT).show();
+        System.out.println("signOut Wa");
     }
 }
