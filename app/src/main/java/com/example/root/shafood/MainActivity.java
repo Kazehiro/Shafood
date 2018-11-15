@@ -78,12 +78,11 @@ public class MainActivity extends AppCompatActivity {
                 String pass = mPassword.getText().toString();
                 if (!email.equals("") && !pass.equals("")) {
                     mAuth.signInWithEmailAndPassword(email, pass);
+                } else {
+                    showSnackbar(view, "Harap isi semua kolom", 3000);
+                    return;
                 }
-                    else{
-                        showSnackbar(view, "Harap isi semua kolom", 3000);
-                        return;
-                    }
-                if (mAuth.getUid() == null){
+                if (mAuth.getUid() == null) {
                     showSnackbar(view, "Email atau password salah", 3000);
                 }
 
@@ -105,18 +104,18 @@ public class MainActivity extends AppCompatActivity {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        while (progressStatus < 100){
+                        while (progressStatus < 100) {
                             progressStatus += 1;
                             try {
                                 Thread.sleep(10);
-                            }catch (InterruptedException e){
+                            } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
                             handle.post(new Runnable() {
                                 @Override
                                 public void run() {
                                     progressDialog.setProgress(progressStatus);
-                                    if (progressStatus == 100){
+                                    if (progressStatus == 100) {
                                         progressDialog.dismiss();
                                     }
                                 }
@@ -174,8 +173,8 @@ public class MainActivity extends AppCompatActivity {
         }
         backPressedTime = System.currentTimeMillis();
     }
-    public void showSnackbar(View view, String message, int duration)
-    {
+
+    public void showSnackbar(View view, String message, int duration) {
         Snackbar.make(view, message, duration).show();
     }
 }

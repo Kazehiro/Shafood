@@ -30,7 +30,7 @@ public class Transaksi {
              String nama_penerima,
              String nama_barang,
              int kuantitas,
-             String success){
+             String success) {
         this.id_transaksi = id_transaksi;
         this.id_donatur = id_donatur;
         this.id_kurir = id_kurir;

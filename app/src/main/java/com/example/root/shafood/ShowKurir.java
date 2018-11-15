@@ -116,6 +116,7 @@ public class ShowKurir extends AppCompatActivity {
                 String NamaKurir = Nama.get(position);
                 String Id_Kurir = Id_kurir.get(position);
                 int Kuantitas = Integer.parseInt(SKuantitas);
+                System.out.println(Barang + " | " + Kuantitas + " | " + NamaDonatur + " | " + NamaPenerima + " | " + Id_Donatur + " | " + Id_Penerima + " | " + Lat_Donatur + " | " + Lng_Donatur + " | " + Lat_Penerima + " | " + Lng_Penerima + " | " + NamaKurir + " | " + Id_Kurir);
                 toastMessage(Barang + " | " + Kuantitas + " | " + NamaDonatur + " | " + NamaPenerima + " | " + Id_Donatur + " | " + Id_Penerima + " | " + Lat_Donatur + " | " + Lng_Donatur + " | " + Lat_Penerima + " | " + Lng_Penerima + " | " + NamaKurir + " | " + Id_Kurir);
                 Long tsLong = System.currentTimeMillis() / 1000;
                 String ts = tsLong.toString();
