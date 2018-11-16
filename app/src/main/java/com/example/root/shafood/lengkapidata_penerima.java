@@ -416,6 +416,7 @@ public class lengkapidata_penerima extends AppCompatActivity implements OnMapRea
     public void showPlaceAutoComplete(int typeLocation) {
         REQUEST_CODE = typeLocation;
         AutocompleteFilter typeFilter = new AutocompleteFilter.Builder().setCountry("ID").build();
+        AutocompleteFilter filter = new AutocompleteFilter.Builder().setTypeFilter(AutocompleteFilter.TYPE_FILTER_CITIES).setCountry("ID").build();
         try {
             Intent mIntent = new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
                     .setFilter(typeFilter)

@@ -1,11 +1,17 @@
 package com.example.root.shafood;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -15,6 +21,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,7 +39,9 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-public class Kurir_Main_MAIN extends AppCompatActivity {
+public class Kurir_Main_MAIN extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener,
+        LocationListener {
 
     private TextView nama;
     private ImageView check;
@@ -40,11 +54,20 @@ public class Kurir_Main_MAIN extends AppCompatActivity {
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-    private DatabaseReference myRef;
+    private DatabaseReference myRef, myRef2;
     private String userID, namaProfile;
     private FirebaseStorage storage;
     private StorageReference storageRef;
     private String status = "true";
+    private static final int MY_PERMISSION_REQUEST_CODE = 7171;
+    private static final int PLAY_SERVICES_RES_REQUEST = 7172;
+    private LocationRequest mLocationRequest;
+    private GoogleApiClient mGoogleApiClient;
+    private Location mLastLocation;
+
+    private static int UPDATE_INTERVAL = 5000;
+    private static int FASTEST_INTERVAL = 3000;
+    private static int DISTANCE = 10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +84,7 @@ public class Kurir_Main_MAIN extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         myRef = mFirebaseDatabase.getReference();
+        myRef2 = mFirebaseDatabase.getReference().child("SHAFOOD").child("USER").child("KURIR");
         FirebaseUser user = mAuth.getCurrentUser();
         userID = user.getUid();
         System.out.println("INI UID ======== " + userID);
@@ -119,6 +143,9 @@ public class Kurir_Main_MAIN extends AppCompatActivity {
 
             }
         });
+        buildGoogleApiClient();
+        updateLokasi();
+        createLocationRequest();
     }
 
     private void showData(DataSnapshot dataSnapshot) {
@@ -165,6 +192,8 @@ public class Kurir_Main_MAIN extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        if (mGoogleApiClient != null)
+            mGoogleApiClient.connect();
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -181,7 +210,7 @@ public class Kurir_Main_MAIN extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        myRef.addValueEventListener(new ValueEventListener() {
+        myRef.removeEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 showData(dataSnapshot);
@@ -197,6 +226,7 @@ public class Kurir_Main_MAIN extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        checkPlayServices();
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -210,5 +240,120 @@ public class Kurir_Main_MAIN extends AppCompatActivity {
         });
     }
 
+    private boolean checkPlayServices() {
+        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
+                GooglePlayServicesUtil.getErrorDialog(resultCode, this, PLAY_SERVICES_RES_REQUEST).show();
+            } else {
+                Toast.makeText(this, "This Device is not supported", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+            return false;
+        }
+        return true;
+    }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (mGoogleApiClient != null)
+            mGoogleApiClient.disconnect();
+        System.out.println("INI ON STOP");
+        myRef.removeEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                showData(dataSnapshot);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        System.out.println("INI ON Destroy");
+        myRef.removeEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                showData(dataSnapshot);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void buildGoogleApiClient() {
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API).build();
+        mGoogleApiClient.connect();
+    }
+
+    private void updateLokasi() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        if (mLastLocation != null) {
+            //Update to firebase
+            myRef2.child(userID)
+                    .child("latitude").setValue(mLastLocation.getLatitude());
+            myRef2.child(userID)
+                    .child("longitude").setValue(mLastLocation.getLongitude());
+        } else {
+            //Toast.makeText(this, "Couldn't get the location",Toast.LENGTH_SHORT).show();
+            Log.d("TEST", "Couldn't load location");
+        }
+    }
+
+    private void createLocationRequest() {
+        mLocationRequest = new LocationRequest();
+        mLocationRequest.setInterval(UPDATE_INTERVAL);
+        mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
+        mLocationRequest.setSmallestDisplacement(DISTANCE);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        updateLokasi();
+        startLocationUpdates();
+
+    }
+
+    private void startLocationUpdates() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+        mGoogleApiClient.connect();
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        mLastLocation = location;
+        updateLokasi();
+
+    }
 }

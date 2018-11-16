@@ -8,6 +8,9 @@ public class ProfileKurir {
     private String noplat;
     private int level;
     private String status;
+    private int jumlah_narik;
+    private Double latitude;
+    private Double longitude;
 
     public String getNama() {
         return nama;
@@ -63,5 +66,30 @@ public class ProfileKurir {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+
+    public int getJumlah_narik() {
+        return jumlah_narik;
+    }
+
+    public void setJumlah_narik(int jumlah_narik) {
+        this.jumlah_narik = jumlah_narik;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
     }
 }

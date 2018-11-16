@@ -27,6 +27,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -71,6 +72,8 @@ public class ShowPenerima extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_penerima);
 
+        System.out.println("HAHA INI CREATE");
+
         myDialog = new Dialog(this);
 
         mListViewPenerima = (ListView) findViewById(R.id.listviewPenerima);
@@ -107,6 +110,7 @@ public class ShowPenerima extends AppCompatActivity {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
                 showData((Map<String, Object>) dataSnapshot.getValue());
+
             }
 
             @Override
@@ -114,6 +118,8 @@ public class ShowPenerima extends AppCompatActivity {
 
             }
         });
+
+
 
     }
 
@@ -298,6 +304,8 @@ public class ShowPenerima extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         mAuth.addAuthStateListener(mAuthListener);
+
+        System.out.println("HAHA INI START");
     }
 
     @Override
@@ -306,8 +314,21 @@ public class ShowPenerima extends AppCompatActivity {
         if (mAuthListener != null) {
             mAuth.removeAuthStateListener(mAuthListener);
         }
+
+        System.out.println("HAHA INI STOP");
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        System.out.println("HAHA INI RESUME");
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        System.out.println("HAHA INI PAUSE");
+    }
 
     /**
      * customizable toast
@@ -316,5 +337,15 @@ public class ShowPenerima extends AppCompatActivity {
      */
     private void toastMessage(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    private void showLatLng(DataSnapshot dataSnapshot) {
+        for (DataSnapshot ds : dataSnapshot.getChildren()) {
+            ProfileDonatur PDonatur = new ProfileDonatur();
+            PDonatur.setLatitude(ds.child("USER").child("DONATUR").child(userID).getValue(ProfileDonatur.class).getLatitude());
+            PDonatur.setLongitude(ds.child("USER").child("DONATUR").child(userID).getValue(ProfileDonatur.class).getLongitude());
+            System.out.println(PDonatur.getLatitude());
+            System.out.println(PDonatur.getLongitude());
+        }
     }
 }
