@@ -16,7 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
-
+import com.firebase.ui.auth.AuthUI;
 
 import com.mukeshsolanki.sociallogin.google.GoogleHelper;
 import com.mukeshsolanki.sociallogin.google.GoogleListener;
@@ -24,7 +24,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 
-public class MainActivity extends AppCompatActivity implements GoogleListener {
+public class MainActivity extends AppCompatActivity {
     GoogleHelper mGoogle;
     private static final String TAG = "MainActivity";
 
@@ -34,18 +34,15 @@ public class MainActivity extends AppCompatActivity implements GoogleListener {
     private long backPressedTime;
     private Toast backToast;
     private int progressStatus = 0;
+    private final static int LOGIN_PERMISSION=1000;
 
     // UI references.
     private EditText mEmail, mPassword;
     private Button btnSignIn;
+    private Button btnGoogle;;
     private FirebaseAuth firebaseAuth;
 
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
-        super.onActivityResult(requestCode, resultCode, data);
-        mGoogle.onActivityResult(requestCode,resultCode,data);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,18 +54,17 @@ public class MainActivity extends AppCompatActivity implements GoogleListener {
         mEmail = (EditText) findViewById(R.id.email);
         mPassword = (EditText) findViewById(R.id.password);
         btnSignIn = (Button) findViewById(R.id.email_sign_in_button);
+        btnGoogle = (Button) findViewById(R.id.btnGoogle);
         mAuth = FirebaseAuth.getInstance();
         progressDialog = new ProgressDialog(this);
-
-        mGoogle = new GoogleHelper(this, this, null);
-
-
-        Button btnGoogle;
-        btnGoogle = (Button) findViewById(R.id.btnGoogle);
-        btnGoogle.setOnClickListener(new View.OnClickListener() {
+        btnGoogle.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View v) {
-                mGoogle.performSignIn(MainActivity.this);
+            public void onClick(View v){
+                startActivityForResult(
+                        AuthUI.getInstance().createSignInIntentBuilder()
+                                .setIsSmartLockEnabled(true)
+                                .build(),LOGIN_PERMISSION
+                );
             }
         });
 
@@ -196,20 +192,22 @@ public class MainActivity extends AppCompatActivity implements GoogleListener {
     }
 
     @Override
-    public void onGoogleAuthSignIn(String authToken, String userId) {
-        Toast.makeText(this, ""+userId, Toast.LENGTH_SHORT).show();
-        System.out.println(userId);
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == LOGIN_PERMISSION)
+        {
+            startNewActivity(resultCode,data);
+        }
     }
-
-    @Override
-    public void onGoogleAuthSignInFailed(String errorMessage) {
-        Toast.makeText(this, ""+errorMessage, Toast.LENGTH_SHORT).show();
-        System.out.println("GAGAl Login uy");
-    }
-
-    @Override
-    public void onGoogleAuthSignOut() {
-        Toast.makeText(this, "Sign Out", Toast.LENGTH_SHORT).show();
-        System.out.println("signOut Wa");
+    private void startNewActivity(int resultCode, Intent data) {
+        if (resultCode == RESULT_OK)
+        {
+            Intent intent = new Intent(MainActivity.this,Berhasil.class);
+            startActivity(intent);
+            finish();
+        }
+        else
+        {
+            Toast.makeText(this, "Login Failed !!!", Toast.LENGTH_SHORT).show();
+        }
     }
 }
