@@ -29,7 +29,7 @@
                 android:layout_marginTop="40dp"
                 android:layout_marginBottom="40dp"
                 android:fontFamily="sans-serif-medium"
-                android:text="Akun Anda"
+                android:text="Profile"
                 android:textColor="@color/white"
                 android:textSize="22sp" />
 
@@ -84,7 +84,7 @@
             android:layout_marginStart="10dp"
             android:text="Nama : "
             android:textColor="@color/white"
-            android:textSize="20sp"
+            android:textSize="15sp"
             android:textStyle="bold" />
 
     </RelativeLayout>
@@ -111,7 +111,7 @@
                 android:layout_marginStart="10dp"
                 android:text="Alamat : "
                 android:textColor="@color/white"
-                android:textSize="20sp"
+                android:textSize="15sp"
                 android:textStyle="bold" />
         </HorizontalScrollView>
 
@@ -134,7 +134,7 @@
             android:layout_marginStart="10dp"
             android:text="Nomor Telepon : "
             android:textColor="@color/white"
-            android:textSize="20sp"
+            android:textSize="15sp"
             android:textStyle="bold" />
 
     </RelativeLayout>
@@ -156,7 +156,7 @@
             android:layout_marginStart="10dp"
             android:text="Tanggal Lahir : "
             android:textColor="@color/white"
-            android:textSize="20sp"
+            android:textSize="15sp"
             android:textStyle="bold" />
 
     </RelativeLayout>

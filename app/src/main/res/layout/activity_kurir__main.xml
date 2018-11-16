@@ -49,7 +49,7 @@
                         android:paddingTop="10dp"
                         android:paddingRight="155dp"
                         android:paddingBottom="10dp"
-                        android:text="Navigasi Ke Tempat Donatur"
+                        android:text="Navigasi Ke Lokasi Donatur"
                         android:textColor="@color/white" />
                 </RelativeLayout>
 
