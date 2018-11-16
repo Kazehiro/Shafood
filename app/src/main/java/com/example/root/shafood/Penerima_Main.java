@@ -103,9 +103,9 @@ public class Penerima_Main extends AppCompatActivity {
 
             request = uInfo.getRequest();
             if (request.equals("true")){
-                BtnRequest.setImageResource(R.drawable.req);
-            }else {
                 BtnRequest.setImageResource(R.drawable.kurir);
+            }else {
+                BtnRequest.setImageResource(R.drawable.req);
             }
         }
     }
