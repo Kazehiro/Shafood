@@ -5,6 +5,7 @@ import android.app.Notification;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -37,6 +38,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.lang.ref.ReferenceQueue;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -51,9 +53,9 @@ public class ShowPenerima extends AppCompatActivity {
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-    private DatabaseReference myRef;
+    private DatabaseReference myRef1, myRef;
     private String userID;
-    private TextView etNama,etAlamat,etNoTelepon,etNarasi;
+    private TextView etNama, etAlamat, etNoTelepon, etNarasi, etJarak;
 
     private ListView mListViewPenerima;
     private ImageView ivProfil;
@@ -72,7 +74,14 @@ public class ShowPenerima extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_penerima);
 
-        System.out.println("HAHA INI CREATE");
+
+        Barang = getIntent().getStringExtra("Barang");
+        Kuantitas = getIntent().getStringExtra("Kuantitas");
+        NamaDonatur = getIntent().getStringExtra("Nama Donatur");
+        Id_Donatur = getIntent().getStringExtra("Id Donatur");
+        Lat_Donatur = getIntent().getStringExtra("Latitude Donatur");
+        Lng_Donatur = getIntent().getStringExtra("Longitude Donatur");
+
 
         myDialog = new Dialog(this);
 
@@ -110,7 +119,6 @@ public class ShowPenerima extends AppCompatActivity {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
                 showData((Map<String, Object>) dataSnapshot.getValue());
-
             }
 
             @Override
@@ -118,7 +126,6 @@ public class ShowPenerima extends AppCompatActivity {
 
             }
         });
-
 
 
     }
@@ -133,6 +140,16 @@ public class ShowPenerima extends AppCompatActivity {
         etAlamat = (TextView) myDialog.findViewById(R.id.editTextAlamatPenerimaPopup);
         etNoTelepon = (TextView) myDialog.findViewById(R.id.editTextNoTelpPopup);
         etNarasi = (TextView) myDialog.findViewById(R.id.editTextDescPopup);
+        etJarak = (TextView) myDialog.findViewById(R.id.editTextJarakPopup);
+
+        Location currentUser = new Location("");
+        currentUser.setLatitude(Double.parseDouble(Lat_Donatur));
+        currentUser.setLongitude(Double.parseDouble(Lng_Donatur));
+
+//                    create location from friend coordinates
+        Location friend = new Location("");
+        friend.setLatitude(Double.parseDouble(Lat_Penerima));
+        friend.setLongitude(Double.parseDouble(Lng_Penerima));
 
 
         storageRef.child("Penerima/FotoProfil/" + Id_Penerima).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -148,10 +165,11 @@ public class ShowPenerima extends AppCompatActivity {
             }
         });
 
-        txtclose =(TextView) myDialog.findViewById(R.id.txtclose);
+        txtclose = (TextView) myDialog.findViewById(R.id.txtclose);
         txtclose.setText("X");
         btnFollow = (Button) myDialog.findViewById(R.id.btnfollow);
         etNama.setText(Nama_Penerima);
+        etJarak.setText("Jarak : " + new DecimalFormat("#.#").format((currentUser.distanceTo(friend)) / 1000) + "Km");
         etAlamat.setText(Alamat_Penerima);
         etNoTelepon.setText(TeleponPenerima);
         etNarasi.setText(Narasi);
@@ -183,169 +201,203 @@ public class ShowPenerima extends AppCompatActivity {
     }
 
     private void showData(Map<String, Object> dataSnapshot) {
-        final ArrayList<String> Nama = new ArrayList<>();
-        for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
-            Map nama = (Map) entry.getValue();
-            Nama.add((String) nama.get("nama"));
-        }
-        ArrayList<String> Id_penerima = new ArrayList<>();
-        for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
-            Map id_penerima = (Map) entry.getValue();
-            Id_penerima.add((String) id_penerima.get("id_user"));
-        }
-        ArrayList<String> Lat = new ArrayList<>();
-        for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
-            Map lat = (Map) entry.getValue();
-            Lat.add((String) lat.get("latitude"));
-        }
-        ArrayList<String> Lng = new ArrayList<>();
-        for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
-            Map lng = (Map) entry.getValue();
-            Lng.add((String) lng.get("longitude"));
-        }
-        ArrayList<String> Request = new ArrayList<>();
-        for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
-            Map request = (Map) entry.getValue();
-            Request.add((String) request.get("request"));
-        }
-        ArrayList<String> Transaksi = new ArrayList<>();
-        for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
-            Map transaksi = (Map) entry.getValue();
-            Transaksi.add((String) transaksi.get("transaksi"));
-        }
-        ArrayList<String> Alamat = new ArrayList<>();
-        for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
-            Map alamat = (Map) entry.getValue();
-            Alamat.add((String) alamat.get("alamat"));
-        }
-        ArrayList<String> NoTelepon = new ArrayList<>();
-        for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
-            Map notelepon = (Map) entry.getValue();
-            NoTelepon.add((String) notelepon.get("nohp"));
-        }
-        final ArrayList<String> Desc = new ArrayList<>();
-        for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
-            Map desc = (Map) entry.getValue();
-            Desc.add((String) desc.get("narasi"));
-        }
-        final ArrayList<String> Verifikasi = new ArrayList<>();
-        for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
-            Map verifikasi = (Map) entry.getValue();
-            Verifikasi.add((String) verifikasi.get("verifikasi"));
-        }
-        int i = 0;
-        final ArrayList<String> listNama = new ArrayList<>();
-        final ArrayList<String> listId = new ArrayList<>();
-        final ArrayList<String> listLat = new ArrayList<>();
-        final ArrayList<String> listLng = new ArrayList<>();
-        final ArrayList<String> listalamat = new ArrayList<>();
-        final ArrayList<String> listtelepon = new ArrayList<>();
-        final ArrayList<String> listNarasi= new ArrayList<>();
-        if (Nama != null) {
-            while (Nama.size() > i) {
-                if (Request.get(i).equals("true")) {
-                    if (Transaksi.get(i).equals("false")) {
-                        if (Verifikasi.get(i).equals("true")){
-                            listNama.add(Nama.get(i));
-                            listId.add(Id_penerima.get(i));
-                            listLat.add(Lat.get(i));
-                            listLng.add(Lng.get(i));
-                            listalamat.add(Alamat.get(i));
-                            listtelepon.add(NoTelepon.get(i));
-                            listNarasi.add(Desc.get(i));
+            Location currentUser = new Location("");
+            currentUser.setLatitude(Double.parseDouble(Lat_Donatur));
+            currentUser.setLongitude(Double.parseDouble(Lng_Donatur));
+
+//                    create location from friend coordinates
+
+
+            final ArrayList<String> Nama = new ArrayList<>();
+            for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
+                Map nama = (Map) entry.getValue();
+                Nama.add((String) nama.get("nama"));
+            }
+            ArrayList<String> Id_penerima = new ArrayList<>();
+            for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
+                Map id_penerima = (Map) entry.getValue();
+                Id_penerima.add((String) id_penerima.get("id_user"));
+            }
+            ArrayList<String> Lat = new ArrayList<>();
+            for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
+                Map lat = (Map) entry.getValue();
+                Lat.add((String) lat.get("latitude"));
+            }
+            ArrayList<String> Lng = new ArrayList<>();
+            for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
+                Map lng = (Map) entry.getValue();
+                Lng.add((String) lng.get("longitude"));
+            }
+            ArrayList<String> Request = new ArrayList<>();
+            for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
+                Map request = (Map) entry.getValue();
+                Request.add((String) request.get("request"));
+            }
+            ArrayList<String> Transaksi = new ArrayList<>();
+            for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
+
+                Map transaksi = (Map) entry.getValue();
+                Transaksi.add((String) transaksi.get("transaksi"));
+            }
+            ArrayList<String> Alamat = new ArrayList<>();
+            for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
+                Map alamat = (Map) entry.getValue();
+                Alamat.add((String) alamat.get("alamat"));
+            }
+            ArrayList<String> NoTelepon = new ArrayList<>();
+            for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
+                Map notelepon = (Map) entry.getValue();
+                NoTelepon.add((String) notelepon.get("nohp"));
+            }
+            final ArrayList<String> Desc = new ArrayList<>();
+            for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
+                Map desc = (Map) entry.getValue();
+                Desc.add((String) desc.get("narasi"));
+            }
+            final ArrayList<String> Verifikasi = new ArrayList<>();
+            for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
+                Map verifikasi = (Map) entry.getValue();
+                Verifikasi.add((String) verifikasi.get("verifikasi"));
+            }
+            int i = 0;
+            final ArrayList<String> listNama = new ArrayList<>();
+            final ArrayList<String> listId = new ArrayList<>();
+            final ArrayList<String> listLat = new ArrayList<>();
+            final ArrayList<String> listLng = new ArrayList<>();
+            final ArrayList<String> listalamat = new ArrayList<>();
+            final ArrayList<String> listtelepon = new ArrayList<>();
+            final ArrayList<String> listNarasi = new ArrayList<>();
+            if (Nama != null) {
+                while (Nama.size() > i) {
+                    if (Request.get(i).equals("true")) {
+                        if (Transaksi.get(i).equals("false")) {
+                            if (Verifikasi.get(i).equals("true")) {
+                                Location friend = new Location("");
+                                friend.setLatitude(Double.parseDouble(Lat.get(i)));
+                                friend.setLongitude(Double.parseDouble(Lng.get(i)));
+                                if (((currentUser.distanceTo(friend)) / 1000) <= 5) {
+                                    listNama.add(Nama.get(i));
+                                    listId.add(Id_penerima.get(i));
+                                    listLat.add(Lat.get(i));
+                                    listLng.add(Lng.get(i));
+                                    listalamat.add(Alamat.get(i));
+                                    listtelepon.add(NoTelepon.get(i));
+                                    listNarasi.add(Desc.get(i));
+                                }
+                            }
                         }
                     }
+                    i++;
                 }
-                i++;
-            }
-            i = 0;
-            while (Nama.size() > i) {
-                if (Request.get(i).equals("false")) {
-                    if (Transaksi.get(i).equals("false")) {
-                        if (Verifikasi.get(i).equals("true")) {
-                            listNama.add(Nama.get(i));
-                            listId.add(Id_penerima.get(i));
-                            listLat.add(Lat.get(i));
-                            listLng.add(Lng.get(i));
-                            listalamat.add(Alamat.get(i));
-                            listtelepon.add(NoTelepon.get(i));
-                            listNarasi.add(Desc.get(i));
+                i = 0;
+                while (Nama.size() > i) {
+                    if (Request.get(i).equals("false")) {
+                        if (Transaksi.get(i).equals("false")) {
+                            if (Verifikasi.get(i).equals("true")) {
+                                Location friend = new Location("");
+                                friend.setLatitude(Double.parseDouble(Lat.get(i)));
+                                friend.setLongitude(Double.parseDouble(Lng.get(i)));
+                                if (((currentUser.distanceTo(friend)) / 1000) <= 5) {
+                                    listNama.add(Nama.get(i));
+                                    listId.add(Id_penerima.get(i));
+                                    listLat.add(Lat.get(i));
+                                    listLng.add(Lng.get(i));
+                                    listalamat.add(Alamat.get(i));
+                                    listtelepon.add(NoTelepon.get(i));
+                                    listNarasi.add(Desc.get(i));
+                                }
+                            }
                         }
                     }
+                    i++;
                 }
-                i++;
+                mListViewPenerima.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Id_Penerima = listId.get(position);
+                        Lat_Penerima = listLat.get(position);
+                        Lng_Penerima = listLng.get(position);
+                        Nama_Penerima = listNama.get(position);
+                        Alamat_Penerima = listalamat.get(position);
+                        TeleponPenerima = listtelepon.get(position);
+                        Narasi = listNarasi.get(position);
+                        ShowPopup(view);
+
+                    }
+                });
+                ArrayAdapter namaUser = new ArrayAdapter(this, android.R.layout.simple_list_item_1, listNama);
+                mListViewPenerima.setAdapter(namaUser);
             }
-            mListViewPenerima.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Barang = getIntent().getStringExtra("Barang");
-                    Kuantitas = getIntent().getStringExtra("Kuantitas");
-                    NamaDonatur = getIntent().getStringExtra("Nama Donatur");
-                    Id_Donatur = getIntent().getStringExtra("Id Donatur");
-                    Lat_Donatur = getIntent().getStringExtra("Latitude Donatur");
-                    Lng_Donatur = getIntent().getStringExtra("Longitude Donatur");
-                    Id_Penerima = listId.get(position);
-                    Lat_Penerima = listLat.get(position);
-                    Lng_Penerima = listLng.get(position);
-                    Nama_Penerima = listNama.get(position);
-                    Alamat_Penerima = listalamat.get(position);
-                    TeleponPenerima = listtelepon.get(position);
-                    Narasi = listNarasi.get(position);
-                    ShowPopup(view);
-
-                }
-            });
-            ArrayAdapter namaUser = new ArrayAdapter(this, android.R.layout.simple_list_item_1, listNama);
-            mListViewPenerima.setAdapter(namaUser);
-        }
-    }
-
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        mAuth.addAuthStateListener(mAuthListener);
-
-        System.out.println("HAHA INI START");
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (mAuthListener != null) {
-            mAuth.removeAuthStateListener(mAuthListener);
         }
 
-        System.out.println("HAHA INI STOP");
-    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
+        @Override
+        public void onStart () {
+            super.onStart();
+            mAuth.addAuthStateListener(mAuthListener);
 
-        System.out.println("HAHA INI RESUME");
-    }
-    @Override
-    public void onPause() {
-        super.onPause();
-        System.out.println("HAHA INI PAUSE");
-    }
+            System.out.println("HAHA INI START");
+        }
 
-    /**
-     * customizable toast
-     *
-     * @param message
-     */
-    private void toastMessage(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-    }
+        @Override
+        public void onStop () {
+            super.onStop();
+            if (mAuthListener != null) {
+                mAuth.removeAuthStateListener(mAuthListener);
+            }
 
-    private void showLatLng(DataSnapshot dataSnapshot) {
-        for (DataSnapshot ds : dataSnapshot.getChildren()) {
-            ProfileDonatur PDonatur = new ProfileDonatur();
-            PDonatur.setLatitude(ds.child("USER").child("DONATUR").child(userID).getValue(ProfileDonatur.class).getLatitude());
-            PDonatur.setLongitude(ds.child("USER").child("DONATUR").child(userID).getValue(ProfileDonatur.class).getLongitude());
-            System.out.println(PDonatur.getLatitude());
-            System.out.println(PDonatur.getLongitude());
+            System.out.println("HAHA INI STOP");
+        }
+
+        @Override
+        protected void onResume () {
+            super.onResume();
+
+            System.out.println("HAHA INI RESUME");
+        }
+        @Override
+        public void onPause () {
+            super.onPause();
+            System.out.println("HAHA INI PAUSE");
+        }
+
+        /**
+         * customizable toast
+         *
+         * @param message
+         */
+        private void toastMessage (String message){
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        }
+
+        private void showLatLng (DataSnapshot dataSnapshot){
+            for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                ProfileDonatur PDonatur = new ProfileDonatur();
+                PDonatur.setLatitude(ds.child("USER").child("DONATUR").child(userID).getValue(ProfileDonatur.class).getLatitude());
+                PDonatur.setLongitude(ds.child("USER").child("DONATUR").child(userID).getValue(ProfileDonatur.class).getLongitude());
+                System.out.println(PDonatur.getLatitude());
+                System.out.println(PDonatur.getLongitude());
+            }
+        }
+
+        private double distance (Location currentUser, Location friend){
+            double theta = currentUser.getLongitude() - friend.getLongitude();
+            double dist = Math.sin(deg2rad(currentUser.getLatitude()))
+                    * Math.sin(deg2rad(friend.getLatitude()))
+                    * Math.cos(deg2rad(currentUser.getLatitude()))
+                    * Math.cos(deg2rad(friend.getLatitude()))
+                    * Math.cos(deg2rad(theta));
+            dist = Math.acos(dist);
+            dist = rad2deg(dist);
+            dist = dist * 60 * 1.1515;
+            return (dist);
+        }
+
+
+        private double rad2deg ( double rad){
+            return (rad * 180 / Math.PI);
+        }
+
+        private double deg2rad ( double deg){
+            return (deg * Math.PI / 180.0);
         }
     }
-}
