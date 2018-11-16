@@ -70,7 +70,6 @@
         <activity android:name=".Daftar_donatur" />
         <activity android:name=".Kurir_History" />
         <activity android:name=".Kurir_Account"></activity>
-        <activity android:name=".Daftar_donatur" />
         <activity android:name=".Daftar_Kurir" />
         <activity android:name=".Daftar_penerima"></activity>
     </application>

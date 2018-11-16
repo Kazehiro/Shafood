@@ -10,10 +10,10 @@ public class UserKurir {
     public int level;
     public String status;
     public int jumlah_narik;
-    private Double latitude;
-    private Double longitude;
+    private String latitude;
+    private String longitude;
 
-    public UserKurir(String id_user, String nama, String nohp, String alamat, String tanggallahir, String noplat, int level, String status, int jumlah_narik, Double latitude, Double longitude) {
+    public UserKurir(String id_user, String nama, String nohp, String alamat, String tanggallahir, String noplat, int level, String status, int jumlah_narik, String latitude, String longitude) {
         this.id_user = id_user;
         this.nama = nama;
         this.nohp = nohp;

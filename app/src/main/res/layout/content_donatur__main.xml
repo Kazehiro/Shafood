@@ -120,6 +120,47 @@
 
                 </RelativeLayout>
 
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scrollbars="none">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:paddingLeft="30dp"
+                        android:paddingRight="30dp">
+
+                        <TextView
+                            android:id="@+id/judul"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            android:text="Pilih Tempat Pick-Up : "
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/judul"
+                            android:id="@+id/cari"
+                            android:text="Cari Disini "
+                            android:textStyle="bold"
+                            android:textSize="15sp"
+                            android:layout_marginBottom="10dp"/>
+
+                        <fragment
+                            android:id="@+id/mapDonatur"
+                            android:name="com.google.android.gms.maps.SupportMapFragment"
+                            android:layout_width="match_parent"
+                            android:layout_height="400dp"
+                            android:layout_below="@+id/cari" />
+
+                    </RelativeLayout>
+                </ScrollView>
+
                 <Button
                     android:id="@+id/buttonKirim"
                     android:layout_width="match_parent"
@@ -128,6 +169,7 @@
                     android:layout_marginLeft="30dp"
                     android:layout_marginTop="15dp"
                     android:layout_marginRight="30dp"
+                    android:layout_marginBottom="15dp"
                     android:background="@color/colorPrimary"
                     android:fontFamily="sans-serif-medium"
                     android:onClick="cari"

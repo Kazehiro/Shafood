@@ -1,11 +1,15 @@
 package com.example.root.shafood;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -23,6 +27,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.AutocompleteFilter;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlaceAutocomplete;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -38,7 +53,7 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 
 public class Donatur_Main extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, GoogleMap.OnMapLongClickListener, OnMapReadyCallback {
 
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseAuth mAuth;
@@ -49,7 +64,10 @@ public class Donatur_Main extends AppCompatActivity
     private long backPressedTime;
     private Toast backToast;
     private String userID;
-
+    private TextView cari;
+    private GoogleMap mMap;
+    private static int REQUEST_CODE = 0;
+    public static final int PICK_UP = 1;
 
     private static final String TAG = "AddToDatabase";
 
@@ -59,8 +77,13 @@ public class Donatur_Main extends AppCompatActivity
     TextView etKuantitas;
     private ImageView imageProfile;
     private Button btnCari;
+    public LatLng indonesia;
+    private static final int LOCATION_REQUEST = 500;
     private String NamaDonatur, LatDonatur, LngDonatur;
     private NavigationView nav_view;
+    ArrayList<LatLng> lispoints;
+    public LatLng alamatLatLng = null;
+    public Double alamatLatitude, alamatLongitude;
 
 
     @Override
@@ -69,6 +92,10 @@ public class Donatur_Main extends AppCompatActivity
         setContentView(R.layout.activity_donatur__main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.mapDonatur);
+        mapFragment.getMapAsync(this);
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -87,6 +114,7 @@ public class Donatur_Main extends AppCompatActivity
         etKuantitas = (TextView) findViewById(R.id.editTextKuantitas);
         imageProfile = (ImageView) header.findViewById(R.id.imageProfile);
         btnCari = (Button) header.findViewById(R.id.buttonKirim);
+        cari = (TextView) findViewById(R.id.cari);
 
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
@@ -105,6 +133,7 @@ public class Donatur_Main extends AppCompatActivity
             }
         });
 
+        lispoints = new ArrayList<>();
 
         emailDonatur.setText(user.getEmail());
         storage = FirebaseStorage.getInstance();
@@ -142,6 +171,73 @@ public class Donatur_Main extends AppCompatActivity
             }
         });
 
+        cari.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showPlaceAutoComplete(PICK_UP);
+            }
+        });
+
+    }
+
+    public void showPlaceAutoComplete(int typeLocation) {
+        REQUEST_CODE = typeLocation;
+        AutocompleteFilter typeFilter = new AutocompleteFilter.Builder().setCountry("ID").build();
+        try {
+            Intent mIntent = new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
+                    .setFilter(typeFilter)
+                    .build(this);
+            startActivityForResult(mIntent, REQUEST_CODE);
+        } catch (GooglePlayServicesRepairableException e) {
+            e.printStackTrace();
+        } catch (GooglePlayServicesNotAvailableException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Layanan Tidak Tersedia", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            //Toast.makeText(this, "Sini Gaes2", Toast.LENGTH_SHORT).show();
+            // Tampung Data tempat ke variable
+            try {
+                Place placeData = PlaceAutocomplete.getPlace(this, data);
+                if (placeData.isDataValid()) {
+                    // Show in Log Cat
+                    Log.d("autoCompletePlace Data", placeData.toString());
+
+                    // Dapatkan Detail
+                    String placeAddress = placeData.getAddress().toString();
+                    LatLng placeLatLng = placeData.getLatLng();
+                    String placeName = placeData.getName().toString();
+
+                    // Cek user milih titik jemput atau titik tujuan
+                    switch (REQUEST_CODE) {
+                        case PICK_UP:
+                            // Set ke widget lokasi asal
+                            cari.setText(placeAddress);
+                            alamatLatLng = placeData.getLatLng();
+                            break;
+                    }
+                    if (alamatLatLng != null) {
+                        onMapLongClick(alamatLatLng);
+                        lispoints.add(alamatLatLng);
+                        mMap.moveCamera(CameraUpdateFactory.newLatLng(alamatLatLng));
+                        CameraUpdateFactory.newLatLng(alamatLatLng);
+                        CameraUpdateFactory.newLatLngZoom(alamatLatLng, 16);
+                        mMap.addMarker(new MarkerOptions().position(alamatLatLng).title(placeAddress));
+                    }
+
+                } else {
+                    // Data tempat tidak valid
+                    Toast.makeText(this, "Invalid Place !", Toast.LENGTH_SHORT).show();
+                }
+            }catch (RuntimeException e){
+                e.printStackTrace();
+            }
+        }
     }
 
     private void showData(DataSnapshot dataSnapshot) {
@@ -154,6 +250,13 @@ public class Donatur_Main extends AppCompatActivity
             NamaDonatur = uInfo.getNama();
             LatDonatur = uInfo.getLatitude();
             LngDonatur = uInfo.getLongitude();
+
+            alamatLatitude = Double.parseDouble(LatDonatur);
+            alamatLongitude = Double.parseDouble(LngDonatur);
+            LatLng imah = new LatLng(alamatLatitude,alamatLongitude);
+            mMap.addMarker(new MarkerOptions().position(imah).title(NamaDonatur));
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(imah));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(imah, 16));
         }
     }
 
@@ -197,8 +300,8 @@ public class Donatur_Main extends AppCompatActivity
         search.putExtra("Barang", etBarang.getText().toString());
         search.putExtra("Kuantitas", etKuantitas.getText().toString());
         search.putExtra("Nama Donatur", NamaDonatur);
-        search.putExtra("Latitude Donatur", LatDonatur);
-        search.putExtra("Longitude Donatur", LngDonatur);
+        search.putExtra("Latitude Donatur", alamatLatitude.toString());
+        search.putExtra("Longitude Donatur", alamatLongitude.toString());
         search.putExtra("Id Donatur", userID);
         startActivity(search);
     }
@@ -247,9 +350,46 @@ public class Donatur_Main extends AppCompatActivity
     private void toastMessage(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
-    public void showSnackbar(View view, String message, int duration)
-    {
+
+    public void showSnackbar(View view, String message, int duration) {
         Snackbar.make(view, message, duration).show();
     }
 
+    @Override
+    public void onMapLongClick(LatLng latLng) {
+        if (lispoints.size() >= 1) {
+            mMap.clear();
+            lispoints.clear();
+        } else {
+            lispoints.add(latLng);
+            MarkerOptions mMarkerOptions = new MarkerOptions();
+            mMarkerOptions.position(latLng);
+            mMap.addMarker(new MarkerOptions().position(latLng).title(latLng.toString()));
+            alamatLatitude = latLng.latitude;
+            alamatLongitude = latLng.longitude;
+        }
+
+        Log.d("Latitude = ", alamatLatitude.toString());
+        Log.d("Longitude = ", alamatLongitude.toString());
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST);
+            return;
+        }
+        mMap.setMyLocationEnabled(true);
+        mMap.getUiSettings().setMyLocationButtonEnabled(true);
+        mMap.getUiSettings().setAllGesturesEnabled(true);
+        mMap.getUiSettings().setCompassEnabled(true);
+        mMap.getUiSettings().setZoomControlsEnabled(true);
+        String[] indo = "-6.175 , 106.828333".split(",");
+        Double lat = Double.parseDouble(indo[0]);
+        Double lng = Double.parseDouble(indo[1]);
+        indonesia = new LatLng(lat, lng);
+        mMap.setOnMapLongClickListener(this);
+
+    }
 }
