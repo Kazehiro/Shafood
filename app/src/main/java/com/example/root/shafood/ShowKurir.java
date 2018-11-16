@@ -1,6 +1,7 @@
 package com.example.root.shafood;
 
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
@@ -42,6 +43,8 @@ public class ShowKurir extends AppCompatActivity {
 
     private ListView mListViewKurir;
 
+    private String Barang, SKuantitas, NamaDonatur, NamaPenerima, Id_Donatur, Lat_Donatur, Lng_Donatur, Id_Penerima, Lat_Penerima, Lng_Penerima, Nama_Penerima, Alamat_Penerima, TeleponPenerima, Narasi;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +60,20 @@ public class ShowKurir extends AppCompatActivity {
         myRefUpload = mFirebaseDatabase.getReference();
         FirebaseUser user = mAuth.getCurrentUser();
         userID = user.getUid();
+
+
+        Barang = getIntent().getStringExtra("Barang");
+        SKuantitas = getIntent().getStringExtra("Kuantitas");
+        NamaDonatur = getIntent().getStringExtra("Nama Donatur");
+        NamaPenerima = getIntent().getStringExtra("Nama Penerima");
+        Id_Donatur = getIntent().getStringExtra("Id Donatur");
+        Id_Penerima = getIntent().getStringExtra("Id Penerima");
+        Lat_Donatur = getIntent().getStringExtra("Latitude Donatur");
+        Lng_Donatur = getIntent().getStringExtra("Longitude Donatur");
+        Lat_Penerima = getIntent().getStringExtra("Latitude Penerima");
+        Lng_Penerima = getIntent().getStringExtra("Longitude Penerima");
+
+
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -90,6 +107,10 @@ public class ShowKurir extends AppCompatActivity {
     }
 
     private void showData(Map<String, Object> dataSnapshot) {
+        Location currentUser = new Location("");
+        currentUser.setLatitude(Double.parseDouble(Lat_Donatur));
+        currentUser.setLongitude(Double.parseDouble(Lng_Donatur));
+
         final ArrayList<String> Nama = new ArrayList<>();
         for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
             Map nama = (Map) entry.getValue();
@@ -105,14 +126,29 @@ public class ShowKurir extends AppCompatActivity {
             Map status = (Map) entry.getValue();
             Status.add((String) status.get("status"));
         }
+        final ArrayList<String> Lat = new ArrayList<>();
+        for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
+            Map lat = (Map) entry.getValue();
+            Lat.add((String) lat.get("latitude"));
+        }
+        final ArrayList<String> Lng = new ArrayList<>();
+        for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
+            Map lng = (Map) entry.getValue();
+            Lng.add((String) lng.get("longitude"));
+        }
         final ArrayList<String> listNama = new ArrayList<>();
         final ArrayList<String> listId = new ArrayList<>();
         int i = 0;
         System.out.println(Nama + " | " + Id_kurir);
         while(Nama.size() > i){
             if(Status.get(i).equals("true")){
-                listNama.add(Nama.get(i));
-                listId.add(Id_kurir.get(i));
+                Location friend = new Location("");
+                friend.setLatitude(Double.parseDouble(Lat.get(i)));
+                friend.setLongitude(Double.parseDouble(Lng.get(i)));
+                if (((currentUser.distanceTo(friend)) / 1000) <= 5) {
+                    listNama.add(Nama.get(i));
+                    listId.add(Id_kurir.get(i));
+                }
             }
             i++;
         }
@@ -120,16 +156,7 @@ public class ShowKurir extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
 
-                String Barang = getIntent().getStringExtra("Barang");
-                String SKuantitas = getIntent().getStringExtra("Kuantitas");
-                String NamaDonatur = getIntent().getStringExtra("Nama Donatur");
-                String NamaPenerima = getIntent().getStringExtra("Nama Penerima");
-                String Id_Donatur = getIntent().getStringExtra("Id Donatur");
-                String Id_Penerima = getIntent().getStringExtra("Id Penerima");
-                String Lat_Donatur = getIntent().getStringExtra("Latitude Donatur");
-                String Lng_Donatur = getIntent().getStringExtra("Longitude Donatur");
-                String Lat_Penerima = getIntent().getStringExtra("Latitude Penerima");
-                String Lng_Penerima = getIntent().getStringExtra("Longitude Penerima");
+
                 String NamaKurir = listNama.get(position);
                 String Id_Kurir = listId.get(position);
                 int Kuantitas = Integer.parseInt(SKuantitas);

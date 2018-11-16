@@ -4,25 +4,46 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
     tools:context=".Penerima_Main">
+
+    <ImageButton
+        android:layout_width="55dp"
+        android:layout_height="54dp"
+        android:src="@drawable/ic_account_"
+        android:id="@+id/imgBtnProfile"
+        android:background="@color/transparent"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/imageButtonRequest"
+        android:paddingBottom="15dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="-9dp"
+        android:text="Buat pesanan dengan menekangambar d bawah"
+        android:textColor="@color/white"
+        android:textSize="15dp" />
 
     <ImageButton
         android:id="@+id/imageButtonRequest"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_centerInParent="true"
-        app:srcCompat="@drawable/food" />
+        app:srcCompat="@drawable/req"
+        android:background="@color/transparent"/>
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
+        android:layout_centerHorizontal="true"
         android:layout_below="@+id/imageButton"
-        android:gravity="center"
+        android:onClick="out"
         android:text="Request"
-        android:textSize="30dp"
-        android:onClick="out" />
+        android:textColor="@color/white"
+        android:textSize="30dp" />
 
     <Button
         android:layout_width="wrap_content"

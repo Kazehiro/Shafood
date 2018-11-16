@@ -12,6 +12,7 @@ public class ProfilePenerima {
     private String transaksi;
     private String verifikasi;
     private String request;
+    private String narasi;
     private int level;
 
     public String getId_user() {
@@ -108,5 +109,13 @@ public class ProfilePenerima {
 
     public void setLevel(int level) {
         this.level = level;
+    }
+
+    public String getNarasi() {
+        return narasi;
+    }
+
+    public void setNarasi(String narasi) {
+        this.narasi = narasi;
     }
 }
