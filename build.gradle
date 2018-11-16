@@ -21,6 +21,12 @@ allprojects {
     repositories {
         google()
         jcenter()
+        maven {
+            url 'https://maven.google.com'
+        }
+        maven {
+            url 'https://maven.fabric.io/public'
+        }
         maven { url 'https://jitpack.io' } //Baris kode yang harus ditambahkan
     }
 }

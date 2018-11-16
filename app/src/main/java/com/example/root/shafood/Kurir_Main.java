@@ -10,6 +10,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -32,8 +33,14 @@ import com.example.root.shafood.Responses.LegsItem;
 import com.example.root.shafood.Responses.ResponseRoute;
 import com.example.root.shafood.network.*;
 import com.example.root.shafood.Responses.*;
+import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.AutocompleteFilter;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
@@ -52,6 +59,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.maps.android.PolyUtil;
 import com.google.zxing.BarcodeFormat;
@@ -71,7 +79,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
+public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback,GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener,
+        LocationListener {
 
     private long backPressedTime;
     private Toast backToast;
@@ -87,6 +97,7 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
     private String transaksi;
     private String request;
     private String verifikasi;
+    private int jumlah_narik;
 
     private String alamat_penerima_lat;
     private String alamat_penerima_lng;
@@ -97,9 +108,9 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
     private String nama_penerima;
     private String nama_barang;
     private int kuantitas;
-    private Double LatPenerima, LngPenerima, LatDonatur, LngDonatur;
+    private Double LatPenerima, LngPenerima, LatDonatur, LngDonatur,lat,lng;
 
-    private String QrVerifikasi;
+    private String QrVerifikasi,email;
     private int level;
     private String Id_Donatur, Id_Penerima;
     String text2Qr;
@@ -117,13 +128,22 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-    private DatabaseReference myRef, myRef1, myRef2;
+    private DatabaseReference myRef, myRef1, myRef2, myRef3;
     private final int REQUEST_CODE_CAMERA_IDENTITAS = 001;
 
     ImageButton imageBtnScan;
-    private RelativeLayout tempatDonatur,tempatPenerima;
+    private RelativeLayout tempatDonatur, tempatPenerima;
     TextView etTitikAwal, etTitikAkhir;
     private PlaceAutocomplete mPlaceAutocomplete;
+    private static final int MY_PERMISSION_REQUEST_CODE = 7171;
+    private static final int PLAY_SERVICES_RES_REQUEST = 7172;
+    private LocationRequest mLocationRequest;
+    private GoogleApiClient mGoogleApiClient;
+    private Location mLastLocation;
+
+    private static int UPDATE_INTERVAL = 5000;
+    private static int FASTEST_INTERVAL = 3000;
+    private static int DISTANCE = 10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,7 +158,8 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         myRef = mFirebaseDatabase.getReference().child("SHAFOOD").child("USER").child("PENERIMA");
         myRef1 = mFirebaseDatabase.getReference().child("SHAFOOD").child("TRANSAKSI");
-        myRef2 = mFirebaseDatabase.getReference().child("SHAFOOD").child("USER").child("PENERIMA");
+        myRef3 = mFirebaseDatabase.getReference().child("USER").child("KURIR");
+        myRef2 = mFirebaseDatabase.getReference().child("SHAFOOD").child("USER").child("KURIR");
         FirebaseUser user = mAuth.getCurrentUser();
         userID = user.getUid();
         tempatDonatur = (RelativeLayout) findViewById(R.id.tempatDonatur);
@@ -149,6 +170,18 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 showData1((Map<String, Object>) dataSnapshot.getValue());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        myRef3.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                showData3(dataSnapshot);
             }
 
             @Override
@@ -184,15 +217,15 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
         tempatDonatur.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (latlngDonatur != null){
-                    Uri nav = Uri.parse("google.navigation:q="+latlngDonatur.latitude+","+latlngDonatur.longitude+"&avoid=tf");
-                    Intent mIntent = new Intent(Intent.ACTION_VIEW , nav);
+                if (latlngDonatur != null) {
+                    Uri nav = Uri.parse("google.navigation:q=" + latlngDonatur.latitude + "," + latlngDonatur.longitude + "&avoid=tf");
+                    Intent mIntent = new Intent(Intent.ACTION_VIEW, nav);
                     mIntent.setPackage("com.google.android.apps.maps");
-                    System.out.println("INI NAV Donatur ======== "+nav);
+                    System.out.println("INI NAV Donatur ======== " + nav);
                     startActivity(mIntent);
-                }else {
-                    Toast.makeText(Kurir_Main.this,"Anda Belum Memiliki Order",Toast.LENGTH_SHORT).show();
-                    Snackbar.make(view,"Anda Belum Memiliki Order",3000);
+                } else {
+                    Toast.makeText(Kurir_Main.this, "Anda Belum Memiliki Order", Toast.LENGTH_SHORT).show();
+                    Snackbar.make(view, "Anda Belum Memiliki Order", 3000);
                 }
             }
         });
@@ -200,15 +233,15 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
         tempatPenerima.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (latlngPenerima != null){
-                    Uri nav = Uri.parse("google.navigation:q="+latlngPenerima.latitude+","+latlngPenerima.longitude+"&avoid=tf");
-                    Intent mIntent = new Intent(Intent.ACTION_VIEW,nav);
+                if (latlngPenerima != null) {
+                    Uri nav = Uri.parse("google.navigation:q=" + latlngPenerima.latitude + "," + latlngPenerima.longitude + "&avoid=tf");
+                    Intent mIntent = new Intent(Intent.ACTION_VIEW, nav);
                     mIntent.setPackage("com.google.android.apps.maps");
-                    System.out.println("INI NAV Penerima ======== "+nav);
+                    System.out.println("INI NAV Penerima ======== " + nav);
                     startActivity(mIntent);
-                }else {
-                    Toast.makeText(Kurir_Main.this,"Anda Belum Memiliki Order",Toast.LENGTH_SHORT).show();
-                    Snackbar.make(view,"Anda Belum Memiliki Order",3000);
+                } else {
+                    Toast.makeText(Kurir_Main.this, "Anda Belum Memiliki Order", Toast.LENGTH_SHORT).show();
+                    Snackbar.make(view, "Anda Belum Memiliki Order", 3000);
                 }
             }
         });
@@ -231,8 +264,48 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
 
             }
         });*/
-
+        buildGoogleApiClient();
         showMarker(latlngDonatur, latlngPenerima);
+        updateLokasi();
+        createLocationRequest();
+    }
+
+    private void buildGoogleApiClient() {
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API).build();
+        mGoogleApiClient.connect();
+    }
+
+    private void updateLokasi() {
+        if (ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+        {
+            return;
+        }
+        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        if (mLastLocation != null)
+        {
+            //Update to firebase
+            myRef2.child(userID)
+                    .child("latitude").setValue(mLastLocation.getLatitude());
+            myRef2.child(userID)
+                    .child("longitude").setValue(mLastLocation.getLongitude());
+        }
+        else
+        {
+            //Toast.makeText(this, "Couldn't get the location",Toast.LENGTH_SHORT).show();
+            Log.d("TEST","Couldn't load location");
+        }
+    }
+
+    private void createLocationRequest() {
+        mLocationRequest = new LocationRequest();
+        mLocationRequest.setInterval(UPDATE_INTERVAL);
+        mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
+        mLocationRequest.setSmallestDisplacement(DISTANCE);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }
 
     /*private void showData(Map<String, Object> dataSnapshot) {
@@ -263,12 +336,22 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
         }
     }*/
 
+    public void showData3(DataSnapshot dataSnapshot) {
+        for (DataSnapshot ds : dataSnapshot.getChildren()) {
+            ProfileKurir mUpdate_penerima = new ProfileKurir();
+            mUpdate_penerima.setJumlah_narik(ds.child(userID).getValue(ProfileKurir.class).getJumlah_narik());
+
+            jumlah_narik = mUpdate_penerima.getJumlah_narik();
+        }
+    }
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         //minta permission
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_REQUEST);
             return;
         }
         //deklarasi widget
@@ -360,6 +443,7 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
                 } else if (QrVerifikasi.equals(Id_Penerima)) {
                     myRef1.child(text2Qr).child("success").setValue("true");
                     myRef.child(Id_Penerima).child("transaksi").setValue("true");
+                    myRef2.child(userID).child("jumlah_narik").setValue(jumlah_narik + 1);
                     Toast.makeText(Kurir_Main.this, "Selesai", Toast.LENGTH_SHORT).show();
                     return;
                 } else {
@@ -558,13 +642,75 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback {
     protected void onStart() {
         super.onStart();
         showMarker(latlngDonatur, latlngPenerima);
+        if(mGoogleApiClient != null)
+            mGoogleApiClient.connect();
         System.out.println("Cycle Start");
     }
+
 
     @Override
     protected void onResume() {
         super.onResume();
         showMarker(latlngDonatur, latlngPenerima);
+        checkPlayServices();
         System.out.println("Cycle RESUME");
+    }
+
+    private boolean checkPlayServices() {
+        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+        if (resultCode != ConnectionResult.SUCCESS)
+        {
+            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode))
+            {
+                GooglePlayServicesUtil.getErrorDialog(resultCode,this,PLAY_SERVICES_RES_REQUEST).show();
+            }
+            else
+            {
+                Toast.makeText(this, "This Device is not supported",Toast.LENGTH_SHORT).show();
+                finish();
+            }
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    protected void onStop() {
+        if(mGoogleApiClient != null)
+            mGoogleApiClient.disconnect();
+        super.onStop();
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        updateLokasi();
+        startLocationUpdates();
+
+    }
+
+    private void startLocationUpdates() {
+        if (ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+        {
+            return;
+        }
+        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient,mLocationRequest,this);
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+        mGoogleApiClient.connect();
+    }
+
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        mLastLocation = location;
+        updateLokasi();
     }
 }
