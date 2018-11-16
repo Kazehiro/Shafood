@@ -123,7 +123,7 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback,G
     public LatLng locationLatLng = null;
     private LatLng latlngPenerima, latlngDonatur;
     private static final int LOCATION_REQUEST = 500;
-    private FloatingActionButton fab_Scan, fab_Logout;
+    private FloatingActionButton fab_Scan;
 
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseAuth mAuth;
@@ -151,7 +151,6 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback,G
         setContentView(R.layout.activity_kurir__main);
         System.out.println("Cycle CREATE");
 
-        fab_Logout = (FloatingActionButton) findViewById(R.id.fab_Logout);
         fab_Scan = (FloatingActionButton) findViewById(R.id.fab_Scan);
 
         mAuth = FirebaseAuth.getInstance();
@@ -187,15 +186,6 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback,G
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            }
-        });
-
-        fab_Logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mAuth.signOut();
-                Intent mIntent = new Intent(Kurir_Main.this, MainActivity.class);
-                startActivity(mIntent);
             }
         });
 
