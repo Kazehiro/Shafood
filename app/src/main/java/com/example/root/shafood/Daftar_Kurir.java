@@ -211,7 +211,7 @@ public class Daftar_Kurir extends AppCompatActivity {
                 if (!nama.equals("")) {
                     FirebaseUser user = mAuth.getCurrentUser();
                     String userID = user.getUid();
-                    UserKurir newUser = new UserKurir(userID, nama, nohp, alamat, tanggallahir, noPlat, 3,"true",0,0.0,0.0);
+                    UserKurir newUser = new UserKurir(userID, nama, nohp, alamat, tanggallahir, noPlat, 3,"true",0,"0,0","0,0");
                     myRef.child("SHAFOOD").child("USER").child("KURIR").child(userID).setValue(newUser);
                     Intent i = new Intent(Daftar_Kurir.this, Berhasil.class);
                     startActivity(i);

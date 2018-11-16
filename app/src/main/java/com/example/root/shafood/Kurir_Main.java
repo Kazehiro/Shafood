@@ -278,10 +278,12 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback,G
         if (mLastLocation != null)
         {
             //Update to firebase
+            String lat = String.valueOf(mLastLocation.getLatitude());
+            String lng = String.valueOf(mLastLocation.getLongitude());
             myRef2.child(userID)
-                    .child("latitude").setValue(mLastLocation.getLatitude());
+                    .child("latitude").setValue(lat);
             myRef2.child(userID)
-                    .child("longitude").setValue(mLastLocation.getLongitude());
+                    .child("longitude").setValue(lng);
         }
         else
         {

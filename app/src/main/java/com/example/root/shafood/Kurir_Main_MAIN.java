@@ -319,10 +319,12 @@ public class Kurir_Main_MAIN extends AppCompatActivity implements GoogleApiClien
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         if (mLastLocation != null) {
             //Update to firebase
+            String lat = String.valueOf(mLastLocation.getLatitude());
+            String lng = String.valueOf(mLastLocation.getLongitude());
             myRef2.child(userID)
-                    .child("latitude").setValue(mLastLocation.getLatitude());
+                    .child("latitude").setValue(lat);
             myRef2.child(userID)
-                    .child("longitude").setValue(mLastLocation.getLongitude());
+                    .child("longitude").setValue(lng);
         } else {
             //Toast.makeText(this, "Couldn't get the location",Toast.LENGTH_SHORT).show();
             Log.d("TEST", "Couldn't load location");
