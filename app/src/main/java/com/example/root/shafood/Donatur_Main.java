@@ -336,6 +336,9 @@ public class Donatur_Main extends AppCompatActivity
         } else if (id == R.id.nav_history) {
             Intent mIntent = new Intent(Donatur_Main.this, Donatur_History.class);
             startActivity(mIntent);
+        }else if (id == R.id.nav_Tentang) {
+            Intent mIntent = new Intent(Donatur_Main.this, Authors.class);
+            startActivity(mIntent);
         } else if (id == R.id.nav_logout) {
             mAuth.signOut();
             Intent mIntent = new Intent(Donatur_Main.this, MainActivity.class);
