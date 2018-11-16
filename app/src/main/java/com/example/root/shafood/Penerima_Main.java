@@ -24,7 +24,6 @@ public class Penerima_Main extends AppCompatActivity {
     private DatabaseReference myRef;
     private String userID;
 
-
     private String nama;
     private String noktp;
     private String nohp;
@@ -35,14 +34,18 @@ public class Penerima_Main extends AppCompatActivity {
     private String transaksi;
     private String verifikasi;
     private int level;
+    private String request;
 
     private Button BtnQrcode;
     private ImageButton BtnRequest;
+    private ImageButton ImgBtnProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_penerima__main);
+
+        ImgBtnProfile = (ImageButton) findViewById(R.id.imgBtnProfile);
 
         mAuth = FirebaseAuth.getInstance();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
@@ -53,7 +56,7 @@ public class Penerima_Main extends AppCompatActivity {
         BtnQrcode = (Button) findViewById(R.id.BtnQrcode);
         BtnRequest = (ImageButton) findViewById(R.id.imageButtonRequest);
 
-        /*myRef.addValueEventListener(new ValueEventListener() {
+        myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
@@ -65,7 +68,15 @@ public class Penerima_Main extends AppCompatActivity {
             public void onCancelled(DatabaseError databaseError) {
 
             }
-        });*/
+        });
+
+        ImgBtnProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent mIntent = new Intent(Penerima_Main.this, Penerima_profile.class);
+                startActivity(mIntent);
+            }
+        });
 
         BtnRequest.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,32 +96,19 @@ public class Penerima_Main extends AppCompatActivity {
         });
     }
 
-    /*private void showData(DataSnapshot dataSnapshot) {
+    private void showData(DataSnapshot dataSnapshot) {
         for (DataSnapshot ds : dataSnapshot.getChildren()) {
             ProfilePenerima uInfo = new ProfilePenerima();
-            uInfo.setNama(ds.child("USER").child("PENERIMA").child(userID).getValue(ProfilePenerima.class).getNama());
-            uInfo.setAlamat(ds.child("USER").child("PENERIMA").child(userID).getValue(ProfilePenerima.class).getAlamat());
-            uInfo.setTanggallahir(ds.child("USER").child("PENERIMA").child(userID).getValue(ProfilePenerima.class).getTanggallahir());
-            uInfo.setNohp(ds.child("USER").child("PENERIMA").child(userID).getValue(ProfilePenerima.class).getNohp());
-            uInfo.setLevel(ds.child("USER").child("PENERIMA").child(userID).getValue(ProfilePenerima.class).getLevel());
-            uInfo.setLongitude(ds.child("USER").child("PENERIMA").child(userID).getValue(ProfilePenerima.class).getLongitude());
-            uInfo.setLatitude(ds.child("USER").child("PENERIMA").child(userID).getValue(ProfilePenerima.class).getLatitude());
-            uInfo.setNoktp(ds.child("USER").child("PENERIMA").child(userID).getValue(ProfilePenerima.class).getNoktp());
-            uInfo.setTransaksi(ds.child("USER").child("PENERIMA").child(userID).getValue(ProfilePenerima.class).getTransaksi());
-            uInfo.setVerifikasi(ds.child("USER").child("PENERIMA").child(userID).getValue(ProfilePenerima.class).getVerifikasi());
+            uInfo.setRequest(ds.child("USER").child("PENERIMA").child(userID).getValue(ProfilePenerima.class).getRequest());
 
-            nama = uInfo.getNama();
-            alamat = uInfo.getAlamat();
-            tanggallahir = uInfo.getTanggallahir();
-            nohp = uInfo.getNohp();
-            level = uInfo.getLevel();
-            longitude = uInfo.getLongitude();
-            latitude = uInfo.getLatitude();
-            noktp = uInfo.getNoktp();
-            transaksi = uInfo.getTransaksi();
-            verifikasi = uInfo.getVerifikasi();
+            request = uInfo.getRequest();
+            if (request.equals("true")){
+                BtnRequest.setImageResource(R.drawable.req);
+            }else {
+                BtnRequest.setImageResource(R.drawable.kurir);
+            }
         }
-    }*/
+    }
     public void out(View view){
         mAuth.signOut();
         Intent mIntent = new Intent(Penerima_Main.this, MainActivity.class);

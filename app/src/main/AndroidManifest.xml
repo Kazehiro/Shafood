@@ -69,7 +69,8 @@
         <activity android:name=".Kurir_Main_MAIN" />
         <activity android:name=".Daftar_donatur" />
         <activity android:name=".Daftar_Kurir" />
-        <activity android:name=".Daftar_penerima"></activity>
+        <activity android:name=".Daftar_penerima" />
+        <activity android:name=".Penerima_profile"></activity>
     </application>
 
 </manifest>
