@@ -1,35 +1,26 @@
 package com.example.root.shafood;
 
 import android.Manifest;
-import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.AutocompleteFilter;
@@ -57,21 +48,13 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.UUID;
 
-import pl.aprilapps.easyphotopicker.DefaultCallback;
-import pl.aprilapps.easyphotopicker.EasyImage;
+public class Daftar_penerima extends AppCompatActivity implements OnMapReadyCallback ,GoogleMap.OnMapLongClickListener{
 
-public class Daftar_donatur extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener {
-
-    private static final String TAG = "Donatur";
-
-    //Spinner
-    private Spinner spPilih;
+    private static final String TAG = "Penerima";
 
     EditText editTextNama;
     EditText editTextEmail;
@@ -79,29 +62,28 @@ public class Daftar_donatur extends AppCompatActivity implements OnMapReadyCallb
     TextView editTextAlamat;
     EditText editTextTanggalLahir;
     EditText editTextIdentitas;
+    EditText editTextNarasi;
     Button btnTambah;
+
+    //Spinner
+    private Spinner spPilih;
+
+    //GoogleMap
     private GoogleMap mMap;
     ArrayList<LatLng> lispoints;
     public LatLng alamatLatLng = null;
-    public Double alamatLatitude, alamatLongitude;
+    public Double alamatLatitude,alamatLongitude;
     public LatLng indonesia;
     private static final int LOCATION_REQUEST = 500;
-
-    //Date
-    private TextView mDisplayDate;
-    private DatePickerDialog.OnDateSetListener mDateSetListener;
 
     //Gambar
     private Button btnChooseIdentitasDonatur;
     private Button btnChooseFotoDonatur;
-    private ImageView imageViewIdentitasDonatur, imgViewFotoDonatur;
+    private ImageView imageViewIdentitasDonatur,imgViewFotoDonatur;
     private Uri filePath1;
     private Uri filePath2;
-    public static final int REQUEST_CODE_CAMERA_IDENTITAS = 0022;
-    public static final int REQUEST_CODE_GALLERY_IDENTITAS = 0023;
-    public static final int REQUEST_CODE_CAMERA_FOTO = 0020;
-    public static final int REQUEST_CODE_GALLERY_FOTO = 0021;
-    private String[] items = {"Camera", "Gallery"};
+    private final int PICK_IMAGE_REQUEST_1 = 1;
+    private final int PICK_IMAGE_REQUEST_2 = 2;
 
     //add Firebase Database stuff
     private FirebaseDatabase mFirebaseDatabase;
@@ -113,20 +95,24 @@ public class Daftar_donatur extends AppCompatActivity implements OnMapReadyCallb
     FirebaseStorage storage;
     StorageReference storageReference;
 
+    @Nullable
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_daftar_donatur);
-
+        setContentView(R.layout.activity_daftar_penerima);
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
 
         editTextNama = (EditText) findViewById(R.id.EditTextnama);
         editTextNohp = (EditText) findViewById(R.id.EditTextnohp);
         editTextAlamat = (TextView) findViewById(R.id.EditTextalamat);
+        editTextTanggalLahir = (EditText) findViewById(R.id.EditTexttanggallahir);
         btnTambah = (Button) findViewById(R.id.tambahDonatur);
         editTextIdentitas = (EditText) findViewById(R.id.EditTextidentitas);
-        mDisplayDate = (TextView) findViewById(R.id.EditTexttanggallahir);
+        editTextNarasi = (EditText) findViewById(R.id.EditTextNarasi);
+
+        //Spinner
+        spPilih = (Spinner) findViewById(R.id.sp_Pilih);
 
         //Initialize Views
         btnChooseFotoDonatur = (Button) findViewById(R.id.btnChooseFotoDonatur);
@@ -134,16 +120,11 @@ public class Daftar_donatur extends AppCompatActivity implements OnMapReadyCallb
         imageViewIdentitasDonatur = (ImageView) findViewById(R.id.imgViewIdentitasDonatur);
         imgViewFotoDonatur = (ImageView) findViewById(R.id.imgViewFotoDonatur);
 
-        spPilih = (Spinner) findViewById(R.id.sp_Pilih);
-
-
         //declare the database reference object. This is what we use to access the database.
         //NOTE: Unless you are signed in, this will not be useable.
         mAuth = FirebaseAuth.getInstance();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         myRef = mFirebaseDatabase.getReference();
-
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, REQUEST_CODE_CAMERA_IDENTITAS);
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -198,32 +179,21 @@ public class Daftar_donatur extends AppCompatActivity implements OnMapReadyCallb
                 String nama = editTextNama.getText().toString().toUpperCase().trim();
                 String nohp = editTextNohp.getText().toString().trim();
                 String alamat = editTextAlamat.getText().toString().toUpperCase().trim();
-                String tanggallahir = mDisplayDate.getText().toString().trim();
+                String tanggallahir = editTextTanggalLahir.getText().toString().trim();
                 String noIdentitas = editTextIdentitas.getText().toString().trim();
+                String narasi = editTextNarasi.getText().toString().trim();
                 String latitude = alamatLatitude.toString().trim();
                 String longitude = alamatLongitude.toString().trim();
 
                 Log.d("ISI", nama + " , " + nohp + " , " + alamat + " , " + tanggallahir + " , " + noIdentitas);
-                if (filePath1 == null && filePath2 == null) {
-                    showSnackbar(v, "Harap Lengkapi Foto", 3000);
-                    return;
-                } else if (filePath1 == null) {
-                    showSnackbar(v, "Harap LEngkapi KTP", 3000);
-                    return;
-                } else if (filePath2 == null) {
-                    showSnackbar(v, "Harap Lengkapi Foto Profil", 3000);
-                    return;
-                } else {
-                    uploadImageIdentitasDonatur();
-                    uploadImageFotoDonatur();
-                }
-
+                uploadImageIdentitasDonatur();
+                uploadImageFotoDonatur();
                 if (!nama.equals("")) {
                     FirebaseUser user = mAuth.getCurrentUser();
                     String userID = user.getUid();
-                    UserDonatur newUser = new UserDonatur(userID, nama, noIdentitas, nohp, alamat, tanggallahir, latitude, longitude, 2);
-                    myRef.child("SHAFOOD").child("USER").child("DONATUR").child(userID).setValue(newUser);
-                    Intent i = new Intent(Daftar_donatur.this, Berhasil.class);
+                    UserPenerima newUser = new UserPenerima(userID, nama, noIdentitas, nohp, alamat, tanggallahir,latitude,longitude, narasi,"false", "false", "false",4);
+                    myRef.child("SHAFOOD").child("USER").child("PENERIMA").child(userID).setValue(newUser);
+                    Intent i = new Intent(Daftar_penerima.this, Berhasil.class);
                     startActivity(i);
                 }
 
@@ -242,74 +212,53 @@ public class Daftar_donatur extends AppCompatActivity implements OnMapReadyCallb
         });
         lispoints = new ArrayList<>();
 
-        mDisplayDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Calendar cal = Calendar.getInstance();
-                int year = cal.get(Calendar.YEAR);
-                int month = cal.get(Calendar.MONTH);
-                int day = cal.get(Calendar.DAY_OF_MONTH);
+    }
 
-                DatePickerDialog dialog = new DatePickerDialog(
-                        Daftar_donatur.this,
-                        android.R.style.Theme_Holo_Light_Dialog_MinWidth,
-                        mDateSetListener,
-                        year,month,day);
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialog.show();
+    public void onComplete(@NonNull Task<AuthResult> task) {
+        //checking if success
+        if(task.isSuccessful()) {
+            //display some message here
+            Toast.makeText(Daftar_penerima.this, "Successfully registered "+spPilih.getSelectedItem(), Toast.LENGTH_LONG).show();
+            if (spPilih.getSelectedItem().toString().equals("Donatur")) {
+                Intent register = new Intent(Daftar_penerima.this, Daftar_donatur.class);
+                startActivity(register);
             }
-        });
-
-        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                month = month + 1;
-                Log.d(TAG, "onDateSet: dd/mm/yyy: " + day + "/" + month + "/" + year);
-
-                String date = day + "/" + month + "/" + year;
-                mDisplayDate.setText(date);
+            else if(spPilih.getSelectedItem().toString().equals("Kurir")){
+                Intent register = new Intent(Daftar_penerima.this, Daftar_Kurir.class);
+                startActivity(register);
             }
-        };
+            else if(spPilih.getSelectedItem().toString().equals("Penerima")){
+                Intent register = new Intent(Daftar_penerima.this, Daftar_penerima.class);
+                startActivity(register);
+            }
+            else{
+                Toast.makeText(Daftar_penerima.this,"Pilih Level",Toast.LENGTH_LONG).show();
+            }
+        }
+        else{
+            //display some message here
+            Toast.makeText(Daftar_penerima.this,"Registration Error",Toast.LENGTH_LONG).show();
+        }
     }
 
     public void chooseImageIdentitasDonatur() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Options");
-        builder.setItems(items, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                if (items[i].equals("Camera")) {
-                    EasyImage.openCamera(Daftar_donatur.this, REQUEST_CODE_CAMERA_IDENTITAS);
-                } else if (items[i].equals("Gallery")) {
-                    EasyImage.openGallery(Daftar_donatur.this, REQUEST_CODE_GALLERY_IDENTITAS);
-                }
-            }
-        });
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST_1);
     }
 
     public void chooseImageFotoDonatur() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Options");
-        builder.setItems(items, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                if (items[i].equals("Camera")) {
-                    EasyImage.openCamera(Daftar_donatur.this, REQUEST_CODE_CAMERA_FOTO);
-                } else if (items[i].equals("Gallery")) {
-                    EasyImage.openGallery(Daftar_donatur.this, REQUEST_CODE_GALLERY_FOTO);
-                }
-            }
-        });
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST_2);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-/*
+
         if (resultCode == RESULT_OK && data != null && data.getData() != null) {
             if (requestCode == PICK_IMAGE_REQUEST_1) {
                 filePath1 = data.getData();
@@ -328,117 +277,45 @@ public class Daftar_donatur extends AppCompatActivity implements OnMapReadyCallb
                     e.printStackTrace();
                 }
             }
-        }*/
-        EasyImage.handleActivityResult(requestCode, resultCode, data, this, new DefaultCallback() {
-            @Override
-            public void onImagePicked(File imageFile, EasyImage.ImageSource source, int type) {
-                switch (type) {
-                    case REQUEST_CODE_CAMERA_IDENTITAS:
-                        Glide.with(Daftar_donatur.this)
-                                .load(imageFile)
-                                .centerCrop()
-                                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                                .into(imageViewIdentitasDonatur);
-                        filePath1 = Uri.fromFile(imageFile);
-                        System.out.println("PATH ============== " + filePath1);
-                        System.out.println("PATH ============== " + DiskCacheStrategy.ALL.toString());
-                        break;
-                    case REQUEST_CODE_GALLERY_IDENTITAS:
-                        Glide.with(Daftar_donatur.this)
-                                .load(imageFile)
-                                .centerCrop()
-                                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                                .into(imageViewIdentitasDonatur);
-                        filePath1 = Uri.fromFile(imageFile);
-                        break;
-                    case REQUEST_CODE_CAMERA_FOTO:
-                        Glide.with(Daftar_donatur.this)
-                                .load(imageFile)
-                                .centerCrop()
-                                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                                .into(imgViewFotoDonatur);
-                        filePath2 = Uri.fromFile(imageFile);
-                        break;
-                    case REQUEST_CODE_GALLERY_FOTO:
-                        Glide.with(Daftar_donatur.this)
-                                .load(imageFile)
-                                .centerCrop()
-                                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                                .into(imgViewFotoDonatur);
-                        filePath2 = Uri.fromFile(imageFile);
-                        break;
-                }
-            }
-        });
-        if (resultCode == RESULT_OK) {
+        }
+        else if (resultCode == RESULT_OK) {
             //Toast.makeText(this, "Sini Gaes2", Toast.LENGTH_SHORT).show();
             // Tampung Data tempat ke variable
-            try {
-                Place placeData = PlaceAutocomplete.getPlace(this, data);
-                if (placeData.isDataValid()) {
-                    // Show in Log Cat
-                    Log.d("autoCompletePlace Data", placeData.toString());
+            Place placeData = PlaceAutocomplete.getPlace(this, data);
 
-                    // Dapatkan Detail
-                    String placeAddress = placeData.getAddress().toString();
-                    LatLng placeLatLng = placeData.getLatLng();
-                    String placeName = placeData.getName().toString();
+            if (placeData.isDataValid()) {
+                // Show in Log Cat
+                Log.d("autoCompletePlace Data", placeData.toString());
 
-                    // Cek user milih titik jemput atau titik tujuan
-                    switch (REQUEST_CODE) {
-                        case ALAMAT:
-                            // Set ke widget lokasi asal
-                            editTextAlamat.setText(placeAddress);
-                            alamatLatLng = placeData.getLatLng();
-                            break;
-                    }
-                    if (alamatLatLng != null) {
-                        onMapLongClick(alamatLatLng);
-                        lispoints.add(alamatLatLng);
-                        mMap.moveCamera(CameraUpdateFactory.newLatLng(alamatLatLng));
-                        CameraUpdateFactory.newLatLng(alamatLatLng);
-                        CameraUpdateFactory.newLatLngZoom(alamatLatLng, 16);
-                        mMap.addMarker(new MarkerOptions().position(alamatLatLng).title(placeAddress));
-                    }
+                // Dapatkan Detail
+                String placeAddress = placeData.getAddress().toString();
+                LatLng placeLatLng = placeData.getLatLng();
+                String placeName = placeData.getName().toString();
 
-                } else {
-                    // Data tempat tidak valid
-                    Toast.makeText(this, "Invalid Place !", Toast.LENGTH_SHORT).show();
+                // Cek user milih titik jemput atau titik tujuan
+                switch (REQUEST_CODE) {
+                    case ALAMAT:
+                        // Set ke widget lokasi asal
+                        editTextAlamat.setText(placeAddress);
+                        alamatLatLng = placeData.getLatLng();
+                        break;
                 }
-            }catch (RuntimeException e){
-                e.printStackTrace();
+                if (alamatLatLng != null) {
+                    onMapLongClick(alamatLatLng);
+                    lispoints.add(alamatLatLng);
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(alamatLatLng));
+                    CameraUpdateFactory.newLatLng(alamatLatLng);
+                    CameraUpdateFactory.newLatLngZoom(alamatLatLng,16);
+                    mMap.addMarker(new MarkerOptions().position(alamatLatLng).title(placeAddress));
+                }
+
+            } else {
+                // Data tempat tidak valid
+                Toast.makeText(this, "Invalid Place !", Toast.LENGTH_SHORT).show();
             }
         }
 
     }
-
-    public void onComplete(@NonNull Task<AuthResult> task) {
-        //checking if success
-        if(task.isSuccessful()) {
-            //display some message here
-            Toast.makeText(Daftar_donatur.this, "Successfully registered "+spPilih.getSelectedItem(), Toast.LENGTH_LONG).show();
-            if (spPilih.getSelectedItem().toString().equals("Donatur")) {
-                Intent register = new Intent(Daftar_donatur.this, Daftar_donatur.class);
-                startActivity(register);
-            }
-            else if(spPilih.getSelectedItem().toString().equals("Kurir")){
-                Intent register = new Intent(Daftar_donatur.this, Daftar_Kurir.class);
-                startActivity(register);
-            }
-            else if(spPilih.getSelectedItem().toString().equals("Penerima")){
-                Intent register = new Intent(Daftar_donatur.this, Daftar_penerima.class);
-                startActivity(register);
-            }
-            else{
-                Toast.makeText(Daftar_donatur.this,"Pilih Level",Toast.LENGTH_LONG).show();
-            }
-        }
-        else{
-            //display some message here
-            Toast.makeText(Daftar_donatur.this,"Registration Error",Toast.LENGTH_LONG).show();
-        }
-    }
-
 
     private void uploadImageIdentitasDonatur() {
 
@@ -448,20 +325,20 @@ public class Daftar_donatur extends AppCompatActivity implements OnMapReadyCallb
             progressDialog.show();
             FirebaseUser user = mAuth.getCurrentUser();
             String userID = user.getUid();
-            StorageReference ref = storageReference.child("Donatur/KTP/" + userID);
+            StorageReference ref = storageReference.child("Penerima/KTP/" + userID);
             ref.putFile(filePath1)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             progressDialog.dismiss();
-                            Toast.makeText(Daftar_donatur.this, "Uploaded Berhasil", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Daftar_penerima.this, "Uploaded Berhasil", Toast.LENGTH_SHORT).show();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             progressDialog.dismiss();
-                            Toast.makeText(Daftar_donatur.this, "Upload Gagal " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Daftar_penerima.this, "Upload Gagal " + e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     })
                     .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
@@ -473,7 +350,7 @@ public class Daftar_donatur extends AppCompatActivity implements OnMapReadyCallb
                         }
                     });
         } else {
-            Toast.makeText(Daftar_donatur.this, "Gagal uyyyyyy", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Daftar_penerima.this, "Gagal uyyyyyy", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -485,20 +362,20 @@ public class Daftar_donatur extends AppCompatActivity implements OnMapReadyCallb
             progressDialog.show();
             FirebaseUser user = mAuth.getCurrentUser();
             String userID = user.getUid();
-            StorageReference ref = storageReference.child("Donatur/FotoProfil/" + userID);
+            StorageReference ref = storageReference.child("Penerima/FotoProfil/" + userID);
             ref.putFile(filePath2)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             progressDialog.dismiss();
-                            Toast.makeText(Daftar_donatur.this, "Uploaded Berhasil", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Daftar_penerima.this, "Uploaded Berhasil", Toast.LENGTH_SHORT).show();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             progressDialog.dismiss();
-                            Toast.makeText(Daftar_donatur.this, "Upload Gagal " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Daftar_penerima.this, "Upload Gagal " + e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     })
                     .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
@@ -510,7 +387,7 @@ public class Daftar_donatur extends AppCompatActivity implements OnMapReadyCallb
                         }
                     });
         } else {
-            Toast.makeText(Daftar_donatur.this, "Gagal uyyyyyy", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Daftar_penerima.this, "Gagal uyyyyyy", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -527,6 +404,8 @@ public class Daftar_donatur extends AppCompatActivity implements OnMapReadyCallb
             mAuth.removeAuthStateListener(mAuthListener);
         }
     }
+
+
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -546,18 +425,19 @@ public class Daftar_donatur extends AppCompatActivity implements OnMapReadyCallb
         String[] indo = "-6.175 , 106.828333".split(",");
         Double lat = Double.parseDouble(indo[0]);
         Double lng = Double.parseDouble(indo[1]);
-        indonesia = new LatLng(lat, lng);
+        indonesia = new LatLng(lat,lng);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(indonesia));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(indonesia, 16));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(indonesia,16));
         mMap.setOnMapLongClickListener(this);
     }
 
     @Override
     public void onMapLongClick(LatLng latLng) {
-        if (lispoints.size() >= 1) {
+        if (lispoints.size() >= 1){
             mMap.clear();
             lispoints.clear();
-        } else {
+        }
+        else {
             lispoints.add(latLng);
             MarkerOptions mMarkerOptions = new MarkerOptions();
             mMarkerOptions.position(latLng);
@@ -573,6 +453,7 @@ public class Daftar_donatur extends AppCompatActivity implements OnMapReadyCallb
     public void showPlaceAutoComplete(int typeLocation) {
         REQUEST_CODE = typeLocation;
         AutocompleteFilter typeFilter = new AutocompleteFilter.Builder().setCountry("ID").build();
+        AutocompleteFilter filter = new AutocompleteFilter.Builder().setTypeFilter(AutocompleteFilter.TYPE_FILTER_CITIES).setCountry("ID").build();
         try {
             Intent mIntent = new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
                     .setFilter(typeFilter)
@@ -585,14 +466,10 @@ public class Daftar_donatur extends AppCompatActivity implements OnMapReadyCallb
             Toast.makeText(this, "Layanan Tidak Tersedia", Toast.LENGTH_SHORT).show();
         }
     }
-    //add a toast to show when successfully signed in
 
+    //add a toast to show when successfully signed in
     /**
      * customizable toast
-     *
      * @param message
      */
-    public void showSnackbar(View v, String message, int duration) {
-        Snackbar.make(v, message, duration).show();
-    }
 }

@@ -91,6 +91,7 @@ public class lengkapidata_kurir extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lengkapidata_kurir);
+
         editTextNama = (EditText) findViewById(R.id.EditTextnama);
         editTextAlamat = (EditText) findViewById(R.id.EditTextalamat);
         editTextNohp = (EditText) findViewById(R.id.EditTextnohp);
