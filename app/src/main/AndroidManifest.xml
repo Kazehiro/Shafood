@@ -67,7 +67,9 @@
             android:theme="@style/zxing_CaptureTheme"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".Kurir_Main_MAIN" />
-        <activity android:name=".Daftar_donatur"></activity>
+        <activity android:name=".Daftar_donatur" />
+        <activity android:name=".Kurir_History" />
+        <activity android:name=".Kurir_Account"></activity>
     </application>
 
 </manifest>
