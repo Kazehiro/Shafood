@@ -50,14 +50,14 @@ Dikembangkan oleh anak SMKN 4 Bandung"
         android:textSize="20dp" />
 
     <TextView
+        android:id="@+id/KontakKami"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Kontak Kami untuk Donasi"
-        android:id="@+id/KontakKami"
-        android:textColor="@color/white"
-        android:textSize="8pt"
         android:layout_below="@+id/editTextDesc"
-        android:paddingLeft="17pt"/>
+        android:paddingLeft="17pt"
+        android:text="Kontak Kami untuk Donasi"
+        android:textColor="@color/white"
+        android:textSize="8pt" />
 
     <ImageView
         android:id="@+id/wa"
@@ -107,67 +107,67 @@ Dikembangkan oleh anak SMKN 4 Bandung"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:paddingTop="10dp"
         android:layout_marginStart="27dp"
         android:layout_marginTop="350dp"
+        android:paddingTop="10dp"
         android:text="Authors"
         android:textColor="@color/white"
         android:textSize="20dp" />
 
     <TextView
         android:id="@+id/adrian"
-        android:paddingTop="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Adrian Hadi Permana"
-        android:textSize="15dp"
-        android:textColor="@color/white"
         android:layout_below="@id/authors"
-        android:paddingLeft="30dp"/>
+        android:paddingLeft="30dp"
+        android:paddingTop="10dp"
+        android:text="Adrian Hadi Permana"
+        android:textColor="@color/white"
+        android:textSize="15dp" />
 
     <TextView
         android:id="@+id/chairil"
-        android:paddingTop="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/adrian"
+        android:paddingLeft="30dp"
+        android:paddingTop="10dp"
         android:text="Chairil Rafi Purnama"
         android:textColor="@color/white"
-        android:textSize="15dp"
-        android:layout_below="@+id/adrian"
-        android:paddingLeft="30dp"/>
+        android:textSize="15dp" />
 
     <TextView
         android:id="@+id/dwiky"
-        android:paddingTop="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/chairil"
+        android:paddingLeft="30dp"
+        android:paddingTop="10dp"
         android:text="Dwiky Hardiansah"
         android:textColor="@color/white"
-        android:paddingLeft="30dp"
-        android:textSize="15dp"
-        android:layout_below="@id/chairil"/>
+        android:textSize="15dp" />
 
     <TextView
         android:id="@+id/hega"
-        android:paddingTop="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/dwiky"
+        android:paddingLeft="30dp"
+        android:paddingTop="10dp"
         android:text="Hega Cendikia Elanda"
         android:textColor="@color/white"
-        android:paddingLeft="30dp"
-        android:textSize="15dp"
-        android:layout_below="@id/dwiky"/>
+        android:textSize="15dp" />
 
     <TextView
         android:id="@+id/satria"
-        android:paddingTop="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Muhammad Satria Ranuwijaya"
-        android:textColor="@color/white"
+        android:layout_below="@id/hega"
         android:paddingLeft="30dp"
-        android:textSize="15dp"
-        android:layout_below="@id/hega"/>
+        android:paddingTop="10dp"
+        android:text="Satria Ranu Wijaya"
+        android:textColor="@color/white"
+        android:textSize="15dp" />
 
 
 </RelativeLayout>
