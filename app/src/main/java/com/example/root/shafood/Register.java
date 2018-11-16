@@ -122,7 +122,5 @@ public class Register extends AppCompatActivity {
                         progressDialog.dismiss();
                     }
                 });
-
-
     }
 }

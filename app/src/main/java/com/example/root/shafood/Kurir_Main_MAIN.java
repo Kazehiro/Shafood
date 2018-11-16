@@ -8,6 +8,7 @@ import android.location.Location;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -64,6 +65,7 @@ public class Kurir_Main_MAIN extends AppCompatActivity implements GoogleApiClien
     private LocationRequest mLocationRequest;
     private GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
+    private FloatingActionButton fab_Logout;
 
     private static int UPDATE_INTERVAL = 5000;
     private static int FASTEST_INTERVAL = 3000;
@@ -80,6 +82,7 @@ public class Kurir_Main_MAIN extends AppCompatActivity implements GoogleApiClien
         foto = (ImageView) findViewById(R.id.foto);
         btn_buka_maps = (Button) findViewById(R.id.btn_buka_maps);
         icon_maps = (ImageView) findViewById(R.id.icon_maps);
+        fab_Logout = (FloatingActionButton) findViewById(R.id.fab_Logout);
         kerja = (Button) findViewById(R.id.kerja);
         mAuth = FirebaseAuth.getInstance();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
@@ -146,6 +149,16 @@ public class Kurir_Main_MAIN extends AppCompatActivity implements GoogleApiClien
         buildGoogleApiClient();
         updateLokasi();
         createLocationRequest();
+
+        fab_Logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mAuth.signOut();
+                Intent mIntent = new Intent(Kurir_Main_MAIN.this, MainActivity.class);
+                startActivity(mIntent);
+            }
+        });
+
     }
 
     private void showData(DataSnapshot dataSnapshot) {

@@ -1,9 +1,173 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical"
     tools:context=".Authors">
 
-</android.support.constraint.ConstraintLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="19dp"
+        android:layout_marginTop="0dp"
+        android:fontFamily="sans-serif-smallcaps"
+        android:gravity="center"
+        android:paddingTop="10dp"
+        android:text="Shafood"
+        android:textColor="@color/white"
+        android:textSize="20pt"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="67dp"
+        android:layout_marginEnd="84dp"
+        android:text="Versi 1.0"
+        android:textColor="@color/white"
+        android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/editTextDesc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="98dp"
+        android:ems="15"
+        android:inputType="textMultiLine"
+        android:paddingLeft="30dp"
+        android:text="Merupakan Aplikasi berbagi makanan kepda yang membutuhkan dengan mudah dan gratis.
+Dikembangkan oleh anak SMKN 4 Bandung"
+        android:textColor="@color/white"
+        android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/KontakKami"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editTextDesc"
+        android:paddingLeft="17pt"
+        android:text="Kontak Kami untuk Donasi"
+        android:textColor="@color/white"
+        android:textSize="8pt" />
+
+    <ImageView
+        android:id="@+id/wa"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_above="@id/KontakKami"
+        android:layout_alignStart="@+id/editTextDesc"
+        android:layout_marginStart="26dp"
+        android:layout_marginBottom="-69dp"
+        android:src="@drawable/wa" />
+
+    <TextView
+        android:id="@+id/nowa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/wa"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="77dp"
+        android:text="08985722049"
+        android:textColor="@color/white"
+        android:textSize="20dp" />
+
+    <ImageView
+        android:id="@+id/web"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_above="@id/wa"
+        android:layout_alignStart="@+id/editTextDesc"
+        android:layout_marginStart="27dp"
+        android:layout_marginBottom="-74dp"
+        android:src="@drawable/website" />
+
+    <TextView
+        android:id="@+id/webtext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/nowa"
+        android:layout_alignTop="@+id/web"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="4dp"
+        android:text="www.Firebase.Shafood.App"
+        android:textColor="@color/white"
+        android:textSize="17dp" />
+
+    <TextView
+        android:id="@+id/authors"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="27dp"
+        android:layout_marginTop="350dp"
+        android:paddingTop="10dp"
+        android:text="Authors"
+        android:textColor="@color/white"
+        android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/adrian"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/authors"
+        android:paddingLeft="30dp"
+        android:paddingTop="10dp"
+        android:text="Adrian Hadi Permana"
+        android:textColor="@color/white"
+        android:textSize="15dp" />
+
+    <TextView
+        android:id="@+id/chairil"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/adrian"
+        android:paddingLeft="30dp"
+        android:paddingTop="10dp"
+        android:text="Chairil Rafi Purnama"
+        android:textColor="@color/white"
+        android:textSize="15dp" />
+
+    <TextView
+        android:id="@+id/dwiky"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/chairil"
+        android:paddingLeft="30dp"
+        android:paddingTop="10dp"
+        android:text="Dwiky Hardiansah"
+        android:textColor="@color/white"
+        android:textSize="15dp" />
+
+    <TextView
+        android:id="@+id/hega"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dwiky"
+        android:paddingLeft="30dp"
+        android:paddingTop="10dp"
+        android:text="Hega Cendikia Elanda"
+        android:textColor="@color/white"
+        android:textSize="15dp" />
+
+    <TextView
+        android:id="@+id/satria"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/hega"
+        android:paddingLeft="30dp"
+        android:paddingTop="10dp"
+        android:text="Satria Ranu Wijaya"
+        android:textColor="@color/white"
+        android:textSize="15dp" />
+
+
+</RelativeLayout>

@@ -13,8 +13,9 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="20dp">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:id="@+id/awal">
 
             <LinearLayout
                 android:id="@+id/atas"
@@ -68,7 +69,7 @@
             <LinearLayout
                 android:id="@+id/mulai"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:layout_below="@+id/atas"
                 android:layout_margin="10dp"
                 android:orientation="vertical">
@@ -81,6 +82,60 @@
                     android:textColor="@color/white" />
 
             </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/history"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/buka_maps"
+                android:layout_margin="10dp"
+                android:background="@color/green"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/btn_buka_history"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentTop="true"
+                    android:layout_toRightOf="@+id/icon_history"
+                    android:background="@color/green"
+                    android:text="History"
+                    android:textColor="@color/white" />
+
+                <ImageView
+                    android:id="@+id/icon_history"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/ic_history"
+                    android:tint="@color/white"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/account"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/history"
+                android:layout_margin="10dp"
+                android:background="@color/green"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/btn_account"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentTop="true"
+                    android:layout_toRightOf="@+id/icon_account"
+                    android:background="@color/green"
+                    android:text="Profile"
+                    android:textColor="@color/white" />
+
+                <ImageView
+                    android:id="@+id/icon_account"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/baseline_person_black_18"
+                    android:tint="@color/white"/>
+            </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/buka_maps"
@@ -106,6 +161,22 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:src="@drawable/ic_map_black_24dp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/fab_Logout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_margin="20dp"
+                    android:background="@color/white"
+                    android:backgroundTint="@color/red"
+                    android:rotation="45"
+                    android:src="@drawable/ic_power_settings_new_black_24dp" />
             </RelativeLayout>
 
         </RelativeLayout>
