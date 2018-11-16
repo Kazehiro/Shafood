@@ -100,9 +100,26 @@ public class ShowKurir extends AppCompatActivity {
             Map id_kurir = (Map) entry.getValue();
             Id_kurir.add((String) id_kurir.get("id_user"));
         }
+        final ArrayList<String> Status = new ArrayList<>();
+        for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
+            Map status = (Map) entry.getValue();
+            Status.add((String) status.get("status"));
+        }
+        final ArrayList<String> listNama = new ArrayList<>();
+        final ArrayList<String> listId = new ArrayList<>();
+        int i = 0;
         System.out.println(Nama + " | " + Id_kurir);
+        while(Nama.size() > i){
+            if(Status.get(i).equals("true")){
+                listNama.add(Nama.get(i));
+                listId.add(Id_kurir.get(i));
+            }
+            i++;
+        }
         mListViewKurir.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+
                 String Barang = getIntent().getStringExtra("Barang");
                 String SKuantitas = getIntent().getStringExtra("Kuantitas");
                 String NamaDonatur = getIntent().getStringExtra("Nama Donatur");
@@ -113,8 +130,8 @@ public class ShowKurir extends AppCompatActivity {
                 String Lng_Donatur = getIntent().getStringExtra("Longitude Donatur");
                 String Lat_Penerima = getIntent().getStringExtra("Latitude Penerima");
                 String Lng_Penerima = getIntent().getStringExtra("Longitude Penerima");
-                String NamaKurir = Nama.get(position);
-                String Id_Kurir = Id_kurir.get(position);
+                String NamaKurir = listNama.get(position);
+                String Id_Kurir = listId.get(position);
                 int Kuantitas = Integer.parseInt(SKuantitas);
                 System.out.println(Barang + " | " + Kuantitas + " | " + NamaDonatur + " | " + NamaPenerima + " | " + Id_Donatur + " | " + Id_Penerima + " | " + Lat_Donatur + " | " + Lng_Donatur + " | " + Lat_Penerima + " | " + Lng_Penerima + " | " + NamaKurir + " | " + Id_Kurir);
                 toastMessage(Barang + " | " + Kuantitas + " | " + NamaDonatur + " | " + NamaPenerima + " | " + Id_Donatur + " | " + Id_Penerima + " | " + Lat_Donatur + " | " + Lng_Donatur + " | " + Lat_Penerima + " | " + Lng_Penerima + " | " + NamaKurir + " | " + Id_Kurir);
@@ -125,7 +142,7 @@ public class ShowKurir extends AppCompatActivity {
                 toastMessage("Adding User to database...");
             }
         });
-        ArrayAdapter namaUser = new ArrayAdapter(this, android.R.layout.simple_list_item_1, Nama);
+        ArrayAdapter namaUser = new ArrayAdapter(this, android.R.layout.simple_list_item_1, listNama);
         mListViewKurir.setAdapter(namaUser);
     }
 

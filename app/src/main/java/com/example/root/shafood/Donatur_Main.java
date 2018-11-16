@@ -93,11 +93,9 @@ public class Donatur_Main extends AppCompatActivity
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         myRef = mFirebaseDatabase.getReference();
         userID = user.getUid();
-        myRef.addValueEventListener(new ValueEventListener() {
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
                 showData(dataSnapshot);
             }
 
@@ -188,11 +186,11 @@ public class Donatur_Main extends AppCompatActivity
 
     public void cari(View v) {
         if (TextUtils.isEmpty(etBarang.getText())) {
-            showSnackbar(nav_view, "Jumlah Barang", 3000);
+            showSnackbar(v, "Jumlah Barang", 3000);
             return;
         }
         if (TextUtils.isEmpty(etKuantitas.getText())) {
-            showSnackbar(nav_view, "Masukan Kuantitas", 3000);
+            showSnackbar(v, "Masukan Kuantitas", 3000);
             return;
         }
         Intent search = new Intent(Donatur_Main.this, ShowPenerima.class);
@@ -253,4 +251,5 @@ public class Donatur_Main extends AppCompatActivity
     {
         Snackbar.make(view, message, duration).show();
     }
+
 }

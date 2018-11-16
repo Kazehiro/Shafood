@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -50,14 +51,19 @@ public class Berhasil extends AppCompatActivity {
         System.out.println("User = " + userID);
 
 
-        myRef.addValueEventListener(new ValueEventListener() {
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
-                showData(dataSnapshot);
-                showData1(dataSnapshot);
-                showData2(dataSnapshot);
+                if (dataSnapshot.exists()) {
+                    showData(dataSnapshot);
+                    showData1(dataSnapshot);
+                    showData2(dataSnapshot);
+                    // do process 1
+                } else {
+                    myRef.removeEventListener(this);
+                }
             }
 
             @Override
@@ -84,6 +90,7 @@ public class Berhasil extends AppCompatActivity {
 
     private NullPointerException showData(DataSnapshot dataSnapshot) {
         for (DataSnapshot ds : dataSnapshot.getChildren()) {
+            System.out.println("INI SHOWDATA 1");
             ProfileDonatur uInfo = new ProfileDonatur();
             try {
                 uInfo.setLevel(ds.child("USER").child("DONATUR").child(userID).getValue(ProfileDonatur.class).getLevel());
@@ -101,6 +108,7 @@ public class Berhasil extends AppCompatActivity {
 
     private NullPointerException showData1(DataSnapshot dataSnapshot) {
         for (DataSnapshot ds : dataSnapshot.getChildren()) {
+            System.out.println("INI SHOWDATA 2");
             ProfileKurir kuInfo = new ProfileKurir();
             try {
 
@@ -122,15 +130,21 @@ public class Berhasil extends AppCompatActivity {
 
     private NullPointerException showData2(DataSnapshot dataSnapshot) {
         for (DataSnapshot ds : dataSnapshot.getChildren()) {
+            System.out.println("INI SHOWDATA 3");
             ProfilePenerima peInfo = new ProfilePenerima();
             try {
 
-                peInfo.setLevel(ds.child("USER").child("PENERIMA").child(userID).getValue(ProfileKurir.class).getLevel());
+                peInfo.setLevel(ds.child("USER").child("PENERIMA").child(userID).getValue(ProfilePenerima.class).getLevel());
+                peInfo.setVerifikasi(ds.child("USER").child("PENERIMA").child(userID).getValue(ProfilePenerima.class).getVerifikasi());
                 System.out.println("kuInfo = " + peInfo.getLevel());
 
                 if (peInfo.getLevel() == 4) {
-                    Intent mIntent = new Intent(Berhasil.this, Penerima_Main.class);
-                    startActivity(mIntent);
+                    if(peInfo.getVerifikasi().equals("true")){
+                        Intent mIntent = new Intent(Berhasil.this, Penerima_Main.class);
+                        startActivity(mIntent);
+                    } else{
+                        toastMessage("Akun Anda Belum Ter-Verifikasi");
+                    }
                 }
 
 

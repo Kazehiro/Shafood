@@ -59,6 +59,7 @@ public class lengkapidata_penerima extends AppCompatActivity implements OnMapRea
     TextView editTextAlamat;
     EditText editTextTanggalLahir;
     EditText editTextIdentitas;
+    EditText editTextNarasi;
     Button btnTambah;
     private GoogleMap mMap;
     ArrayList<LatLng> lispoints;
@@ -101,6 +102,7 @@ public class lengkapidata_penerima extends AppCompatActivity implements OnMapRea
         editTextTanggalLahir = (EditText) findViewById(R.id.EditTexttanggallahir);
         btnTambah = (Button) findViewById(R.id.tambahDonatur);
         editTextIdentitas = (EditText) findViewById(R.id.EditTextidentitas);
+        editTextNarasi = (EditText) findViewById(R.id.EditTextNarasi);
 
         //Initialize Views
         btnChooseFotoDonatur = (Button) findViewById(R.id.btnChooseFotoDonatur);
@@ -169,6 +171,7 @@ public class lengkapidata_penerima extends AppCompatActivity implements OnMapRea
                 String alamat = editTextAlamat.getText().toString().toUpperCase().trim();
                 String tanggallahir = editTextTanggalLahir.getText().toString().trim();
                 String noIdentitas = editTextIdentitas.getText().toString().trim();
+                String narasi = editTextNarasi.getText().toString().trim();
                 String latitude = alamatLatitude.toString().trim();
                 String longitude = alamatLongitude.toString().trim();
 
@@ -178,7 +181,7 @@ public class lengkapidata_penerima extends AppCompatActivity implements OnMapRea
                 if (!nama.equals("")) {
                     FirebaseUser user = mAuth.getCurrentUser();
                     String userID = user.getUid();
-                    UserPenerima newUser = new UserPenerima(userID, nama, noIdentitas, nohp, alamat, tanggallahir,latitude,longitude,"false", "false", "false",4);
+                    UserPenerima newUser = new UserPenerima(userID, nama, noIdentitas, nohp, alamat, tanggallahir,latitude,longitude, narasi,"false", "false", "false",4);
                     myRef.child("SHAFOOD").child("USER").child("PENERIMA").child(userID).setValue(newUser);
                     Intent i = new Intent(lengkapidata_penerima.this, Berhasil.class);
                     startActivity(i);

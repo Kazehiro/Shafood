@@ -25,14 +25,14 @@
         android:orientation="vertical">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/imageViewFotoPenerima"
+            android:id="@+id/imageViewHistoryFotoPenerima"
             android:layout_width="104dp"
             android:layout_height="111dp"
             android:layout_gravity="center"
             android:layout_marginTop="15dp"
             app:srcCompat="@drawable/ic_account" />
         <TextView
-            android:id="@+id/editTextNamaPenerimaPopup"
+            android:id="@+id/editTextHistoryNamaPenerimaPopup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
@@ -40,7 +40,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="5dp"/>
         <TextView
-            android:id="@+id/editTextNoTelpPopup"
+            android:id="@+id/editTextHistoryNamaPengirim"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
@@ -48,33 +48,14 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="5dp"/>
         <TextView
-            android:id="@+id/editTextAlamatPenerimaPopup"
+            android:id="@+id/editTextHistoryAlamatPenerimaPopup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textColor="@color/white"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="5dp"/>
-        <TextView
-            android:id="@+id/editTextDescPopup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:inputType="textMultiLine"
-            android:textColor="@color/white"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="5dp"/>
+
 
     </LinearLayout>
-
-    <Button
-        android:id="@+id/btnfollow"
-        android:layout_width="121dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="25dp"
-        android:background="@drawable/buttonstyle"
-        android:text="Kirim Barang"
-        android:textColor="@color/white" />
-
 </LinearLayout>

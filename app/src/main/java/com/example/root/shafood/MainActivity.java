@@ -16,15 +16,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+import com.firebase.ui.auth.AuthUI;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-
+import com.mukeshsolanki.sociallogin.google.GoogleHelper;
+import com.mukeshsolanki.sociallogin.google.GoogleListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 
 public class MainActivity extends AppCompatActivity {
+    GoogleHelper mGoogle;
     private static final String TAG = "MainActivity";
 
     private FirebaseAuth mAuth;
@@ -33,12 +34,15 @@ public class MainActivity extends AppCompatActivity {
     private long backPressedTime;
     private Toast backToast;
     private int progressStatus = 0;
+    private final static int LOGIN_PERMISSION=1000;
 
     // UI references.
     private EditText mEmail, mPassword;
     private Button btnSignIn;
+    private Button btnGoogle;;
     private FirebaseAuth firebaseAuth;
-    ;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +54,19 @@ public class MainActivity extends AppCompatActivity {
         mEmail = (EditText) findViewById(R.id.email);
         mPassword = (EditText) findViewById(R.id.password);
         btnSignIn = (Button) findViewById(R.id.email_sign_in_button);
+        btnGoogle = (Button) findViewById(R.id.btnGoogle);
         mAuth = FirebaseAuth.getInstance();
         progressDialog = new ProgressDialog(this);
+        btnGoogle.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                startActivityForResult(
+                        AuthUI.getInstance().createSignInIntentBuilder()
+                                .setIsSmartLockEnabled(true)
+                                .build(),LOGIN_PERMISSION
+                );
+            }
+        });
 
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -174,5 +189,25 @@ public class MainActivity extends AppCompatActivity {
     }
     public void showSnackbar(View view, String message, int duration) {
         Snackbar.make(view, message, duration).show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == LOGIN_PERMISSION)
+        {
+            startNewActivity(resultCode,data);
+        }
+    }
+    private void startNewActivity(int resultCode, Intent data) {
+        if (resultCode == RESULT_OK)
+        {
+            Intent intent = new Intent(MainActivity.this,Berhasil.class);
+            startActivity(intent);
+            finish();
+        }
+        else
+        {
+            Toast.makeText(this, "Login Failed !!!", Toast.LENGTH_SHORT).show();
+        }
     }
 }
