@@ -10,7 +10,9 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="923dp"
+        tools:layout_editor_absoluteY="106dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -142,14 +144,14 @@
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/cari"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/judul"
-                            android:id="@+id/cari"
+                            android:layout_marginBottom="10dp"
                             android:text="Cari Disini "
-                            android:textStyle="bold"
                             android:textSize="15sp"
-                            android:layout_marginBottom="10dp"/>
+                            android:textStyle="bold" />
 
                         <fragment
                             android:id="@+id/mapDonatur"
@@ -176,6 +178,26 @@
                     android:text="Cari Penerima"
                     android:textColor="@color/white" />
 
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginRight="30dp"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Kiriman Anda Yang Belum Sampai: "
+                    android:textSize="15sp"
+                    android:textStyle="bold"/>
+
+                <ListView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/listViewBelumTerkirim"/>
             </LinearLayout>
 
         </LinearLayout>

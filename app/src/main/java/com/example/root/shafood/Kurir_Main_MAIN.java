@@ -44,7 +44,7 @@ public class Kurir_Main_MAIN extends AppCompatActivity implements GoogleApiClien
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
 
-    private TextView nama, tvNotif;
+    private TextView nama, tvNotif, jumlahNarik;
     private ImageView check;
     private RelativeLayout buka_maps;
     private LinearLayout mulai;
@@ -89,7 +89,7 @@ public class Kurir_Main_MAIN extends AppCompatActivity implements GoogleApiClien
         btn_account = (Button) findViewById(R.id.btn_account);
         icon_account = (ImageView) findViewById(R.id.icon_account);
         icon_history = (ImageView) findViewById(R.id.icon_history);
-
+        jumlahNarik = (TextView) findViewById(R.id.jumlahNarik);
 
         mAuth = FirebaseAuth.getInstance();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
@@ -113,6 +113,38 @@ public class Kurir_Main_MAIN extends AppCompatActivity implements GoogleApiClien
             @Override
             public void onClick(View view) {
                 Intent mIntent = new Intent(Kurir_Main_MAIN.this, Kurir_Main.class);
+                startActivity(mIntent);
+            }
+        });
+
+        btn_account.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent mIntent = new Intent(Kurir_Main_MAIN.this, Kurir_Account.class);
+                startActivity(mIntent);
+            }
+        });
+
+        icon_account.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent mIntent = new Intent(Kurir_Main_MAIN.this, Kurir_Account.class);
+                startActivity(mIntent);
+            }
+        });
+
+        btn_buka_history.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent mIntent = new Intent(Kurir_Main_MAIN.this, Kurir_History.class);
+                startActivity(mIntent);
+            }
+        });
+
+        icon_history.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent mIntent = new Intent(Kurir_Main_MAIN.this, Kurir_History.class);
                 startActivity(mIntent);
             }
         });
@@ -178,10 +210,14 @@ public class Kurir_Main_MAIN extends AppCompatActivity implements GoogleApiClien
             uInfo.setLevel(ds.child("USER").child("KURIR").child(userID).getValue(ProfileKurir.class).getLevel());
             uInfo.setNoplat(ds.child("USER").child("KURIR").child(userID).getValue(ProfileKurir.class).getNoplat());
             uInfo.setStatus(ds.child("USER").child("KURIR").child(userID).getValue(ProfileKurir.class).getStatus());
+            uInfo.setJumlah_narik(ds.child("USER").child("KURIR").child(userID).getValue(ProfileKurir.class).getJumlah_narik());
 
             status = uInfo.getStatus();
             namaProfile = uInfo.getNama();
+            int jmlNarik = uInfo.getJumlah_narik();
             nama.setText(namaProfile);
+            jumlahNarik.setText("Jumlah Narik : " + jmlNarik);
+
             System.out.println(namaProfile);
             if (status.equals("true")) {
                 check.setImageResource(R.drawable.ic_check_black_24dp);

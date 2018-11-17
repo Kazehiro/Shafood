@@ -50,8 +50,8 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/nama"
                         android:layout_marginLeft="20dp"
-                        android:layout_marginTop="30dp"
-                        android:text="Status : "
+                        android:layout_marginTop="10dp"
+                        android:text="Status :  "
                         android:textColor="@color/white"
                         android:textSize="20dp" />
 
@@ -60,8 +60,19 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_alignTop="@+id/status"
-                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="5dp"
                         android:layout_toRightOf="@+id/status" />
+
+                    <TextView
+                        android:id="@+id/jumlahNarik"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/status"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="10dp"
+                        android:text="Jumlah Narik : "
+                        android:textColor="@color/white"
+                        android:textSize="20dp" />
 
                 </RelativeLayout>
             </LinearLayout>

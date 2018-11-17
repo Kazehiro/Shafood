@@ -160,13 +160,13 @@ public class ShowKurir extends AppCompatActivity {
                 String NamaKurir = listNama.get(position);
                 String Id_Kurir = listId.get(position);
                 int Kuantitas = Integer.parseInt(SKuantitas);
-                System.out.println(Barang + " | " + Kuantitas + " | " + NamaDonatur + " | " + NamaPenerima + " | " + Id_Donatur + " | " + Id_Penerima + " | " + Lat_Donatur + " | " + Lng_Donatur + " | " + Lat_Penerima + " | " + Lng_Penerima + " | " + NamaKurir + " | " + Id_Kurir);
-                toastMessage(Barang + " | " + Kuantitas + " | " + NamaDonatur + " | " + NamaPenerima + " | " + Id_Donatur + " | " + Id_Penerima + " | " + Lat_Donatur + " | " + Lng_Donatur + " | " + Lat_Penerima + " | " + Lng_Penerima + " | " + NamaKurir + " | " + Id_Kurir);
                 Long tsLong = System.currentTimeMillis() / 1000;
                 String ts = tsLong.toString();
                 Transaksi newTransaksi = new Transaksi(userID + ts, userID, Id_Penerima, Id_Kurir, Lat_Penerima, Lng_Penerima, Lat_Donatur, Lng_Donatur, NamaDonatur, NamaKurir, NamaPenerima, Barang, Kuantitas, "false");
                 myRefUpload.child("SHAFOOD").child("TRANSAKSI").child(userID + ts).setValue(newTransaksi);
-                toastMessage("Adding User to database...");
+                toastMessage("Terima Kasih");
+                Intent mIntent = new Intent(ShowKurir.this,Donatur_Main.class);
+                startActivity(mIntent);
             }
         });
         ArrayAdapter namaUser = new ArrayAdapter(this, android.R.layout.simple_list_item_1, listNama);
