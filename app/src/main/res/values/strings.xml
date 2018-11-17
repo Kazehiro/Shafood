@@ -19,6 +19,9 @@
     <string name="title_notifications">Notifications</string>
     <string name="title_activity_kurir__main">Map</string>
 
+    <string name="kurir_kosong">Anda Belum Memiliki Order Untuk Diantarkan</string>
+    <string name="kurir_ada">Anda Memiliki Sebuah Order, Silahkan Klik Buka Maps</string>
+
     <string-array name="PemilihanUser">
         <item>Donatur</item>
         <item>Kurir</item>

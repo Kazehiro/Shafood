@@ -12,10 +12,10 @@
         android:layout_height="match_parent">
 
         <RelativeLayout
+            android:id="@+id/awal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:id="@+id/awal">
+            android:layout_marginTop="20dp">
 
             <LinearLayout
                 android:id="@+id/atas"
@@ -83,6 +83,33 @@
 
             </LinearLayout>
 
+
+            <RelativeLayout
+                android:id="@+id/buka_maps"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/rlNotif"
+                android:layout_margin="10dp"
+                android:background="@color/green"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/btn_buka_maps"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentTop="true"
+                    android:layout_toRightOf="@+id/icon_maps"
+                    android:background="@color/green"
+                    android:text="Buka Maps"
+                    android:textColor="@color/white" />
+
+                <ImageView
+                    android:id="@+id/icon_maps"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/ic_map_black_24dp" />
+            </RelativeLayout>
+
             <RelativeLayout
                 android:id="@+id/history"
                 android:layout_width="match_parent"
@@ -107,7 +134,7 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:src="@drawable/ic_history"
-                    android:tint="@color/white"/>
+                    android:tint="@color/white" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -134,33 +161,25 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:src="@drawable/baseline_person_black_18"
-                    android:tint="@color/white"/>
+                    android:tint="@color/white" />
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/buka_maps"
+                android:id="@+id/rlNotif"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_below="@+id/mulai"
-                android:layout_margin="10dp"
-                android:background="@color/green"
-                android:orientation="vertical">
+                android:layout_margin="10dp">
 
-                <Button
-                    android:id="@+id/btn_buka_maps"
+                <TextView
+                    android:id="@+id/tvNotif"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_alignParentTop="true"
-                    android:layout_toRightOf="@+id/icon_maps"
-                    android:background="@color/green"
-                    android:text="Buka Maps"
-                    android:textColor="@color/white" />
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="15dp" />
 
-                <ImageView
-                    android:id="@+id/icon_maps"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:src="@drawable/ic_map_black_24dp" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -178,7 +197,6 @@
                     android:rotation="45"
                     android:src="@drawable/ic_power_settings_new_black_24dp" />
             </RelativeLayout>
-
         </RelativeLayout>
     </RelativeLayout>
 

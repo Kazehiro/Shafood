@@ -44,14 +44,14 @@ public class Kurir_Main_MAIN extends AppCompatActivity implements GoogleApiClien
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
 
-    private TextView nama;
+    private TextView nama, tvNotif;
     private ImageView check;
     private RelativeLayout buka_maps;
     private LinearLayout mulai;
     private long backPressedTime;
     private Toast backToast;
-    private Button btn_buka_maps, kerja;
-    private ImageView foto, icon_maps;
+    private Button btn_buka_maps, kerja, btn_buka_history, btn_account;
+    private ImageView foto, icon_maps, icon_history, icon_account;
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -84,6 +84,13 @@ public class Kurir_Main_MAIN extends AppCompatActivity implements GoogleApiClien
         icon_maps = (ImageView) findViewById(R.id.icon_maps);
         fab_Logout = (FloatingActionButton) findViewById(R.id.fab_Logout);
         kerja = (Button) findViewById(R.id.kerja);
+        tvNotif = (TextView) findViewById(R.id.tvNotif);
+        btn_buka_history = (Button) findViewById(R.id.btn_buka_history);
+        btn_account = (Button) findViewById(R.id.btn_account);
+        icon_account = (ImageView) findViewById(R.id.icon_account);
+        icon_history = (ImageView) findViewById(R.id.icon_history);
+
+
         mAuth = FirebaseAuth.getInstance();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         myRef = mFirebaseDatabase.getReference();
