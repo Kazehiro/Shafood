@@ -10,7 +10,7 @@
     <ImageButton
         android:layout_width="55dp"
         android:layout_height="54dp"
-        android:src="@drawable/ic_account_"
+        app:srcCompat="@drawable/ic_account_"
         android:id="@+id/imgBtnProfile"
         android:background="@color/transparent"
         />

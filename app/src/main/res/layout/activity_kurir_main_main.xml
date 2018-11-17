@@ -118,7 +118,7 @@
                     android:id="@+id/icon_maps"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/ic_map_black_24dp" />
+                    app:srcCompat="@drawable/ic_map_black_24dp" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -144,7 +144,7 @@
                     android:id="@+id/icon_history"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/ic_history"
+                    app:srcCompat="@drawable/ic_history"
                     android:tint="@color/white" />
             </RelativeLayout>
 
@@ -206,7 +206,7 @@
                     android:background="@color/white"
                     android:backgroundTint="@color/red"
                     android:rotation="45"
-                    android:src="@drawable/ic_power_settings_new_black_24dp" />
+                    app:srcCompat="@drawable/ic_power_settings_new_black_24dp" />
             </RelativeLayout>
         </RelativeLayout>
     </RelativeLayout>
