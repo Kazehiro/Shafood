@@ -60,11 +60,12 @@ public class MainActivity extends AppCompatActivity {
         btnGoogle.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                startActivityForResult(
+                /*startActivityForResult(
                         AuthUI.getInstance().createSignInIntentBuilder()
                                 .setIsSmartLockEnabled(true)
-                                .build(),LOGIN_PERMISSION
-                );
+                                .build(),LOGIN_PERMISSION);*/
+                showSnackbar(v, "Layanan Belum Tersedia", 3000);
+
             }
         });
 
