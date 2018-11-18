@@ -178,18 +178,28 @@
             <RelativeLayout
                 android:id="@+id/rlNotif"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="80dp"
                 android:layout_below="@+id/mulai"
                 android:layout_margin="10dp">
 
-                <TextView
-                    android:id="@+id/tvNotif"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text=""
-                    android:textAlignment="center"
-                    android:textColor="@color/white"
-                    android:textSize="15dp" />
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Kiriman Anda Yang Belum Diantar : "
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"/>
+
+                    <ListView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/listViewBelumTerkirim"
+                        android:background="@color/white" />
+                </LinearLayout>
 
             </RelativeLayout>
 

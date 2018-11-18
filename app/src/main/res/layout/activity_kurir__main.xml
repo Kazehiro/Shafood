@@ -37,7 +37,7 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:background="@color/colorPrimary"
-                        map:srcCompat="@drawable/ic_navigation_black_24dp" />
+                        android:src="@drawable/ic_navigation_black_24dp" />
 
                     <TextView
                         android:id="@+id/etTitikAwal"
@@ -80,7 +80,7 @@
                         android:layout_height="40dp"
                         android:background="@color/colorPrimary"
                         android:rotation="180"
-                        map:srcCompat="@drawable/ic_navigation_black_24dp" />
+                        android:src="@drawable/ic_navigation_black_24dp" />
 
                     <TextView
                         android:id="@+id/etTitikAkhir"
