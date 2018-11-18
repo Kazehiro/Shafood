@@ -79,7 +79,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback,GoogleApiClient.ConnectionCallbacks,
+public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
 
@@ -108,9 +108,9 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback,G
     private String nama_penerima;
     private String nama_barang;
     private int kuantitas;
-    private Double LatPenerima, LngPenerima, LatDonatur, LngDonatur,lat,lng;
+    private Double LatPenerima, LngPenerima, LatDonatur, LngDonatur, lat, lng;
 
-    private String QrVerifikasi,email;
+    private String QrVerifikasi, email;
     private int level;
     private String Id_Donatur, Id_Penerima;
     String text2Qr;
@@ -141,8 +141,8 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback,G
     private GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
 
-    private static int UPDATE_INTERVAL = 5000;
-    private static int FASTEST_INTERVAL = 3000;
+    private static int UPDATE_INTERVAL = 2000;
+    private static int FASTEST_INTERVAL = 2000;
     private static int DISTANCE = 10;
 
     @Override
@@ -269,14 +269,12 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback,G
     }
 
     private void updateLokasi() {
-        if (ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
-        {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        if (mLastLocation != null)
-        {
+        if (mLastLocation != null) {
             //Update to firebase
             String lat = String.valueOf(mLastLocation.getLatitude());
             String lng = String.valueOf(mLastLocation.getLongitude());
@@ -284,11 +282,9 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback,G
                     .child("latitude").setValue(lat);
             myRef2.child(userID)
                     .child("longitude").setValue(lng);
-        }
-        else
-        {
+        } else {
             //Toast.makeText(this, "Couldn't get the location",Toast.LENGTH_SHORT).show();
-            Log.d("TEST","Couldn't load location");
+            Log.d("TEST", "Couldn't load location");
         }
     }
 
@@ -418,10 +414,12 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback,G
                     myRef1.child(text2Qr).child("success").setValue("true");
                     myRef.child(Id_Penerima).child("transaksi").setValue("true");
                     myRef2.child(userID).child("jumlah_narik").setValue(jumlah_narik + 1);
+                    myRef2.child(userID).child("narik").setValue("false");
                     return;
                 } else if (QrVerifikasi.equals(Id_Penerima)) {
                     myRef1.child(text2Qr).child("success").setValue("true");
                     myRef.child(Id_Penerima).child("transaksi").setValue("true");
+                    myRef2.child(userID).child("narik").setValue("false");
                     myRef2.child(userID).child("jumlah_narik").setValue(jumlah_narik + 1);
                     Toast.makeText(Kurir_Main.this, "Selesai", Toast.LENGTH_SHORT).show();
                     return;
@@ -621,7 +619,7 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback,G
     protected void onStart() {
         super.onStart();
         showMarker(latlngDonatur, latlngPenerima);
-        if(mGoogleApiClient != null)
+        if (mGoogleApiClient != null)
             mGoogleApiClient.connect();
         System.out.println("Cycle Start");
     }
@@ -637,15 +635,11 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback,G
 
     private boolean checkPlayServices() {
         int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
-        if (resultCode != ConnectionResult.SUCCESS)
-        {
-            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode))
-            {
-                GooglePlayServicesUtil.getErrorDialog(resultCode,this,PLAY_SERVICES_RES_REQUEST).show();
-            }
-            else
-            {
-                Toast.makeText(this, "This Device is not supported",Toast.LENGTH_SHORT).show();
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
+                GooglePlayServicesUtil.getErrorDialog(resultCode, this, PLAY_SERVICES_RES_REQUEST).show();
+            } else {
+                Toast.makeText(this, "This Device is not supported", Toast.LENGTH_SHORT).show();
                 finish();
             }
             return false;
@@ -655,7 +649,7 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback,G
 
     @Override
     protected void onStop() {
-        if(mGoogleApiClient != null)
+        if (mGoogleApiClient != null)
             mGoogleApiClient.disconnect();
         super.onStop();
     }
@@ -668,12 +662,11 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback,G
     }
 
     private void startLocationUpdates() {
-        if (ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
-        {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
-        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient,mLocationRequest,this);
+        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
     }
 
     @Override

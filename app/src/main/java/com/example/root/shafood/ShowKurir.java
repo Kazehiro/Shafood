@@ -148,7 +148,7 @@ public class ShowKurir extends AppCompatActivity {
         System.out.println(Nama + " | " + Id_kurir);
         while(Nama.size() > i){
             if(Status.get(i).equals("true")){
-                if(Narik.get(i).equals("true"))
+                if(Narik.get(i).equals("false"))
                 {
                     Location friend = new Location("");
                     friend.setLatitude(Double.parseDouble(Lat.get(i)));
