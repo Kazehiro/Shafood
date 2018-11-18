@@ -38,7 +38,7 @@ public class ShowKurir extends AppCompatActivity {
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-    private DatabaseReference myRef,myRefUpload;
+    private DatabaseReference myRef,myRefUpload,myRef1;
     private String userID;
 
     private ListView mListViewKurir;
@@ -57,6 +57,7 @@ public class ShowKurir extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         myRef = mFirebaseDatabase.getReference().child("SHAFOOD").child("USER").child("KURIR");
+        myRef1 = mFirebaseDatabase.getReference();
         myRefUpload = mFirebaseDatabase.getReference();
         FirebaseUser user = mAuth.getCurrentUser();
         userID = user.getUid();
@@ -136,18 +137,26 @@ public class ShowKurir extends AppCompatActivity {
             Map lng = (Map) entry.getValue();
             Lng.add((String) lng.get("longitude"));
         }
+        final ArrayList<String> Narik = new ArrayList<>();
+        for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
+            Map narik = (Map) entry.getValue();
+            Narik.add((String) narik.get("narik"));
+        }
         final ArrayList<String> listNama = new ArrayList<>();
         final ArrayList<String> listId = new ArrayList<>();
         int i = 0;
         System.out.println(Nama + " | " + Id_kurir);
         while(Nama.size() > i){
             if(Status.get(i).equals("true")){
-                Location friend = new Location("");
-                friend.setLatitude(Double.parseDouble(Lat.get(i)));
-                friend.setLongitude(Double.parseDouble(Lng.get(i)));
-                if (((currentUser.distanceTo(friend)) / 1000) <= 5) {
-                    listNama.add(Nama.get(i));
-                    listId.add(Id_kurir.get(i));
+                if(Narik.get(i).equals("true"))
+                {
+                    Location friend = new Location("");
+                    friend.setLatitude(Double.parseDouble(Lat.get(i)));
+                    friend.setLongitude(Double.parseDouble(Lng.get(i)));
+                    if (((currentUser.distanceTo(friend)) / 1000) <= 5) {
+                        listNama.add(Nama.get(i));
+                        listId.add(Id_kurir.get(i));
+                    }
                 }
             }
             i++;
@@ -164,6 +173,7 @@ public class ShowKurir extends AppCompatActivity {
                 String ts = tsLong.toString();
                 Transaksi newTransaksi = new Transaksi(userID + ts, userID, Id_Penerima, Id_Kurir, Lat_Penerima, Lng_Penerima, Lat_Donatur, Lng_Donatur, NamaDonatur, NamaKurir, NamaPenerima, Barang, Kuantitas, "false");
                 myRefUpload.child("SHAFOOD").child("TRANSAKSI").child(userID + ts).setValue(newTransaksi);
+                myRef1.child("SHAFOOD").child("USER").child("PENGIRIM").child(userID).child("narik").setValue("true");
                 toastMessage("Terima Kasih");
                 Intent mIntent = new Intent(ShowKurir.this,Donatur_Main.class);
                 startActivity(mIntent);

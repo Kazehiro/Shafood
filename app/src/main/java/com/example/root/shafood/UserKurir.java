@@ -9,6 +9,7 @@ public class UserKurir {
     public String noplat;
     public int level;
     public String status;
+    public String narik;
     public int jumlah_narik;
     private String latitude;
     private String longitude;
@@ -25,5 +26,6 @@ public class UserKurir {
         this.jumlah_narik = jumlah_narik;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.narik = "false";
     }
 }
