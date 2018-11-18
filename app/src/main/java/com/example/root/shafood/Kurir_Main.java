@@ -415,6 +415,8 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback, 
                     myRef.child(Id_Penerima).child("transaksi").setValue("true");
                     myRef2.child(userID).child("jumlah_narik").setValue(jumlah_narik + 1);
                     myRef2.child(userID).child("narik").setValue("false");
+                    Intent mIntent = new Intent(Kurir_Main.this,Kurir_Main_MAIN.class);
+                    startActivity(mIntent);
                     return;
                 } else if (QrVerifikasi.equals(Id_Penerima)) {
                     myRef1.child(text2Qr).child("success").setValue("true");
@@ -422,9 +424,13 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback, 
                     myRef2.child(userID).child("narik").setValue("false");
                     myRef2.child(userID).child("jumlah_narik").setValue(jumlah_narik + 1);
                     Toast.makeText(Kurir_Main.this, "Selesai", Toast.LENGTH_SHORT).show();
+                    Intent mIntent = new Intent(Kurir_Main.this,Kurir_Main_MAIN.class);
+                    startActivity(mIntent);
                     return;
                 } else {
                     Toast.makeText(Kurir_Main.this, "Kode Tidak Sesuai", Toast.LENGTH_SHORT).show();
+                    Intent mIntent = new Intent(Kurir_Main.this,Kurir_Main_MAIN.class);
+                    startActivity(mIntent);
                     return;
                 }
             }
