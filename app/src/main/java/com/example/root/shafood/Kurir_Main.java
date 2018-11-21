@@ -2,10 +2,12 @@ package com.example.root.shafood;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
@@ -18,6 +20,7 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
@@ -71,7 +74,9 @@ import com.google.zxing.integration.android.IntentResult;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 import com.journeyapps.barcodescanner.CaptureActivity;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -114,6 +119,7 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback, 
     private int level;
     private String Id_Donatur, Id_Penerima;
     String text2Qr;
+    private Dialog mylengkapi;
 
     /*String API_KEY = "AIzaSyAdXOOHbTv9D2DwmZ2o5M7VbyhLrd8Y8mw";*/
     public static final int PICK_UP = 0;
@@ -128,7 +134,7 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback, 
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-    private DatabaseReference myRef, myRef1, myRef2, myRef3;
+    private DatabaseReference myRef, myRef1, myRef2, myRef3, myRef4;
     private final int REQUEST_CODE_CAMERA_IDENTITAS = 001;
 
     ImageButton imageBtnScan;
@@ -150,6 +156,7 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback, 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kurir__main);
         System.out.println("Cycle CREATE");
+        mylengkapi = new Dialog(this);
 
         fab_Scan = (FloatingActionButton) findViewById(R.id.fab_Scan);
 
@@ -159,6 +166,7 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback, 
         myRef1 = mFirebaseDatabase.getReference().child("SHAFOOD").child("TRANSAKSI");
         myRef3 = mFirebaseDatabase.getReference().child("USER").child("KURIR");
         myRef2 = mFirebaseDatabase.getReference().child("SHAFOOD").child("USER").child("KURIR");
+        myRef4 = mFirebaseDatabase.getReference().child("SHAFOOD").child("NOTIFIKASI");
         FirebaseUser user = mAuth.getCurrentUser();
         userID = user.getUid();
         tempatDonatur = (RelativeLayout) findViewById(R.id.tempatDonatur);
@@ -410,23 +418,31 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback, 
                 System.out.println("Hasil Scan === " + QrVerifikasi);
                 System.out.println("Hasil DB === " + text2Qr);
                 if (QrVerifikasi.equals(text2Qr)) {
-                    Toast.makeText(Kurir_Main.this, "Selesai", Toast.LENGTH_SHORT).show();
+
+                    String Waktu = DateFormat.getDateTimeInstance().format(new Date());
                     myRef1.child(text2Qr).child("success").setValue("true");
                     myRef.child(Id_Penerima).child("transaksi").setValue("true");
-                    myRef2.child(userID).child("jumlah_narik").setValue(jumlah_narik + 1);
+                    jumlah_narik = jumlah_narik + 1;
+                    myRef2.child(userID).child("jumlah_narik").setValue(jumlah_narik);
                     myRef2.child(userID).child("narik").setValue("false");
-                    Intent mIntent = new Intent(Kurir_Main.this,Kurir_Main_MAIN.class);
-                    startActivity(mIntent);
-                    return;
+                    showLengkapi();
+                    /*myRef4.child(Id_Donatur).child("show").setValue("true");
+                    myRef4.child(Id_Donatur).child("nama_penerima").setValue(nama_penerima);
+                    myRef4.child(Id_Donatur).child("waktu").setValue(Waktu);*/
+                    /*Intent mIntent = new Intent(Kurir_Main.this,Kurir_Main_MAIN.class);
+                    startActivity(mIntent);*/
                 } else if (QrVerifikasi.equals(Id_Penerima)) {
+
+                    String Waktu = DateFormat.getDateTimeInstance().format(new Date());
                     myRef1.child(text2Qr).child("success").setValue("true");
                     myRef.child(Id_Penerima).child("transaksi").setValue("true");
                     myRef2.child(userID).child("narik").setValue("false");
-                    myRef2.child(userID).child("jumlah_narik").setValue(jumlah_narik + 1);
-                    Toast.makeText(Kurir_Main.this, "Selesai", Toast.LENGTH_SHORT).show();
-                    Intent mIntent = new Intent(Kurir_Main.this,Kurir_Main_MAIN.class);
-                    startActivity(mIntent);
-                    return;
+                    jumlah_narik = jumlah_narik + 1;
+                    myRef2.child(userID).child("jumlah_narik").setValue(jumlah_narik);
+                    showLengkapi();
+
+                    /*Intent mIntent = new Intent(Kurir_Main.this,Kurir_Main_MAIN.class);
+                    startActivity(mIntent);*/
                 } else {
                     Toast.makeText(Kurir_Main.this, "Kode Tidak Sesuai", Toast.LENGTH_SHORT).show();
                     Intent mIntent = new Intent(Kurir_Main.this,Kurir_Main_MAIN.class);
@@ -435,42 +451,34 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback, 
                 }
             }
         }
-        if (resultCode == RESULT_OK) {
-            //Toast.makeText(this, "Sini Gaes2", Toast.LENGTH_SHORT).show();
-            // Tampung Data tempat ke variable
-            Place placeData = PlaceAutocomplete.getPlace(this, data);
+    }
+    public void showLengkapi(){
+        mylengkapi.setContentView(R.layout.lengkapi_transaksi_popup);
+        EditText nmPenerima;
+        Button submit;
+
+        submit = (Button) mylengkapi.findViewById(R.id.confirm);
 
 
-            if (placeData.isDataValid()) {
-                // Show in Log Cat
-                Log.d("autoCompletePlace Data", placeData.toString());
-
-                // Dapatkan Detail
-                String placeAddress = placeData.getAddress().toString();
-                LatLng placeLatLng = placeData.getLatLng();
-                String placeName = placeData.getName().toString();
-
-                // Cek user milih titik jemput atau titik tujuan
-                switch (REQUEST_CODE) {
-                    case PICK_UP:
-                        // Set ke widget lokasi asal
-                        etTitikAwal.setText(placeAddress);
-                        pickUpLatLng = placeData.getLatLng();
-                        break;
-                    case DEST_LOC:
-                        // Set ke widget lokasi tujuan
-                        etTitikAkhir.setText(placeAddress);
-                        locationLatLng = placeData.getLatLng();
-                        break;
-                }
-                if (pickUpLatLng != null && locationLatLng != null) {
-                }
-
-            } else {
-                // Data tempat tidak valid
-                Toast.makeText(this, "Invalid Place !", Toast.LENGTH_SHORT).show();
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText namPenerima = (EditText) mylengkapi.findViewById(R.id.editTextnmPenerimaPopup);
+                final String nam_penerima =  namPenerima.getText().toString().trim();
+                String Waktu = DateFormat.getDateTimeInstance().format(new Date());
+                myRef4.child(Id_Donatur).child("show").setValue("true");
+                myRef4.child(Id_Donatur).child("nama_penerima").setValue(nam_penerima);
+                myRef4.child(Id_Donatur).child("waktu").setValue(Waktu);
+                Intent mIntent = new Intent(Kurir_Main.this,Kurir_Main_MAIN.class);
+                startActivity(mIntent);
+                mylengkapi.dismiss();
+                System.out.println("DWIKY ANZENGGGGGGGGGG" + nam_penerima);
             }
-        }
+        });
+
+        mylengkapi.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        mylengkapi.show();
+
     }
 
     private void showData1(Map<String, Object> dataSnapshot) {

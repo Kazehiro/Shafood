@@ -33,7 +33,7 @@
         android:textColor="@color/white"
         android:textSize="20dp" />
 
-    <!--<TextView-->
+    <!--&lt;!&ndash;<TextView&ndash;&gt;
         android:id="@+id/editTextDesc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -47,7 +47,7 @@
         android:text="Merupakan Aplikasi berbagi makanan kepda yang membutuhkan dengan mudah dan gratis.
 Dikembangkan oleh anak SMKN 4 Bandung"
         android:textColor="@color/white"
-        android:textSize="20dp" />
+        android:textSize="20dp" />-->
 
     <TextView
         android:id="@+id/KontakKami"
@@ -92,6 +92,7 @@ Dikembangkan oleh anak SMKN 4 Bandung"
         android:layout_alignParentStart="true"
         android:layout_marginStart="46dp"
         android:layout_marginTop="-2dp"
+        android:tint="@color/white"
         android:src="@drawable/website" />
 
     <TextView
@@ -99,7 +100,8 @@ Dikembangkan oleh anak SMKN 4 Bandung"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/wa"
-        android:layout_alignParentBottom="true"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/wa"
         android:layout_marginStart="61dp"
         android:layout_marginBottom="306dp"
         android:text="www.Firebase.Shafood.App"

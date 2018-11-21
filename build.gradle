@@ -28,6 +28,7 @@ allprojects {
             url 'https://maven.fabric.io/public'
         }
         maven { url 'https://jitpack.io' } //Baris kode yang harus ditambahkan
+        maven { url 'https://maven.fabric.io/public' } //Baris kode yang harus ditambahkan
     }
 }
 

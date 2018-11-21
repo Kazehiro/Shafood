@@ -11,6 +11,7 @@ public class ProfileKurir {
     private int jumlah_narik;
     private String latitude;
     private String longitude;
+    private String verifikasi;
 
     public String getNama() {
         return nama;
@@ -92,5 +93,13 @@ public class ProfileKurir {
 
     public void setLongitude(String longitude) {
         this.longitude = longitude;
+    }
+
+    public String getVerifikasi() {
+        return verifikasi;
+    }
+
+    public void setVerifikasi(String verifikasi) {
+        this.verifikasi = verifikasi;
     }
 }
