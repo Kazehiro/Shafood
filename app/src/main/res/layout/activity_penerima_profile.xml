@@ -14,16 +14,29 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true">
 
-        <LinearLayout
-            android:id="@+id/linearLayout1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:background="@color/colorPrimary"
-            android:gravity="center"
-            android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/colorPrimary">
+            <ImageButton
+                android:id="@+id/imageButton"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="0dp"
+
+                android:background="@color/transparent"
+                app:srcCompat="@drawable/ic_arrow_white" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -33,18 +46,11 @@
                 android:text="Akun Anda"
                 android:textColor="@color/white"
                 android:textSize="22sp" />
-
         </LinearLayout>
+
+
     </RelativeLayout>
 
-    <ImageButton
-        android:id="@+id/imageButton"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_below="@+id/RlAwal"
-        android:layout_centerHorizontal="true"
-        android:background="@color/transparent"
-        app:srcCompat="@drawable/ic_arrow_white" />
 
     <RelativeLayout
         android:id="@+id/RlFoto"

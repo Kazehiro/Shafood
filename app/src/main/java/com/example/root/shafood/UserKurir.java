@@ -13,6 +13,7 @@ public class UserKurir {
     public int jumlah_narik;
     private String latitude;
     private String longitude;
+    private String verifikasi;
 
     public UserKurir(String id_user, String nama, String nohp, String alamat, String tanggallahir, String noplat, int level, String status, int jumlah_narik, String latitude, String longitude) {
         this.id_user = id_user;
@@ -27,5 +28,6 @@ public class UserKurir {
         this.latitude = latitude;
         this.longitude = longitude;
         this.narik = "false";
+        this.verifikasi = "false";
     }
 }

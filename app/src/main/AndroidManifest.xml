@@ -74,6 +74,7 @@
         <activity android:name=".Kurir_Account"></activity>
         <activity android:name=".Daftar_Kurir" />
         <activity android:name=".Daftar_penerima" />
+        <activity android:name=".Authors" />
         <activity android:name=".Penerima_profile"></activity>
     </application>
 

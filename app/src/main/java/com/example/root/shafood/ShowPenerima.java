@@ -65,7 +65,7 @@ public class ShowPenerima extends AppCompatActivity {
     private StorageReference storageRef;
 
     //Deklarasi Biodata Penerima
-    private String Barang, Kuantitas, NamaDonatur, Id_Donatur, Lat_Donatur, Lng_Donatur, Id_Penerima, Lat_Penerima, Lng_Penerima, Nama_Penerima, Alamat_Penerima, TeleponPenerima, Narasi;
+    private String Pesan, Barang, Kuantitas, NamaDonatur, Id_Donatur, Lat_Donatur, Lng_Donatur, Id_Penerima, Lat_Penerima, Lng_Penerima, Nama_Penerima, Alamat_Penerima, TeleponPenerima, Narasi;
 
     Dialog myDialog;
 
@@ -81,6 +81,7 @@ public class ShowPenerima extends AppCompatActivity {
         Id_Donatur = getIntent().getStringExtra("Id Donatur");
         Lat_Donatur = getIntent().getStringExtra("Latitude Donatur");
         Lng_Donatur = getIntent().getStringExtra("Longitude Donatur");
+        Pesan = getIntent().getStringExtra("Pesan");
 
 
         myDialog = new Dialog(this);
@@ -187,6 +188,7 @@ public class ShowPenerima extends AppCompatActivity {
                 mIntent.putExtra("Longitude Donatur", Lng_Donatur);
                 mIntent.putExtra("Nama Donatur", NamaDonatur);
                 mIntent.putExtra("Nama Penerima", Nama_Penerima);
+                mIntent.putExtra("Pesan", Pesan);
                 startActivity(mIntent);
             }
         });

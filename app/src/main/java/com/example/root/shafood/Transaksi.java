@@ -15,6 +15,7 @@ public class Transaksi {
     public String nama_barang;
     public String success;
     public int kuantitas;
+    public String pesan;
 
     public Transaksi
             (String id_transaksi,
@@ -29,6 +30,7 @@ public class Transaksi {
              String nama_kurir,
              String nama_penerima,
              String nama_barang,
+             String Pesan,
              int kuantitas,
              String success) {
         this.id_transaksi = id_transaksi;
@@ -43,6 +45,7 @@ public class Transaksi {
         this.nama_kurir = nama_kurir;
         this.nama_penerima = nama_penerima;
         this.nama_barang = nama_barang;
+        this.pesan = Pesan;
         this.kuantitas = kuantitas;
         this.success = success;
     }

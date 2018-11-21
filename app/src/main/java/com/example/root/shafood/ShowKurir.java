@@ -43,7 +43,9 @@ public class ShowKurir extends AppCompatActivity {
 
     private ListView mListViewKurir;
 
-    private String Barang, SKuantitas, NamaDonatur, NamaPenerima, Id_Donatur, Lat_Donatur, Lng_Donatur, Id_Penerima, Lat_Penerima, Lng_Penerima, Nama_Penerima, Alamat_Penerima, TeleponPenerima, Narasi;
+    private String Pesan, Barang, SKuantitas, NamaDonatur, NamaPenerima, Id_Donatur, Lat_Donatur, Lng_Donatur, Id_Penerima, Lat_Penerima, Lng_Penerima, Nama_Penerima, Alamat_Penerima, TeleponPenerima, Narasi;
+
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,6 +53,19 @@ public class ShowKurir extends AppCompatActivity {
         setContentView(R.layout.activity_show_kurir);
 
         mListViewKurir = (ListView) findViewById(R.id.listviewKurir);
+
+        Barang = getIntent().getStringExtra("Barang");
+        SKuantitas = getIntent().getStringExtra("Kuantitas");
+        NamaDonatur = getIntent().getStringExtra("Nama Donatur");
+        NamaPenerima = getIntent().getStringExtra("Nama Penerima");
+        Id_Donatur = getIntent().getStringExtra("Id Donatur");
+        Id_Penerima = getIntent().getStringExtra("Id Penerima");
+        Lat_Donatur = getIntent().getStringExtra("Latitude Donatur");
+        Lng_Donatur = getIntent().getStringExtra("Longitude Donatur");
+        Lat_Penerima = getIntent().getStringExtra("Latitude Penerima");
+        Lng_Penerima = getIntent().getStringExtra("Longitude Penerima");
+        Pesan = getIntent().getStringExtra("Pesan");
+
 
         //declare the database reference object. This is what we use to access the database.
         //NOTE: Unless you are signed in, this will not be useable.
@@ -63,16 +78,7 @@ public class ShowKurir extends AppCompatActivity {
         userID = user.getUid();
 
 
-        Barang = getIntent().getStringExtra("Barang");
-        SKuantitas = getIntent().getStringExtra("Kuantitas");
-        NamaDonatur = getIntent().getStringExtra("Nama Donatur");
-        NamaPenerima = getIntent().getStringExtra("Nama Penerima");
-        Id_Donatur = getIntent().getStringExtra("Id Donatur");
-        Id_Penerima = getIntent().getStringExtra("Id Penerima");
-        Lat_Donatur = getIntent().getStringExtra("Latitude Donatur");
-        Lng_Donatur = getIntent().getStringExtra("Longitude Donatur");
-        Lat_Penerima = getIntent().getStringExtra("Latitude Penerima");
-        Lng_Penerima = getIntent().getStringExtra("Longitude Penerima");
+
 
 
 
@@ -171,7 +177,7 @@ public class ShowKurir extends AppCompatActivity {
                 int Kuantitas = Integer.parseInt(SKuantitas);
                 Long tsLong = System.currentTimeMillis() / 1000;
                 String ts = tsLong.toString();
-                Transaksi newTransaksi = new Transaksi(userID + ts, userID, Id_Penerima, Id_Kurir, Lat_Penerima, Lng_Penerima, Lat_Donatur, Lng_Donatur, NamaDonatur, NamaKurir, NamaPenerima, Barang, Kuantitas, "false");
+                Transaksi newTransaksi = new Transaksi(userID + ts, userID, Id_Penerima, Id_Kurir, Lat_Penerima, Lng_Penerima, Lat_Donatur, Lng_Donatur, NamaDonatur, NamaKurir, NamaPenerima, Barang, Pesan, Kuantitas, "false");
                 myRefUpload.child("SHAFOOD").child("TRANSAKSI").child(userID + ts).setValue(newTransaksi);
                 myRef1.child("SHAFOOD").child("USER").child("PENGIRIM").child(userID).child("narik").setValue("true");
                 toastMessage("Terima Kasih");
