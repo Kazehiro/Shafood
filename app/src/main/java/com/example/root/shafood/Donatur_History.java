@@ -43,7 +43,7 @@ public class Donatur_History extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private DatabaseReference myRef;
     private String userID;
-    private String NamaPenerima, NamaPengirim, IdPenerima;
+    private String NamaPenerima, NamaPengirim, IdPenerima, WaktuTerima;
 
 
     private FirebaseStorage storage;
@@ -53,7 +53,7 @@ public class Donatur_History extends AppCompatActivity {
     private ListView mListViewHistoryDonatur;
     private Dialog donaturHistory;
     private ImageView fotoHistory;
-    private TextView etNamaPenerima, etNamaPengirim, etAlamatPenerima;
+    private TextView etNamaPenerima, etNamaPengirim, etAlamatPenerima, etWaktu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,8 +126,14 @@ public class Donatur_History extends AppCompatActivity {
             Map id_transaksi = (Map) entry.getValue();
             Id_Transaksi.add((String) id_transaksi.get("id_transaksi"));
         }
+        final ArrayList<String> Waktu = new ArrayList<>();
+        for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
+            Map waktu = (Map) entry.getValue();
+            Waktu.add((String) waktu.get("waktu"));
+        }
         int i = 0;
         final ArrayList<String> listId = new ArrayList<>();
+        final ArrayList<String> listWaktu = new ArrayList<>();
         final ArrayList<String> listIdPenerima = new ArrayList<>();
         final ArrayList<String> listNamaPenerima = new ArrayList<>();
         final ArrayList<String> listNamaPengirim = new ArrayList<>();
@@ -137,6 +143,7 @@ public class Donatur_History extends AppCompatActivity {
                 if (Id_Donatur.get(i).equals(userID)) {
                     if (Success.get(i).equals("true")) {
                         listId.add(Id_Transaksi.get(i));
+                        listWaktu.add(Waktu.get(i));
                         listIdPenerima.add(Id_Penerima.get(i));
                         listNamaPengirim.add(Nm_Pengirim.get(i));
                         listNamaPenerima.add(Nm_Penerima.get(i));
@@ -149,6 +156,7 @@ public class Donatur_History extends AppCompatActivity {
                 IdPenerima = listIdPenerima.get(position);
                 NamaPenerima = listNamaPenerima.get(position);
                 NamaPengirim = listNamaPengirim.get(position);
+                WaktuTerima = listWaktu.get(position);
                 ShowPopupHistory(view);
                 }
             });
@@ -163,6 +171,7 @@ public class Donatur_History extends AppCompatActivity {
         etNamaPenerima = (TextView) donaturHistory.findViewById(R.id.editTextHistoryNamaPenerimaPopup);
         etNamaPengirim = (TextView) donaturHistory.findViewById(R.id.editTextHistoryNamaPengirim);
         etAlamatPenerima = (TextView) donaturHistory.findViewById(R.id.editTextHistoryAlamatPenerimaPopup);
+        etWaktu = (TextView) donaturHistory.findViewById(R.id.editTextWaktuPopup);
 
 
         storageRef.child("Penerima/FotoProfil/" + IdPenerima).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -182,6 +191,7 @@ public class Donatur_History extends AppCompatActivity {
         txtclose.setText("X");
         etNamaPenerima.setText("Penerima : " + NamaPenerima);
         etNamaPengirim.setText("Kurir : " + NamaPengirim);
+        etWaktu.setText("Diterima Pada : " + WaktuTerima);
         txtclose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
