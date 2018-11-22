@@ -16,6 +16,8 @@ public class Transaksi {
     public String success;
     public int kuantitas;
     public String pesan;
+    public String waktu_diterima;
+    public String diterimaOleh;
 
     public Transaksi
             (String id_transaksi,
@@ -32,7 +34,9 @@ public class Transaksi {
              String nama_barang,
              String Pesan,
              int kuantitas,
-             String success) {
+             String success,
+             String waktu_diterima,
+             String diterimaOleh) {
         this.id_transaksi = id_transaksi;
         this.id_donatur = id_donatur;
         this.id_kurir = id_kurir;
@@ -48,5 +52,7 @@ public class Transaksi {
         this.pesan = Pesan;
         this.kuantitas = kuantitas;
         this.success = success;
+        this.waktu_diterima = waktu_diterima;
+        this.diterimaOleh = diterimaOleh;
     }
 }

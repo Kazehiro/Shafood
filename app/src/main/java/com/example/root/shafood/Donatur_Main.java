@@ -203,7 +203,11 @@ public class Donatur_Main extends AppCompatActivity
         myRef1.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                showData1((Map<String, Object>) dataSnapshot.getValue());
+                try{
+                    showData1((Map<String, Object>) dataSnapshot.getValue());
+                }catch (NullPointerException e){
+                    e.printStackTrace();
+                }
             }
 
             @Override
@@ -214,7 +218,11 @@ public class Donatur_Main extends AppCompatActivity
         myRef2.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                showData2((Map<String, Object>) dataSnapshot.getValue());
+                try{
+                    showData2((Map<String, Object>) dataSnapshot.getValue());
+                }catch (NullPointerException e){
+                    e.printStackTrace();
+                }
             }
 
             @Override

@@ -62,7 +62,7 @@ public class Penerima_Main extends AppCompatActivity {
     private String request;
     private ListView listViewBelumTerkirim;
     private TextView etNamaBarang1, etKuantitas1, etNamaPengirim1, etAlamatPenerima1, etNamaDonatur1;
-    private String NamaBarang, NamaPengirim, IdPenerima , NamaDonaturPopup, KuantitasBarang;
+    private String NamaBarang, NamaPengirim, IdPenerima, NamaDonaturPopup, KuantitasBarang;
 
     private Button BtnQrcode;
     private ImageButton BtnRequest;
@@ -115,7 +115,6 @@ public class Penerima_Main extends AppCompatActivity {
 
             }
         });
-
 
 
         ImgBtnProfile.setOnClickListener(new View.OnClickListener() {
@@ -201,7 +200,7 @@ public class Penerima_Main extends AppCompatActivity {
         final ArrayList<String> listNamaPengirim = new ArrayList<>();
         final ArrayList<String> listNamaDonatur = new ArrayList<>();
         final ArrayList<String> listNamaBarang = new ArrayList<>();
-        final ArrayList<String> listKuantitas= new ArrayList<>();
+        final ArrayList<String> listKuantitas = new ArrayList<>();
 
         if (Id_Penerima != null) {
             while (Id_Penerima.size() > i) {
@@ -277,14 +276,14 @@ public class Penerima_Main extends AppCompatActivity {
             }
         });
 
-        txtclose =(TextView) notif.findViewById(R.id.txtclose);
+        txtclose = (TextView) notif.findViewById(R.id.txtclose);
         txtclose.setText("X");
 
-        etNamaPengirim1.setText("Kurir : " + NamaPengirim);
-        etNamaBarang1.setText("Nama Barang "+NamaBarang);
-        etKuantitas1.setText("Kuantitas : " + KuantitasBarang);
-        etNamaDonatur1.setText("Donatur : "+NamaDonaturPopup);
-        etAlamatPenerima1.setText("Status : Belum Terkirim");
+        etNamaPengirim1.setText("Kurir : " + NamaPengirim.toUpperCase());
+        etNamaBarang1.setText("Nama Barang : " + NamaBarang.toUpperCase());
+        etKuantitas1.setText("Kuantitas : " + KuantitasBarang.toUpperCase());
+        etNamaDonatur1.setText("Donatur : " + NamaDonaturPopup.toUpperCase());
+        etAlamatPenerima1.setText("Status : DALAM PERJALANAN");
         txtclose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -294,5 +293,5 @@ public class Penerima_Main extends AppCompatActivity {
         notif.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         notif.show();
     }
-    
+
 }
