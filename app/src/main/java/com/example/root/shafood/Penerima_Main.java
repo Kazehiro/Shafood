@@ -61,8 +61,8 @@ public class Penerima_Main extends AppCompatActivity {
     private int level;
     private String request;
     private ListView listViewBelumTerkirim;
-    private TextView etNamaPenerima, etNamaPengirim, etAlamatPenerima, etNamaDonatur;
-    private String NamaPenerima, NamaPengirim, IdPenerima , NamaDonaturPopup, Status;
+    private TextView etNamaBarang1, etKuantitas1, etNamaPengirim1, etAlamatPenerima1, etNamaDonatur1;
+    private String NamaBarang, NamaPengirim, IdPenerima , NamaDonaturPopup, KuantitasBarang;
 
     private Button BtnQrcode;
     private ImageButton BtnRequest;
@@ -185,19 +185,31 @@ public class Penerima_Main extends AppCompatActivity {
             Map nm_donatur = (Map) entry.getValue();
             Nm_Donatur.add((String) nm_donatur.get("nama_donatur"));
         }
+        final ArrayList<String> Nm_Barang = new ArrayList<>();
+        for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
+            Map nm_barang = (Map) entry.getValue();
+            Nm_Barang.add((String) nm_barang.get("nama_barang"));
+        }
+        final ArrayList<Long> Kuantitas = new ArrayList<>();
+        for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
+            Map kuantitas = (Map) entry.getValue();
+            Kuantitas.add((Long) kuantitas.get("kuantitas"));
+        }
         int i = 0;
         final ArrayList<String> listId = new ArrayList<>();
-        final ArrayList<String> listIdPenerima = new ArrayList<>();
         final ArrayList<String> listNamaPenerima = new ArrayList<>();
         final ArrayList<String> listNamaPengirim = new ArrayList<>();
         final ArrayList<String> listNamaDonatur = new ArrayList<>();
+        final ArrayList<String> listNamaBarang = new ArrayList<>();
+        final ArrayList<String> listKuantitas= new ArrayList<>();
 
         if (Id_Penerima != null) {
             while (Id_Penerima.size() > i) {
                 if (Id_Penerima.get(i).equals(userID)) {
                     if (Success.get(i).equals("false")) {
                         listId.add(Id_Transaksi.get(i));
-                        listIdPenerima.add(Id_Penerima.get(i));
+                        listNamaBarang.add(Nm_Barang.get(i));
+                        listKuantitas.add(String.valueOf(Kuantitas.get(i)));
                         listNamaPengirim.add(Nm_Pengirim.get(i));
                         listNamaDonatur.add(Nm_Donatur.get(i));
                         listNamaPenerima.add(Nm_Penerima.get(i));
@@ -208,10 +220,11 @@ public class Penerima_Main extends AppCompatActivity {
             listViewBelumTerkirim.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                    IdPenerima = listIdPenerima.get(position);
-                    NamaPenerima = listNamaPenerima.get(position);
+                    NamaBarang = listNamaBarang.get(position);
+                    KuantitasBarang = listKuantitas.get(position);
                     NamaPengirim = listNamaPengirim.get(position);
                     NamaDonaturPopup = listNamaDonatur.get(position);
+                    System.out.println(NamaBarang);
                     ShowPopupHistory(view);
                 }
             });
@@ -243,12 +256,13 @@ public class Penerima_Main extends AppCompatActivity {
 
     public void ShowPopupHistory(View v) {
         TextView txtclose;
-        notif.setContentView(R.layout.kurir_notif);
+        notif.setContentView(R.layout.penerima_notif);
         fotoHistory = (ImageView) notif.findViewById(R.id.imageViewHistoryFotoPenerima);
-        etNamaPenerima = (TextView) notif.findViewById(R.id.editTextHistoryNamaPenerimaPopup);
-        etNamaPengirim = (TextView) notif.findViewById(R.id.editTextHistoryNamaPengirim);
-        etAlamatPenerima = (TextView) notif.findViewById(R.id.editTextHistoryAlamatPenerimaPopup);
-        etNamaDonatur = (TextView) notif.findViewById(R.id.editTextHistoryNamaDonaturPopup);
+        etNamaBarang1 = (TextView) notif.findViewById(R.id.edit);
+        etKuantitas1 = (TextView) notif.findViewById(R.id.editTextKuantitasPopup);
+        etNamaPengirim1 = (TextView) notif.findViewById(R.id.editTextNamaPengirim);
+        etAlamatPenerima1 = (TextView) notif.findViewById(R.id.editTextAlamatPenerimaPopup);
+        etNamaDonatur1 = (TextView) notif.findViewById(R.id.editTextNamaDonaturPopup);
 
         storageRef.child("Penerima/FotoProfil/" + IdPenerima).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
@@ -265,10 +279,12 @@ public class Penerima_Main extends AppCompatActivity {
 
         txtclose =(TextView) notif.findViewById(R.id.txtclose);
         txtclose.setText("X");
-        etNamaPenerima.setText("Penerima : " + NamaPenerima);
-        etNamaPengirim.setText("Kurir : " + NamaPengirim);
-        etNamaDonatur.setText("Donatur : "+NamaDonaturPopup);
-        etAlamatPenerima.setText("Status : Belum Terkirim");
+
+        etNamaPengirim1.setText("Kurir : " + NamaPengirim);
+        etNamaBarang1.setText("Nama Barang "+NamaBarang);
+        etKuantitas1.setText("Kuantitas : " + KuantitasBarang);
+        etNamaDonatur1.setText("Donatur : "+NamaDonaturPopup);
+        etAlamatPenerima1.setText("Status : Belum Terkirim");
         txtclose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

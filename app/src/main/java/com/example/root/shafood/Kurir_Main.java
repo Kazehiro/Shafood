@@ -469,7 +469,6 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback, 
                 myRef4.child(Id_Donatur).child("show").setValue("true");
                 myRef4.child(Id_Donatur).child("nama_penerima").setValue(nam_penerima);
                 myRef4.child(Id_Donatur).child("waktu").setValue(Waktu);
-                myRef1.child(text2Qr).child("waktu").setValue(Waktu);
                 Intent mIntent = new Intent(Kurir_Main.this,Kurir_Main_MAIN.class);
                 startActivity(mIntent);
                 mylengkapi.dismiss();
