@@ -177,9 +177,9 @@ public class ShowKurir extends AppCompatActivity {
                 int Kuantitas = Integer.parseInt(SKuantitas);
                 Long tsLong = System.currentTimeMillis() / 1000;
                 String ts = tsLong.toString();
-                Transaksi newTransaksi = new Transaksi(userID + ts, userID, Id_Penerima, Id_Kurir, Lat_Penerima, Lng_Penerima, Lat_Donatur, Lng_Donatur, NamaDonatur, NamaKurir, NamaPenerima, Barang, Pesan, Kuantitas, "false");
+                Transaksi newTransaksi = new Transaksi(userID + ts, userID, Id_Penerima, Id_Kurir, Lat_Penerima, Lng_Penerima, Lat_Donatur, Lng_Donatur, NamaDonatur, NamaKurir, NamaPenerima, Barang, Pesan, Kuantitas, "false","0","kosong");
                 myRefUpload.child("SHAFOOD").child("TRANSAKSI").child(userID + ts).setValue(newTransaksi);
-                myRef1.child("SHAFOOD").child("USER").child("PENGIRIM").child(userID).child("narik").setValue("true");
+                myRef1.child("SHAFOOD").child("USER").child("KURIR").child(Id_Kurir).child("narik").setValue("true");
                 toastMessage("Terima Kasih");
                 Intent mIntent = new Intent(ShowKurir.this,Donatur_Main.class);
                 startActivity(mIntent);

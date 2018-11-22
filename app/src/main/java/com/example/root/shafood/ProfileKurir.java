@@ -69,16 +69,6 @@ public class ProfileKurir {
         this.status = status;
     }
 
-
-    public int getJumlah_narik() {
-        return jumlah_narik;
-    }
-
-    public void setJumlah_narik(int jumlah_narik) {
-        this.jumlah_narik = jumlah_narik;
-    }
-
-
     public String getLatitude() {
         return latitude;
     }
@@ -101,5 +91,13 @@ public class ProfileKurir {
 
     public void setVerifikasi(String verifikasi) {
         this.verifikasi = verifikasi;
+    }
+
+    public int getJumlah_narik() {
+        return jumlah_narik;
+    }
+
+    public void setJumlah_narik(int jumlah_narik) {
+        this.jumlah_narik = jumlah_narik;
     }
 }

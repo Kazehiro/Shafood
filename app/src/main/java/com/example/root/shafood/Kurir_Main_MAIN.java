@@ -77,9 +77,9 @@ public class Kurir_Main_MAIN extends AppCompatActivity implements GoogleApiClien
     private Location mLastLocation;
     private FloatingActionButton fab_Logout;
     private ListView listViewBelumTerkirim;
-    private String NamaPenerima, NamaPengirim, IdPenerima , NamaDonaturPopup, Status;
+    private String NamaPenerima, NamaPengirim, IdPenerima , NamaDonaturPopup, pesen;
     private Dialog buka;
-    private TextView etNamaPenerima, etNamaPengirim, etAlamatPenerima, etNamaDonatur;
+    private TextView etNamaPenerima, etNamaPengirim, etAlamatPenerima, etNamaDonatur,etPesan;
     private static int UPDATE_INTERVAL = 2000;
     private static int FASTEST_INTERVAL = 2000;
     private static int DISTANCE = 10;
@@ -269,12 +269,18 @@ public class Kurir_Main_MAIN extends AppCompatActivity implements GoogleApiClien
             Map nm_donatur = (Map) entry.getValue();
             Nm_Donatur.add((String) nm_donatur.get("nama_donatur"));
         }
+        final ArrayList<String> Pesan = new ArrayList<>();
+        for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
+            Map pesan = (Map) entry.getValue();
+            Pesan.add((String) pesan.get("pesan"));
+        }
         int i = 0;
         final ArrayList<String> listId = new ArrayList<>();
         final ArrayList<String> listIdPenerima = new ArrayList<>();
         final ArrayList<String> listNamaPenerima = new ArrayList<>();
         final ArrayList<String> listNamaPengirim = new ArrayList<>();
         final ArrayList<String> listNamaDonatur = new ArrayList<>();
+        final ArrayList<String> listPesan = new ArrayList<>();
 
         if (Id_Kurir != null) {
             while (Id_Kurir.size() > i) {
@@ -285,6 +291,7 @@ public class Kurir_Main_MAIN extends AppCompatActivity implements GoogleApiClien
                         listNamaPengirim.add(Nm_Pengirim.get(i));
                         listNamaDonatur.add(Nm_Donatur.get(i));
                         listNamaPenerima.add(Nm_Penerima.get(i));
+                        listPesan.add(Pesan.get(i));
                     }
                 }
                 i++;
@@ -296,6 +303,7 @@ public class Kurir_Main_MAIN extends AppCompatActivity implements GoogleApiClien
                     NamaPenerima = listNamaPenerima.get(position);
                     NamaPengirim = listNamaPengirim.get(position);
                     NamaDonaturPopup = listNamaDonatur.get(position);
+                    pesen = listPesan.get(position);
                     ShowPopupHistory(view);
                 }
             });
@@ -312,6 +320,7 @@ public class Kurir_Main_MAIN extends AppCompatActivity implements GoogleApiClien
         etNamaPengirim = (TextView) buka.findViewById(R.id.editTextHistoryNamaPengirim);
         etAlamatPenerima = (TextView) buka.findViewById(R.id.editTextHistoryAlamatPenerimaPopup);
         etNamaDonatur = (TextView) buka.findViewById(R.id.editTextHistoryNamaDonaturPopup);
+        etPesan = (TextView) buka.findViewById(R.id.editTextHistoryPesan);
         btnGo = (Button) buka.findViewById(R.id.btnGo);
 
         storageRef.child("Penerima/FotoProfil/" + IdPenerima).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -329,9 +338,10 @@ public class Kurir_Main_MAIN extends AppCompatActivity implements GoogleApiClien
 
         txtclose =(TextView) buka.findViewById(R.id.txtclose);
         txtclose.setText("X");
-        etNamaPenerima.setText("Penerima : " + NamaPenerima);
-        etNamaPengirim.setText("Kurir : " + NamaPengirim);
-        etNamaDonatur.setText("Donatur : "+NamaDonaturPopup);
+        etNamaPenerima.setText("Penerima : " + NamaPenerima.toUpperCase());
+        etNamaPengirim.setText("Kurir : " + NamaPengirim.toUpperCase());
+        etNamaDonatur.setText("Donatur : "+NamaDonaturPopup.toUpperCase());
+        etPesan.setText("Pesan Dari Donatur : "+pesen.toUpperCase());
         etAlamatPenerima.setText("Status : Belum Terkirim");
         txtclose.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -562,6 +572,5 @@ public class Kurir_Main_MAIN extends AppCompatActivity implements GoogleApiClien
     public void onLocationChanged(Location location) {
         mLastLocation = location;
         updateLokasi();
-
     }
 }

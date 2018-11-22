@@ -120,8 +120,8 @@ public class Berhasil extends AppCompatActivity {
 
                 if (kuInfo.getLevel() == 3) {
                     if(kuInfo.getVerifikasi().equals("true")){
-                        Intent mIntent = new Intent(Berhasil.this, Kurir_Main_MAIN.class);
-                        startActivity(mIntent);
+                            Intent mIntent = new Intent(Berhasil.this, Kurir_Main_MAIN.class);
+                            startActivity(mIntent);
                     } else{
                         toastMessage("Akun Anda Belum Ter-Verifikasi");
                     }
@@ -143,12 +143,20 @@ public class Berhasil extends AppCompatActivity {
 
                 peInfo.setLevel(ds.child("USER").child("PENERIMA").child(userID).getValue(ProfilePenerima.class).getLevel());
                 peInfo.setVerifikasi(ds.child("USER").child("PENERIMA").child(userID).getValue(ProfilePenerima.class).getVerifikasi());
+                peInfo.setLatitude(ds.child("USER").child("PENERIMA").child(userID).getValue(ProfilePenerima.class).getLatitude());
+                peInfo.setLongitude(ds.child("USER").child("PENERIMA").child(userID).getValue(ProfilePenerima.class).getLongitude());
                 System.out.println("kuInfo = " + peInfo.getLevel());
 
                 if (peInfo.getLevel() == 4) {
                     if(peInfo.getVerifikasi().equals("true")){
-                        Intent mIntent = new Intent(Berhasil.this, Penerima_Main.class);
-                        startActivity(mIntent);
+                        if(peInfo.getLatitude().equals("0") && peInfo.getLongitude().equals("0")){
+                            Intent mIntent = new Intent(Berhasil.this, lengkapidata_penerima.class);
+                            startActivity(mIntent);
+                        }
+                        else {
+                            Intent mIntent = new Intent(Berhasil.this, Penerima_Main.class);
+                            startActivity(mIntent);
+                        }
                     } else{
                         toastMessage("Akun Anda Belum Ter-Verifikasi");
                     }
