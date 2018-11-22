@@ -2,17 +2,23 @@ package com.example.root.shafood;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
+import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -60,12 +66,12 @@ public class Kurir_Main_MAIN extends AppCompatActivity implements GoogleApiClien
     private long backPressedTime;
     private Toast backToast;
     private ImageView fotoHistory;
-    private Button btn_buka_maps, kerja, btn_buka_history, btn_account,btnGo;
+    private Button btn_buka_maps, kerja, btn_buka_history, btn_account, btnGo;
     private ImageView foto, icon_maps, icon_history, icon_account;
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-    private DatabaseReference myRef,myRef1, myRef2;
+    private DatabaseReference myRef, myRef1, myRef2;
     private String userID, namaProfile;
     private FirebaseStorage storage;
     private StorageReference storageRef;
@@ -77,9 +83,9 @@ public class Kurir_Main_MAIN extends AppCompatActivity implements GoogleApiClien
     private Location mLastLocation;
     private FloatingActionButton fab_Logout;
     private ListView listViewBelumTerkirim;
-    private String NamaPenerima, NamaPengirim, IdPenerima , NamaDonaturPopup, pesen;
+    private String NamaPenerima, NamaPengirim, IdPenerima, NamaDonaturPopup, pesen;
     private Dialog buka;
-    private TextView etNamaPenerima, etNamaPengirim, etAlamatPenerima, etNamaDonatur,etPesan;
+    private TextView etNamaPenerima, etNamaPengirim, etAlamatPenerima, etNamaDonatur, etPesan;
     private static int UPDATE_INTERVAL = 2000;
     private static int FASTEST_INTERVAL = 2000;
     private static int DISTANCE = 10;
@@ -103,7 +109,7 @@ public class Kurir_Main_MAIN extends AppCompatActivity implements GoogleApiClien
         icon_account = (ImageView) findViewById(R.id.icon_account);
         icon_history = (ImageView) findViewById(R.id.icon_history);
         jumlahNarik = (TextView) findViewById(R.id.jumlahNarik);
-        
+
 
         mAuth = FirebaseAuth.getInstance();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
@@ -128,7 +134,7 @@ public class Kurir_Main_MAIN extends AppCompatActivity implements GoogleApiClien
 
             }
         });
-        
+
         btn_buka_maps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -292,6 +298,7 @@ public class Kurir_Main_MAIN extends AppCompatActivity implements GoogleApiClien
                         listNamaDonatur.add(Nm_Donatur.get(i));
                         listNamaPenerima.add(Nm_Penerima.get(i));
                         listPesan.add(Pesan.get(i));
+                        notif(NamaDonaturPopup,NamaPenerima);
                     }
                 }
                 i++;
@@ -336,12 +343,12 @@ public class Kurir_Main_MAIN extends AppCompatActivity implements GoogleApiClien
             }
         });
 
-        txtclose =(TextView) buka.findViewById(R.id.txtclose);
+        txtclose = (TextView) buka.findViewById(R.id.txtclose);
         txtclose.setText("X");
         etNamaPenerima.setText("Penerima : " + NamaPenerima.toUpperCase());
         etNamaPengirim.setText("Kurir : " + NamaPengirim.toUpperCase());
-        etNamaDonatur.setText("Donatur : "+NamaDonaturPopup.toUpperCase());
-        etPesan.setText("Pesan Dari Donatur : "+pesen.toUpperCase());
+        etNamaDonatur.setText("Donatur : " + NamaDonaturPopup.toUpperCase());
+        etPesan.setText("Pesan Dari Donatur : " + pesen.toUpperCase());
         etAlamatPenerima.setText("Status : Belum Terkirim");
         txtclose.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -352,7 +359,7 @@ public class Kurir_Main_MAIN extends AppCompatActivity implements GoogleApiClien
         btnGo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent mIntent = new Intent(Kurir_Main_MAIN.this,Kurir_Main.class);
+                Intent mIntent = new Intent(Kurir_Main_MAIN.this, Kurir_Main.class);
                 startActivity(mIntent);
             }
         });
@@ -493,17 +500,6 @@ public class Kurir_Main_MAIN extends AppCompatActivity implements GoogleApiClien
     protected void onDestroy() {
         super.onDestroy();
         System.out.println("INI ON Destroy");
-        myRef.removeEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                showData(dataSnapshot);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
     }
 
     private void buildGoogleApiClient() {
@@ -572,5 +568,33 @@ public class Kurir_Main_MAIN extends AppCompatActivity implements GoogleApiClien
     public void onLocationChanged(Location location) {
         mLastLocation = location;
         updateLokasi();
+    }
+
+    public void notif(String namaDonatur, String namaPenerima) {
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(this);
+
+        //Create the intent that’ll fire when the user taps the notification//
+
+        Intent intent = new Intent(Kurir_Main_MAIN.this, Kurir_Main_MAIN.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+
+        mBuilder.setContentIntent(pendingIntent);
+        Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        mBuilder.setSmallIcon(R.mipmap.ic_launcher_round);
+        mBuilder.setContentTitle("Anda Memiliki barang yang harus diantarkan");
+        mBuilder.setContentText("Anda Akan Mengirimkan Barang Dari " + namaDonatur + " Ke " + namaPenerima);
+        mBuilder.setPriority(Notification.PRIORITY_MAX);
+        long[] v = {100,200,400,800,400,800};
+        mBuilder.setVibrate(v);
+        mBuilder.setSound(uri);
+        mBuilder.setOnlyAlertOnce(true);
+        mBuilder.setAutoCancel(true);
+        NotificationManager mNotificationManager =
+
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        mNotificationManager.notify(001, mBuilder.build());
+
     }
 }
