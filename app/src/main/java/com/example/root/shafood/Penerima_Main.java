@@ -45,7 +45,7 @@ public class Penerima_Main extends AppCompatActivity {
     private String userID;
     private Dialog notif;
     private TextView etNama, etAlamat, etNoTelepon, etNarasi, etJarak;
-    private ImageView fotoHistory;
+    private ImageView fotoBarang;
     private StorageReference storageRef;
     private FirebaseStorage storage;
 
@@ -62,7 +62,7 @@ public class Penerima_Main extends AppCompatActivity {
     private String request;
     private ListView listViewBelumTerkirim;
     private TextView etNamaBarang1, etKuantitas1, etNamaPengirim1, etAlamatPenerima1, etNamaDonatur1;
-    private String NamaBarang, NamaPengirim, IdPenerima, NamaDonaturPopup, KuantitasBarang;
+    private String NamaBarang, NamaPengirim, IdPenerima, NamaDonaturPopup, KuantitasBarang,IdDonatur;
 
     private Button BtnQrcode;
     private ImageButton BtnRequest;
@@ -201,6 +201,7 @@ public class Penerima_Main extends AppCompatActivity {
         final ArrayList<String> listNamaDonatur = new ArrayList<>();
         final ArrayList<String> listNamaBarang = new ArrayList<>();
         final ArrayList<String> listKuantitas = new ArrayList<>();
+        final ArrayList<String> listIdDonatur = new ArrayList<>();
 
         if (Id_Penerima != null) {
             while (Id_Penerima.size() > i) {
@@ -212,6 +213,7 @@ public class Penerima_Main extends AppCompatActivity {
                         listNamaPengirim.add(Nm_Pengirim.get(i));
                         listNamaDonatur.add(Nm_Donatur.get(i));
                         listNamaPenerima.add(Nm_Penerima.get(i));
+                        listIdDonatur.add(Id_Donatur.get(i));
                     }
                 }
                 i++;
@@ -223,6 +225,7 @@ public class Penerima_Main extends AppCompatActivity {
                     KuantitasBarang = listKuantitas.get(position);
                     NamaPengirim = listNamaPengirim.get(position);
                     NamaDonaturPopup = listNamaDonatur.get(position);
+                    IdDonatur =  listIdDonatur.get(position);
                     System.out.println(NamaBarang);
                     ShowPopupHistory(view);
                 }
@@ -256,18 +259,18 @@ public class Penerima_Main extends AppCompatActivity {
     public void ShowPopupHistory(View v) {
         TextView txtclose;
         notif.setContentView(R.layout.penerima_notif);
-        fotoHistory = (ImageView) notif.findViewById(R.id.imageViewHistoryFotoPenerima);
+        fotoBarang = (ImageView) notif.findViewById(R.id.imageViewFotoBarang);
         etNamaBarang1 = (TextView) notif.findViewById(R.id.edit);
         etKuantitas1 = (TextView) notif.findViewById(R.id.editTextKuantitasPopup);
         etNamaPengirim1 = (TextView) notif.findViewById(R.id.editTextNamaPengirim);
         etAlamatPenerima1 = (TextView) notif.findViewById(R.id.editTextAlamatPenerimaPopup);
         etNamaDonatur1 = (TextView) notif.findViewById(R.id.editTextNamaDonaturPopup);
 
-        storageRef.child("Penerima/FotoProfil/" + IdPenerima).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+        storageRef.child("Transaksi/" + IdPenerima).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
                 System.out.println(uri);
-                Glide.with(getApplicationContext()).load(uri).into(fotoHistory);
+                Glide.with(getApplicationContext()).load(uri).into(fotoBarang);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

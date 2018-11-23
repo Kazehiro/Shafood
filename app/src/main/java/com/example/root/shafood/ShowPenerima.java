@@ -2,6 +2,7 @@ package com.example.root.shafood;
 
 import android.app.Dialog;
 import android.app.Notification;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -46,7 +47,7 @@ import java.util.Map;
  * Created by User on 2/8/2017.
  */
 
-public class ShowPenerima extends AppCompatActivity {
+public class ShowPenerima extends AppCompatActivity implements Dialog.OnDismissListener {
     private static final String TAG = "ViewDatabase";
 
     //add Firebase Database stuff
@@ -70,7 +71,7 @@ public class ShowPenerima extends AppCompatActivity {
     Dialog myDialog;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState)  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_penerima);
 
@@ -136,7 +137,7 @@ public class ShowPenerima extends AppCompatActivity {
         TextView txtclose;
         Button btnFollow;
         myDialog.setContentView(R.layout.penerma_popup);
-        ivProfil = (ImageView) myDialog.findViewById(R.id.imageViewFotoPenerima);
+        ivProfil = (ImageView) myDialog.findViewById(R.id.imageViewFotoBarang);
         etNama = (TextView) myDialog.findViewById(R.id.editTextNamaPenerimaPopup);
         etAlamat = (TextView) myDialog.findViewById(R.id.editTextAlamatPenerimaPopup);
         etNoTelepon = (TextView) myDialog.findViewById(R.id.editTextNoTelpPopup);
@@ -162,7 +163,7 @@ public class ShowPenerima extends AppCompatActivity {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
-                // Handle any errors
+                ivProfil.setImageResource(R.mipmap.ic_launcher_round);
             }
         });
 
@@ -199,6 +200,7 @@ public class ShowPenerima extends AppCompatActivity {
             }
         });
         myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        myDialog.setOnDismissListener(this);
         myDialog.show();
     }
 
@@ -215,7 +217,7 @@ public class ShowPenerima extends AppCompatActivity {
                 Map nama = (Map) entry.getValue();
                 Nama.add((String) nama.get("nama"));
             }
-            ArrayList<String> Id_penerima = new ArrayList<>();
+            final ArrayList<String> Id_penerima = new ArrayList<>();
             for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
                 Map id_penerima = (Map) entry.getValue();
                 Id_penerima.add((String) id_penerima.get("id_user"));
@@ -261,6 +263,11 @@ public class ShowPenerima extends AppCompatActivity {
                 Map verifikasi = (Map) entry.getValue();
                 Verifikasi.add((String) verifikasi.get("verifikasi"));
             }
+            final ArrayList<String> Beruntung = new ArrayList<>();
+            for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
+                Map beruntung = (Map) entry.getValue();
+                Beruntung.add((String) beruntung.get("beruntung"));
+            }
             int i = 0;
             final ArrayList<String> listNama = new ArrayList<>();
             final ArrayList<String> listId = new ArrayList<>();
@@ -278,13 +285,15 @@ public class ShowPenerima extends AppCompatActivity {
                                 friend.setLatitude(Double.parseDouble(Lat.get(i)));
                                 friend.setLongitude(Double.parseDouble(Lng.get(i)));
                                 if (((currentUser.distanceTo(friend)) / 1000) <= 5) {
-                                    listNama.add(Nama.get(i));
-                                    listId.add(Id_penerima.get(i));
-                                    listLat.add(Lat.get(i));
-                                    listLng.add(Lng.get(i));
-                                    listalamat.add(Alamat.get(i));
-                                    listtelepon.add(NoTelepon.get(i));
-                                    listNarasi.add(Desc.get(i));
+                                    if(Beruntung.get(i).equals("false")){
+                                        listNama.add(Nama.get(i));
+                                        listId.add(Id_penerima.get(i));
+                                        listLat.add(Lat.get(i));
+                                        listLng.add(Lng.get(i));
+                                        listalamat.add(Alamat.get(i));
+                                        listtelepon.add(NoTelepon.get(i));
+                                        listNarasi.add(Desc.get(i));
+                                    }
                                 }
                             }
                         }
@@ -300,19 +309,28 @@ public class ShowPenerima extends AppCompatActivity {
                                 friend.setLatitude(Double.parseDouble(Lat.get(i)));
                                 friend.setLongitude(Double.parseDouble(Lng.get(i)));
                                 if (((currentUser.distanceTo(friend)) / 1000) <= 5) {
-                                    listNama.add(Nama.get(i));
-                                    listId.add(Id_penerima.get(i));
-                                    listLat.add(Lat.get(i));
-                                    listLng.add(Lng.get(i));
-                                    listalamat.add(Alamat.get(i));
-                                    listtelepon.add(NoTelepon.get(i));
-                                    listNarasi.add(Desc.get(i));
+                                    if(Beruntung.get(i).equals("false")){
+                                        listNama.add(Nama.get(i));
+                                        listId.add(Id_penerima.get(i));
+                                        listLat.add(Lat.get(i));
+                                        listLng.add(Lng.get(i));
+                                        listalamat.add(Alamat.get(i));
+                                        listtelepon.add(NoTelepon.get(i));
+                                        listNarasi.add(Desc.get(i));
+                                    }
                                 }
                             }
                         }
                     }
                     i++;
                 }
+                listNama.add("Request Penerima Ke Kantor");
+                listId.add("request");
+                listLat.add(Lat_Donatur);
+                listLng.add(Lng_Donatur);
+                listalamat.add("Kantor Shafood");
+                listtelepon.add("085769698989");
+                listNarasi.add("Pesanan Anda akan Disalurkan Oleh Kantor Shafood");
                 mListViewPenerima.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         Id_Penerima = listId.get(position);
@@ -322,6 +340,10 @@ public class ShowPenerima extends AppCompatActivity {
                         Alamat_Penerima = listalamat.get(position);
                         TeleponPenerima = listtelepon.get(position);
                         Narasi = listNarasi.get(position);
+                        if(Id_Penerima.equals("request")){
+                        }else{
+                            myRef.child(Id_Penerima).child("beruntung").setValue("true");
+                        }
                         ShowPopup(view);
 
                     }
@@ -402,4 +424,9 @@ public class ShowPenerima extends AppCompatActivity {
         private double deg2rad ( double deg){
             return (deg * Math.PI / 180.0);
         }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        myRef.child(Id_Penerima).child("beruntung").setValue("false");
     }
+}

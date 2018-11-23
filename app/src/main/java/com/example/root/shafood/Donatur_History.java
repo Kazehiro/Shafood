@@ -43,7 +43,7 @@ public class Donatur_History extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private DatabaseReference myRef;
     private String userID;
-    private String NamaPenerima, NamaPengirim, IdPenerima, WaktuTerima;
+    private String NamaPenerima, NamaPengirim, IdPenerima, WaktuTerima, NamaBarang, Kuantitass;
 
 
     private FirebaseStorage storage;
@@ -53,7 +53,7 @@ public class Donatur_History extends AppCompatActivity {
     private ListView mListViewHistoryDonatur;
     private Dialog donaturHistory;
     private ImageView fotoHistory;
-    private TextView etNamaPenerima, etNamaPengirim, etAlamatPenerima, etWaktu;
+    private TextView etNamaPenerima, etNamaPengirim, etNamaBarang, etKuantitas, etWaktu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,7 +129,17 @@ public class Donatur_History extends AppCompatActivity {
         final ArrayList<String> Waktu = new ArrayList<>();
         for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
             Map waktu = (Map) entry.getValue();
-            Waktu.add((String) waktu.get("waktu"));
+            Waktu.add((String) waktu.get("waktu_diterima"));
+        }
+        final ArrayList<String> Nm_Barang = new ArrayList<>();
+        for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
+            Map nm_barang = (Map) entry.getValue();
+            Nm_Barang.add((String) nm_barang.get("nama_barang"));
+        }
+        final ArrayList<Long> Kuantitas = new ArrayList<>();
+        for (Map.Entry<String, Object> entry : dataSnapshot.entrySet()) {
+            Map kuantitas = (Map) entry.getValue();
+            Kuantitas.add((Long) kuantitas.get("kuantitas"));
         }
         int i = 0;
         final ArrayList<String> listId = new ArrayList<>();
@@ -137,6 +147,8 @@ public class Donatur_History extends AppCompatActivity {
         final ArrayList<String> listIdPenerima = new ArrayList<>();
         final ArrayList<String> listNamaPenerima = new ArrayList<>();
         final ArrayList<String> listNamaPengirim = new ArrayList<>();
+        final ArrayList<String> listNamaBarang = new ArrayList<>();
+        final ArrayList<String> listKuantitas = new ArrayList<>();
 
         if (Id_Donatur != null) {
             while (Id_Donatur.size() > i) {
@@ -147,6 +159,8 @@ public class Donatur_History extends AppCompatActivity {
                         listIdPenerima.add(Id_Penerima.get(i));
                         listNamaPengirim.add(Nm_Pengirim.get(i));
                         listNamaPenerima.add(Nm_Penerima.get(i));
+                        listNamaBarang.add(Nm_Barang.get(i));
+                        listKuantitas.add(String.valueOf(Kuantitas.get(i)));
                     }
                 }
                 i++;
@@ -157,6 +171,8 @@ public class Donatur_History extends AppCompatActivity {
                 NamaPenerima = listNamaPenerima.get(position);
                 NamaPengirim = listNamaPengirim.get(position);
                 WaktuTerima = listWaktu.get(position);
+                NamaBarang = listNamaBarang.get(position);
+                Kuantitass = listKuantitas.get(position);
                 ShowPopupHistory(view);
                 }
             });
@@ -170,7 +186,8 @@ public class Donatur_History extends AppCompatActivity {
         fotoHistory = (ImageView) donaturHistory.findViewById(R.id.imageViewHistoryFotoPenerima);
         etNamaPenerima = (TextView) donaturHistory.findViewById(R.id.editTextHistoryNamaPenerimaPopup);
         etNamaPengirim = (TextView) donaturHistory.findViewById(R.id.editTextHistoryNamaPengirim);
-        etAlamatPenerima = (TextView) donaturHistory.findViewById(R.id.editTextHistoryAlamatPenerimaPopup);
+        etNamaBarang = (TextView) donaturHistory.findViewById(R.id.editTextHistoryNamaBarangPopup);
+        etKuantitas= (TextView) donaturHistory.findViewById(R.id.editTextHistoryKuantitasPopup);
         etWaktu = (TextView) donaturHistory.findViewById(R.id.editTextWaktuPopup);
 
 
@@ -191,6 +208,8 @@ public class Donatur_History extends AppCompatActivity {
         txtclose.setText("X");
         etNamaPenerima.setText("Penerima : " + NamaPenerima);
         etNamaPengirim.setText("Kurir : " + NamaPengirim);
+        etNamaBarang.setText("Nama Barang : " + NamaBarang);
+        etKuantitas.setText("Kuantitas : " + Kuantitass);
         etWaktu.setText("Diterima Pada : " + WaktuTerima);
         txtclose.setOnClickListener(new View.OnClickListener() {
             @Override

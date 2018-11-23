@@ -298,7 +298,7 @@ public class Kurir_Main_MAIN extends AppCompatActivity implements GoogleApiClien
                         listNamaDonatur.add(Nm_Donatur.get(i));
                         listNamaPenerima.add(Nm_Penerima.get(i));
                         listPesan.add(Pesan.get(i));
-                        notif(NamaDonaturPopup,NamaPenerima);
+                        notif(Nm_Donatur.get(i),Nm_Penerima.get(i));
                     }
                 }
                 i++;

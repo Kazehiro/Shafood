@@ -13,6 +13,7 @@ public class UserPenerima {
     public String request;
     public String verifikasi;
     public String narasi;
+    public String beruntung;
     public int level;
 
     public UserPenerima(String id_user, String nama, String noktp, String nohp, String alamat, String tanggallahir, String latitude, String longitude, String narasi, String transaksi, String request, String verifikasi, int level) {
@@ -29,5 +30,6 @@ public class UserPenerima {
         this.verifikasi = verifikasi;
         this.narasi = narasi;
         this.level = level;
+        this.beruntung = "false";
     }
 }
