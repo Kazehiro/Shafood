@@ -1457,7 +1457,6 @@ drawable ic_dashboard_black_24dp
 drawable ic_history
 drawable ic_home
 drawable ic_home_black_24dp
-drawable ic_info
 drawable ic_launcher_background
 drawable ic_launcher_foreground
 drawable ic_logout
@@ -1629,7 +1628,6 @@ drawable tw__vine_badge
 drawable wa
 drawable website
 id ALT
-id BelumDiterima
 id BtnQrcode
 id CTRL
 id EditTextNarasi
@@ -1651,7 +1649,6 @@ id RlNoTelp
 id RlTanggalLahir
 id SHIFT
 id SYM
-id account
 id action0
 id action_bar
 id action_bar_activity_content
@@ -1705,11 +1702,8 @@ id btnChooseIdentitas
 id btnChooseIdentitasDonatur
 id btnChooseSIM
 id btnChooseSTNK
-id btnGo
 id btnGoogle
 id btnUpload
-id btn_account
-id btn_buka_history
 id btn_buka_maps
 id btn_holder
 id btn_signUp
@@ -1725,7 +1719,6 @@ id button_next
 id call_to_action_view
 id cancel_action
 id cancel_button
-id cari
 id center
 id centerCrop
 id center_horizontal
@@ -1750,7 +1743,6 @@ id com_facebook_smart_instructions_or
 id com_facebook_tooltip_bubble_view_bottom_pointer
 id com_facebook_tooltip_bubble_view_text_body
 id com_facebook_tooltip_bubble_view_top_pointer
-id confirm
 id confirmation_code
 id confirmation_code_layout
 id container
@@ -1778,23 +1770,18 @@ id drawer_layout
 id dwiky
 id dynamic
 id editTextAlamatPenerimaPopup
+id editTextDesc
 id editTextDescPopup
 id editTextEmail
 id editTextHistoryAlamatPenerimaPopup
-id editTextHistoryNamaDonaturPopup
 id editTextHistoryNamaPenerimaPopup
 id editTextHistoryNamaPengirim
-id editTextJarakPopup
 id editTextKuantitas
 id editTextNamaBarang
 id editTextNamaPenerimaPopup
 id editTextNoTelpPopup
 id editTextPassword
-id editTextPesan
 id editTextRePassword
-id editTextTyPopup
-id editTextWaktuPopup
-id editTextnmPenerimaPopup
 id edit_phone_number
 id edit_query
 id email
@@ -1838,15 +1825,12 @@ id heart_off
 id heart_on
 id hega
 id height
-id history
 id home
 id homeAsUp
 id horizontal
 id hybrid
 id icon
-id icon_account
 id icon_group
-id icon_history
 id icon_maps
 id icon_only
 id ifRoom
@@ -1865,7 +1849,6 @@ id imgViewIdentitas
 id imgViewIdentitasDonatur
 id imgViewSIM
 id imgViewSTNK
-id imgView_Pesan
 id imgView_alamatIcon
 id imgView_barangIcon
 id imgView_dateIcon
@@ -1887,8 +1870,6 @@ id invisible_frame
 id italic
 id item_touch_helper_previous_elevation
 id iv
-id judul
-id jumlahNarik
 id kerja
 id labeled
 id large
@@ -1900,11 +1881,9 @@ id line1
 id line3
 id linearLayout1
 id listMode
-id listViewBelumTerkirim
 id list_item
 id listview
 id listviewHistoryDonatur
-id listviewHistoryKurir
 id listviewKurir
 id listviewPenerima
 id login
@@ -1912,7 +1891,6 @@ id login_form
 id logo
 id main_tos_and_pp
 id map
-id mapDonatur
 id masked
 id media_actions
 id message
@@ -1928,7 +1906,6 @@ id namaDonatur
 id namaProfile
 id name
 id name_layout
-id nav_Tentang
 id nav_account
 id nav_history
 id nav_kirim_barang
@@ -1983,13 +1960,13 @@ id resend_code
 id right
 id right_icon
 id right_side
-id rlNotif
 id root
 id satellite
 id satria
 id save_image_matrix
 id save_non_transition_alpha
 id save_scale_type
+id scan_btn
 id screen
 id scroll
 id scrollIndicatorDown
@@ -2074,7 +2051,6 @@ id transition_scene_layoutid_cache
 id transition_transform
 id trouble_signing_in
 id tv
-id tv_atas
 id tw__allow_btn
 id tw__app_image
 id tw__app_info_layout
@@ -2217,8 +2193,7 @@ layout activity_donatur__account
 layout activity_donatur__history
 layout activity_donatur__main
 layout activity_kurir__main
-layout activity_kurir_account
-layout activity_kurir_history
+layout activity_kurir__verifikasi
 layout activity_kurir_main_main
 layout activity_lengkapidata_donatur
 layout activity_lengkapidata_kurir
@@ -2259,7 +2234,6 @@ layout design_navigation_item_subheader
 layout design_navigation_menu
 layout design_navigation_menu_item
 layout design_text_input_password_icon
-layout donatur_notif
 layout fui_activity_invisible
 layout fui_activity_register_email
 layout fui_activity_register_phone
@@ -2279,9 +2253,6 @@ layout fui_register_email_layout
 layout fui_welcome_back_idp_prompt_layout
 layout fui_welcome_back_password_prompt_layout
 layout history_donatur_popup
-layout history_kurir_popup
-layout kurir_notif
-layout lengkapi_transaksi_popup
 layout messenger_button_send_blue_large
 layout messenger_button_send_blue_round
 layout messenger_button_send_blue_small
@@ -2295,7 +2266,6 @@ layout notification_action
 layout notification_action_tombstone
 layout notification_media_action
 layout notification_media_cancel_action
-layout notification_popup
 layout notification_template_big_media
 layout notification_template_big_media_custom
 layout notification_template_big_media_narrow
@@ -2307,7 +2277,6 @@ layout notification_template_media
 layout notification_template_media_custom
 layout notification_template_part_chronometer
 layout notification_template_part_time
-layout penerima_notif
 layout penerma_popup
 layout place_autocomplete_fragment
 layout place_autocomplete_item_powered_by_google
@@ -2540,8 +2509,6 @@ string google_maps_key
 string google_storage_bucket
 string hide_bottom_view_on_scroll_behavior
 string kit_name
-string kurir_ada
-string kurir_kosong
 string messenger_send_button_text
 string mtrl_chip_close_icon_content_description
 string nav_header_desc

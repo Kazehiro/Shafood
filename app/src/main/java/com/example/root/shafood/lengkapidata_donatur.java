@@ -71,7 +71,6 @@ public class lengkapidata_donatur extends AppCompatActivity implements OnMapRead
     EditText editTextEmail;
     EditText editTextNohp;
     TextView editTextAlamat;
-    EditText editTextTanggalLahir;
     EditText editTextIdentitas;
     Button btnTambah;
     private GoogleMap mMap;
@@ -194,31 +193,39 @@ public class lengkapidata_donatur extends AppCompatActivity implements OnMapRead
                 String alamat = editTextAlamat.getText().toString().toUpperCase().trim();
                 String tanggallahir = mDisplayDate.getText().toString().trim();
                 String noIdentitas = editTextIdentitas.getText().toString().trim();
-                String latitude = alamatLatitude.toString().trim();
-                String longitude = alamatLongitude.toString().trim();
-
-                Log.d("ISI", nama + " , " + nohp + " , " + alamat + " , " + tanggallahir + " , " + noIdentitas);
-                if (filePath1 == null && filePath2 == null) {
-                    showSnackbar(v, "Harap Lengkapi Foto", 3000);
-                    return;
-                } else if (filePath1 == null) {
-                    showSnackbar(v, "Harap LEngkapi KTP", 3000);
-                    return;
-                } else if (filePath2 == null) {
-                    showSnackbar(v, "Harap Lengkapi Foto Profil", 3000);
-                    return;
-                } else {
-                    uploadImageIdentitasDonatur();
-                    uploadImageFotoDonatur();
+                String latitude = "";
+                String longitude = "";
+                if (alamatLatitude != null){
+                    latitude = alamatLatitude.toString().trim();
+                    longitude = alamatLongitude.toString().trim();
                 }
 
-                if (!nama.equals("")) {
+                Log.d("ISI", nama + " , " + nohp + " , " + alamat + " , " + tanggallahir + " , " + noIdentitas);
+
+                if (!nama.equals("") && !nohp.equals("") && !alamat.equals("") && !tanggallahir.equals("")
+                        && !noIdentitas.equals("")&& !latitude.equals("") && !longitude.equals("")) {
+                    if (filePath1 == null && filePath2 == null) {
+                        showSnackbar(v, "Harap Lengkapi Foto", 3000);
+                        return;
+                    } else if (filePath1 == null) {
+                        showSnackbar(v, "Harap LEngkapi KTP", 3000);
+                        return;
+                    } else if (filePath2 == null) {
+                        showSnackbar(v, "Harap Lengkapi Foto Profil", 3000);
+                        return;
+                    } else {
+                        uploadImageIdentitasDonatur();
+                        uploadImageFotoDonatur();
+                    }
                     FirebaseUser user = mAuth.getCurrentUser();
                     String userID = user.getUid();
                     UserDonatur newUser = new UserDonatur(userID, nama, noIdentitas, nohp, alamat, tanggallahir, latitude, longitude, 2);
                     myRef.child("SHAFOOD").child("USER").child("DONATUR").child(userID).setValue(newUser);
                     Intent i = new Intent(lengkapidata_donatur.this, Berhasil.class);
                     startActivity(i);
+                }else {
+                    showSnackbar(v, "Harap Lengkapi Semua Kolom", 3000);
+                    return;
                 }
 
             }
