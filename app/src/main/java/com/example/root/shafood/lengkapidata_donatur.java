@@ -95,6 +95,7 @@ public class lengkapidata_donatur extends AppCompatActivity implements OnMapRead
     public static final int REQUEST_CODE_CAMERA_FOTO = 0020;
     public static final int REQUEST_CODE_GALLERY_FOTO = 0021;
     private String[] items = {"Camera", "Gallery"};
+    private ImageView BtnFotoProfile;
 
     //add Firebase Database stuff
     private FirebaseDatabase mFirebaseDatabase;
@@ -127,7 +128,7 @@ public class lengkapidata_donatur extends AppCompatActivity implements OnMapRead
         btnChooseIdentitasDonatur = (Button) findViewById(R.id.btnChooseIdentitasDonatur);
         imageViewIdentitasDonatur = (ImageView) findViewById(R.id.imgViewIdentitasDonatur);
         imgViewFotoDonatur = (ImageView) findViewById(R.id.imgViewFotoDonatur);
-
+        imgViewFotoDonatur = (ImageView) findViewById(R.id.BtnFotoProfile);
 
 
         //declare the database reference object. This is what we use to access the database.
@@ -271,6 +272,14 @@ public class lengkapidata_donatur extends AppCompatActivity implements OnMapRead
                 mDisplayDate.setText(date);
             }
         };
+
+        imgViewFotoDonatur.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                chooseImageFotoDonatur();
+
+            }
+        });
     }
 
     public void chooseImageIdentitasDonatur() {

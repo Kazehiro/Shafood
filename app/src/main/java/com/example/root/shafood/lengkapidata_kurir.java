@@ -78,6 +78,7 @@ public class lengkapidata_kurir extends AppCompatActivity {
     private ImageView ivImage;
     private TextView tvPath;
     private String[] items = {"Camera", "Gallery"};
+    private ImageView BtnFotoProfile;
 
     //add Firebase Database stuff
     private FirebaseDatabase mFirebaseDatabase;
@@ -106,6 +107,7 @@ public class lengkapidata_kurir extends AppCompatActivity {
         imageViewSTNK = (ImageView) findViewById(R.id.imgViewSTNK);
         btnChooseSIM = (Button) findViewById(R.id.btnChooseSIM);
         imageViewSIM = (ImageView) findViewById(R.id.imgViewSIM);
+        BtnFotoProfile = (ImageView) findViewById(R.id.BtnFotoProfile);
 
         //declare the database reference object. This is what we use to access the database.
         //NOTE: Unless you are signed in, this will not be useable.
@@ -215,6 +217,13 @@ public class lengkapidata_kurir extends AppCompatActivity {
             }
         });
 
+        BtnFotoProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                chooseImageIdentitas();
+            }
+        });
+
     }
 
     private void chooseImageIdentitas() {
@@ -311,7 +320,7 @@ public class lengkapidata_kurir extends AppCompatActivity {
                                 .load(imageFile)
                                 .centerCrop()
                                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                                .into(imageViewIdentitas);
+                                .into(BtnFotoProfile);
                         filePath1 = Uri.fromFile(imageFile);
                         System.out.println("PATH ============== "+filePath1);
                         System.out.println("PATH ============== "+DiskCacheStrategy.ALL.toString());
@@ -321,7 +330,7 @@ public class lengkapidata_kurir extends AppCompatActivity {
                                 .load(imageFile)
                                 .centerCrop()
                                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                                .into(imageViewIdentitas);
+                                .into(BtnFotoProfile);
                         filePath1 = Uri.fromFile(imageFile);
                         break;
                     case REQUEST_CODE_CAMERA_STNK:

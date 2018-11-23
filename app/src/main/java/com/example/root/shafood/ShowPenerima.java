@@ -66,8 +66,8 @@ public class ShowPenerima extends AppCompatActivity implements Dialog.OnDismissL
     private StorageReference storageRef;
 
     //Deklarasi Biodata Penerima
-    private String Pesan, Barang, Kuantitas, NamaDonatur, Id_Donatur, Lat_Donatur, Lng_Donatur, Id_Penerima, Lat_Penerima, Lng_Penerima, Nama_Penerima, Alamat_Penerima, TeleponPenerima, Narasi;
-
+    private String Pesan,pathfile, Barang, Kuantitas, NamaDonatur, Id_Donatur, Lat_Donatur, Lng_Donatur, Id_Penerima, Lat_Penerima, Lng_Penerima, Nama_Penerima, Alamat_Penerima, TeleponPenerima, Narasi;
+    private Uri filePath1;
     Dialog myDialog;
 
     @Override
@@ -82,6 +82,7 @@ public class ShowPenerima extends AppCompatActivity implements Dialog.OnDismissL
         Id_Donatur = getIntent().getStringExtra("Id Donatur");
         Lat_Donatur = getIntent().getStringExtra("Latitude Donatur");
         Lng_Donatur = getIntent().getStringExtra("Longitude Donatur");
+        filePath1 = getIntent().getData();
         Pesan = getIntent().getStringExtra("Pesan");
 
 
@@ -190,6 +191,7 @@ public class ShowPenerima extends AppCompatActivity implements Dialog.OnDismissL
                 mIntent.putExtra("Nama Donatur", NamaDonatur);
                 mIntent.putExtra("Nama Penerima", Nama_Penerima);
                 mIntent.putExtra("Pesan", Pesan);
+                mIntent.putExtra("ImaageFile", pathfile);
                 startActivity(mIntent);
             }
         });
