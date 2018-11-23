@@ -54,12 +54,30 @@
                 tools:layout_editor_absoluteY="655dp">
 
                 <RelativeLayout
+                    android:id="@+id/relativeLayout0"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/imageView1"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="30dp">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_account__"
+                        android:layout_centerHorizontal="true"
+                        android:id="@+id/BtnFotoProfile"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
                     android:id="@+id/relativeLayout1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/imageView1"
                     android:layout_marginLeft="30dp"
-                    android:layout_marginTop="50dp"
+                    android:layout_marginTop="20dp"
                     android:layout_marginRight="30dp">
 
                     <!-- Icon Nama -->
@@ -249,36 +267,6 @@
 
                 </RelativeLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="30dp"
-                    android:layout_marginLeft="30dp"
-                    android:layout_marginTop="10dp">
-
-                    <Button
-                        android:id="@+id/btnChooseFotoDonatur"
-                        android:text="Ambil Foto Diri Sendiri "
-                        android:layout_weight="1"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginLeft="30dp"
-                    android:layout_marginRight="30dp">
-
-                    <ImageView
-                        android:id="@+id/imgViewFotoDonatur"
-                        android:layout_width="wrap_content"
-                        android:layout_height="200dp" />
-
-                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
