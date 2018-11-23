@@ -2,12 +2,17 @@ package com.example.root.shafood;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,6 +20,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -391,6 +397,7 @@ public class Donatur_Main extends AppCompatActivity
         waktu  = (TextView) myNotif.findViewById(R.id.editTextWaktuPopup);
         ty.setText("Terimakasih Kiriman Anda Sudah Diterima oleh " + Ngaran);
         waktu.setText("Pada " + Waktos);
+        notif(Ngaran,Waktos);
 
 
         txtclose.setOnClickListener(new View.OnClickListener() {
@@ -689,5 +696,34 @@ public class Donatur_Main extends AppCompatActivity
     @Override
     public void onDismiss(DialogInterface dialog) {
         myRef2.child(userID).child("show").setValue("false");
+    }
+
+
+    public void notif(String namapenerima, String waktu) {
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(this);
+
+        //Create the intent that’ll fire when the user taps the notification//
+
+        Intent intent = new Intent(Donatur_Main.this, Donatur_Main.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+
+        mBuilder.setContentIntent(pendingIntent);
+        Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        mBuilder.setSmallIcon(R.mipmap.ic_launcher_round);
+        mBuilder.setContentTitle("Kiriman Anda Telah Sampai");
+        mBuilder.setContentText("Pesanan Anda Diterima Oleh " + namapenerima + " Pada " + waktu);
+        mBuilder.setPriority(Notification.PRIORITY_MAX);
+        long[] v = {100,200,400,800,400,800};
+        mBuilder.setVibrate(v);
+        mBuilder.setSound(uri);
+        mBuilder.setOnlyAlertOnce(true);
+        mBuilder.setAutoCancel(true);
+        NotificationManager mNotificationManager =
+
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        mNotificationManager.notify(001, mBuilder.build());
+
     }
 }

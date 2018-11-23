@@ -1,12 +1,18 @@
 package com.example.root.shafood;
 
 import android.app.Dialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
+import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -214,6 +220,7 @@ public class Penerima_Main extends AppCompatActivity {
                         listNamaDonatur.add(Nm_Donatur.get(i));
                         listNamaPenerima.add(Nm_Penerima.get(i));
                         listIdDonatur.add(Id_Donatur.get(i));
+                        notif(listNamaBarang.get(i),listKuantitas.get(i));
                     }
                 }
                 i++;
@@ -226,7 +233,6 @@ public class Penerima_Main extends AppCompatActivity {
                     NamaPengirim = listNamaPengirim.get(position);
                     NamaDonaturPopup = listNamaDonatur.get(position);
                     IdDonatur =  listIdDonatur.get(position);
-                    System.out.println(NamaBarang);
                     ShowPopupHistory(view);
                 }
             });
@@ -297,4 +303,32 @@ public class Penerima_Main extends AppCompatActivity {
         notif.show();
     }
 
+
+    public void notif(String namabarang, String kuantitas) {
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(this);
+
+        //Create the intent that’ll fire when the user taps the notification//
+
+        Intent intent = new Intent(Penerima_Main.this, Penerima_Main.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+
+        mBuilder.setContentIntent(pendingIntent);
+        Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        mBuilder.setSmallIcon(R.mipmap.ic_launcher_round);
+        mBuilder.setContentTitle("Anda Memiliki barang yang akan diterima");
+        mBuilder.setContentText("Anda Mendapat " + namabarang + ", sejumlah " + kuantitas);
+        mBuilder.setPriority(Notification.PRIORITY_MAX);
+        long[] v = {100,200,400,800,400,800};
+        mBuilder.setVibrate(v);
+        mBuilder.setSound(uri);
+        mBuilder.setOnlyAlertOnce(true);
+        mBuilder.setAutoCancel(true);
+        NotificationManager mNotificationManager =
+
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        mNotificationManager.notify(001, mBuilder.build());
+
+    }
 }
