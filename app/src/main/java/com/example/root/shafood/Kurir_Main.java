@@ -102,7 +102,7 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback, 
     private String transaksi;
     private String request;
     private String verifikasi;
-    private int jumlah_narik;
+    private int jml_narik;
 
     private String alamat_penerima_lat;
     private String alamat_penerima_lng;
@@ -164,14 +164,13 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback, 
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         myRef = mFirebaseDatabase.getReference().child("SHAFOOD").child("USER").child("PENERIMA");
         myRef1 = mFirebaseDatabase.getReference().child("SHAFOOD").child("TRANSAKSI");
-        myRef3 = mFirebaseDatabase.getReference().child("USER").child("KURIR");
+        myRef3 = mFirebaseDatabase.getReference();
         myRef2 = mFirebaseDatabase.getReference().child("SHAFOOD").child("USER").child("KURIR");
         myRef4 = mFirebaseDatabase.getReference().child("SHAFOOD").child("NOTIFIKASI");
         FirebaseUser user = mAuth.getCurrentUser();
         userID = user.getUid();
         tempatDonatur = (RelativeLayout) findViewById(R.id.tempatDonatur);
         tempatPenerima = (RelativeLayout) findViewById(R.id.tempatPenerima);
-        widgetInit();
 
         myRef1.addValueEventListener(new ValueEventListener() {
             @Override
@@ -334,10 +333,10 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback, 
 
     public void showData3(DataSnapshot dataSnapshot) {
         for (DataSnapshot ds : dataSnapshot.getChildren()) {
-            ProfileKurir mUpdate_penerima = new ProfileKurir();
-            mUpdate_penerima.setJumlah_narik(ds.child(userID).getValue(ProfileKurir.class).getJumlah_narik());
+            ProfileKurir mProfileKurir = new ProfileKurir();
+            mProfileKurir.setJumlah_narik(ds.child("USER").child("KURIR").child(userID).getValue(ProfileKurir.class).getJumlah_narik());
 
-            jumlah_narik = mUpdate_penerima.getJumlah_narik();
+            jml_narik = mProfileKurir.getJumlah_narik();
         }
     }
 
@@ -350,8 +349,6 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback, 
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_REQUEST);
             return;
         }
-        //deklarasi widget
-        widgetInit();
         //setting UI MAPS
         mMap.setMyLocationEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
@@ -370,11 +367,6 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback, 
 
     }
 
-    public void widgetInit() {
-        etTitikAkhir = findViewById(R.id.etTitikAkhir);
-        etTitikAwal = findViewById(R.id.etTitikAwal);
-    }
-
     @SuppressLint("MissingPermission")
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -387,27 +379,9 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback, 
         }
     }
 
-    public void showPlaceAutoComplete(int typeLocation) {
-        REQUEST_CODE = typeLocation;
-        AutocompleteFilter typeFilter = new AutocompleteFilter.Builder().setCountry("ID").build();
-        try {
-            Intent mIntent = new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
-                    .setFilter(typeFilter)
-                    .build(this);
-            startActivityForResult(mIntent, REQUEST_CODE);
-        } catch (GooglePlayServicesRepairableException e) {
-            e.printStackTrace();
-        } catch (GooglePlayServicesNotAvailableException e) {
-            e.printStackTrace();
-            Toast.makeText(this, "Layanan Tidak Tersedia", Toast.LENGTH_SHORT).show();
-        }
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        //Toast.makeText(this, "Sini Gaes", Toast.LENGTH_SHORT).show();
-        // Pastikan Resultnya OK
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (result != null) {
             if (result.getContents() == null) {
@@ -421,9 +395,10 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback, 
 
                     String Waktu = DateFormat.getDateTimeInstance().format(new Date());
                     myRef1.child(text2Qr).child("success").setValue("true");
+                    myRef1.child(text2Qr).child("waktu_diterima").setValue(Waktu);
                     myRef.child(Id_Penerima).child("transaksi").setValue("true");
-                    jumlah_narik = jumlah_narik + 1;
-                    myRef2.child(userID).child("jumlah_narik").setValue(jumlah_narik);
+                    int newjml_narik = jml_narik + 1;
+                    myRef2.child(userID).child("jumlah_narik").setValue(newjml_narik);
                     myRef2.child(userID).child("narik").setValue("false");
                     showLengkapi();
                     /*myRef4.child(Id_Donatur).child("show").setValue("true");
@@ -435,48 +410,48 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback, 
 
                     String Waktu = DateFormat.getDateTimeInstance().format(new Date());
                     myRef1.child(text2Qr).child("success").setValue("true");
+                    myRef1.child(text2Qr).child("waktu_diterima").setValue(Waktu);
                     myRef.child(Id_Penerima).child("transaksi").setValue("true");
                     myRef2.child(userID).child("narik").setValue("false");
-                    jumlah_narik = jumlah_narik + 1;
-                    myRef2.child(userID).child("jumlah_narik").setValue(jumlah_narik);
+                    int newjml_narik = jml_narik + 1;
+                    myRef2.child(userID).child("jumlah_narik").setValue(newjml_narik);
                     showLengkapi();
 
                     /*Intent mIntent = new Intent(Kurir_Main.this,Kurir_Main_MAIN.class);
                     startActivity(mIntent);*/
                 } else {
                     Toast.makeText(Kurir_Main.this, "Kode Tidak Sesuai", Toast.LENGTH_SHORT).show();
-                    Intent mIntent = new Intent(Kurir_Main.this,Kurir_Main_MAIN.class);
+                    Intent mIntent = new Intent(Kurir_Main.this, Kurir_Main_MAIN.class);
                     startActivity(mIntent);
                     return;
                 }
             }
         }
     }
-    public void showLengkapi(){
+
+    public void showLengkapi() {
         mylengkapi.setContentView(R.layout.lengkapi_transaksi_popup);
         EditText nmPenerima;
         Button submit;
 
         submit = (Button) mylengkapi.findViewById(R.id.confirm);
 
-
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 EditText namPenerima = (EditText) mylengkapi.findViewById(R.id.editTextnmPenerimaPopup);
-                final String nam_penerima =  namPenerima.getText().toString().trim();
+                final String nam_penerima = namPenerima.getText().toString().trim();
                 String Waktu = DateFormat.getDateTimeInstance().format(new Date());
                 myRef4.child(Id_Donatur).child("show").setValue("true");
                 myRef4.child(Id_Donatur).child("nama_penerima").setValue(nam_penerima);
                 myRef4.child(Id_Donatur).child("waktu").setValue(Waktu);
-                myRef1.child(text2Qr).child("waktu").setValue(Waktu);
-                Intent mIntent = new Intent(Kurir_Main.this,Kurir_Main_MAIN.class);
+                myRef1.child(text2Qr).child("diterimaOleh").setValue(nam_penerima);
+                Intent mIntent = new Intent(Kurir_Main.this, Kurir_Main_MAIN.class);
                 startActivity(mIntent);
                 mylengkapi.dismiss();
-                System.out.println("DWIKY ANZENGGGGGGGGGG" + nam_penerima);
             }
         });
-
+        mylengkapi.setCancelable(false);
         mylengkapi.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         mylengkapi.show();
 
