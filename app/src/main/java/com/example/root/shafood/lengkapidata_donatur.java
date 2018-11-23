@@ -71,7 +71,6 @@ public class lengkapidata_donatur extends AppCompatActivity implements OnMapRead
     EditText editTextEmail;
     EditText editTextNohp;
     TextView editTextAlamat;
-    EditText editTextTanggalLahir;
     EditText editTextIdentitas;
     Button btnTambah;
     private GoogleMap mMap;
@@ -212,13 +211,17 @@ public class lengkapidata_donatur extends AppCompatActivity implements OnMapRead
                     uploadImageFotoDonatur();
                 }
 
-                if (!nama.equals("")) {
+                if (!nama.equals("") && !nohp.equals("") && !alamat.equals("") && !tanggallahir.equals("")
+                        && !noIdentitas.equals("")&& !latitude.equals("") && !longitude.equals("")) {
                     FirebaseUser user = mAuth.getCurrentUser();
                     String userID = user.getUid();
                     UserDonatur newUser = new UserDonatur(userID, nama, noIdentitas, nohp, alamat, tanggallahir, latitude, longitude, 2);
                     myRef.child("SHAFOOD").child("USER").child("DONATUR").child(userID).setValue(newUser);
                     Intent i = new Intent(lengkapidata_donatur.this, Berhasil.class);
                     startActivity(i);
+                }else {
+                    showSnackbar(v, "Harap Lengkapi Semua Kolom", 3000);
+                    return;
                 }
 
             }

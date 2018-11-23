@@ -51,9 +51,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:visibility="visible"
-                tools:layout_editor_absoluteX="1176dp"
-                tools:layout_editor_absoluteY="655dp">
+                android:visibility="visible">
 
                 <RelativeLayout
                     android:id="@+id/relativeLayout1"
@@ -61,7 +59,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/imageView1"
                     android:layout_marginLeft="30dp"
-                    android:layout_marginTop="50dp"
+                    android:layout_marginTop="20dp"
                     android:layout_marginRight="30dp">
 
                     <!-- Icon Nama -->
@@ -118,6 +116,7 @@
                         android:layout_toRightOf="@+id/imgView_identitasIcon"
                         android:background="@color/editTextBG"
                         android:hint="No KTP"
+                        android:maxLength="16"
                         android:inputType="number"
                         android:paddingLeft="20dp"
                         android:textSize="15sp" />
@@ -213,6 +212,7 @@
                         android:background="@color/editTextBG"
                         android:hint="No.HandPhone"
                         android:inputType="phone"
+                        android:maxLength="11"
                         android:paddingLeft="20dp"
                         android:textSize="15sp" />
                 </RelativeLayout>
@@ -237,7 +237,7 @@
                         android:tint="@color/white" />
 
                     <!-- Edit Text Tanggal Lahir -->
-                    <EditText
+                    <TextView
                         android:id="@+id/EditTexttanggallahir"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

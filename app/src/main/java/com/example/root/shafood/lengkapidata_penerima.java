@@ -1,25 +1,34 @@
 package com.example.root.shafood;
 
 import android.Manifest;
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.AutocompleteFilter;
@@ -45,11 +54,16 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.UUID;
 
-public class lengkapidata_penerima extends AppCompatActivity implements OnMapReadyCallback ,GoogleMap.OnMapLongClickListener{
+import pl.aprilapps.easyphotopicker.DefaultCallback;
+import pl.aprilapps.easyphotopicker.EasyImage;
+
+public class lengkapidata_penerima extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener {
 
     private static final String TAG = "Penerima";
 
@@ -57,25 +71,32 @@ public class lengkapidata_penerima extends AppCompatActivity implements OnMapRea
     EditText editTextEmail;
     EditText editTextNohp;
     TextView editTextAlamat;
-    EditText editTextTanggalLahir;
+    TextView editTextTanggalLahir;
     EditText editTextIdentitas;
     EditText editTextNarasi;
     Button btnTambah;
     private GoogleMap mMap;
     ArrayList<LatLng> lispoints;
     public LatLng alamatLatLng = null;
-    public Double alamatLatitude,alamatLongitude;
+    public Double alamatLatitude, alamatLongitude;
     public LatLng indonesia;
     private static final int LOCATION_REQUEST = 500;
+
+    //Date
+    private TextView mDisplayDate;
+    private DatePickerDialog.OnDateSetListener mDateSetListener;
 
     //Gambar
     private Button btnChooseIdentitasDonatur;
     private Button btnChooseFotoDonatur;
-    private ImageView imageViewIdentitasDonatur,imgViewFotoDonatur;
+    private ImageView imageViewIdentitasDonatur, imgViewFotoDonatur;
     private Uri filePath1;
     private Uri filePath2;
-    private final int PICK_IMAGE_REQUEST_1 = 1;
-    private final int PICK_IMAGE_REQUEST_2 = 2;
+    public static final int REQUEST_CODE_CAMERA_IDENTITAS = 0022;
+    public static final int REQUEST_CODE_GALLERY_IDENTITAS = 0023;
+    public static final int REQUEST_CODE_CAMERA_FOTO = 0020;
+    public static final int REQUEST_CODE_GALLERY_FOTO = 0021;
+    private String[] items = {"Camera", "Gallery"};
 
     //add Firebase Database stuff
     private FirebaseDatabase mFirebaseDatabase;
@@ -99,10 +120,11 @@ public class lengkapidata_penerima extends AppCompatActivity implements OnMapRea
         editTextNama = (EditText) findViewById(R.id.EditTextnama);
         editTextNohp = (EditText) findViewById(R.id.EditTextnohp);
         editTextAlamat = (TextView) findViewById(R.id.EditTextalamat);
-        editTextTanggalLahir = (EditText) findViewById(R.id.EditTexttanggallahir);
+        editTextTanggalLahir = (TextView) findViewById(R.id.EditTexttanggallahir);
         btnTambah = (Button) findViewById(R.id.tambahDonatur);
         editTextIdentitas = (EditText) findViewById(R.id.EditTextidentitas);
         editTextNarasi = (EditText) findViewById(R.id.EditTextNarasi);
+        mDisplayDate = (TextView) findViewById(R.id.EditTexttanggallahir);
 
         //Initialize Views
         btnChooseFotoDonatur = (Button) findViewById(R.id.btnChooseFotoDonatur);
@@ -115,6 +137,8 @@ public class lengkapidata_penerima extends AppCompatActivity implements OnMapRea
         mAuth = FirebaseAuth.getInstance();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         myRef = mFirebaseDatabase.getReference();
+
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, REQUEST_CODE_CAMERA_IDENTITAS);
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -151,14 +175,14 @@ public class lengkapidata_penerima extends AppCompatActivity implements OnMapRea
         btnChooseIdentitasDonatur.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                chooseImageIdentitasDonatur();
+                chooseImageIdentitasPenerima();
             }
         });
 
         btnChooseFotoDonatur.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                chooseImageFotoDonatur();
+                chooseImageFotoPenerima();
             }
         });
 
@@ -176,15 +200,32 @@ public class lengkapidata_penerima extends AppCompatActivity implements OnMapRea
                 String longitude = alamatLongitude.toString().trim();
 
                 Log.d("ISI", nama + " , " + nohp + " , " + alamat + " , " + tanggallahir + " , " + noIdentitas);
-                uploadImageIdentitasDonatur();
-                uploadImageFotoDonatur();
-                if (!nama.equals("")) {
+
+                if (filePath1 == null && filePath2 == null){
+                    showSnackbar(v, "Harap Lengkapi Foto", 3000);
+                    return;
+                }else if (filePath1 == null){
+                    showSnackbar(v, "Harap Lengkapi Foto Profil", 3000);
+                    return;
+                }else if(filePath2 == null) {
+                    showSnackbar(v, "Harap Lengkapi Foto KTP ", 3000);
+                    return;
+                }else {
+                    uploadImageFotoPenerima();
+                    uploadImageIdentitasPenerima();
+                }
+
+                if (!nama.equals("") && !nohp.equals("") && !alamat.equals("") && !tanggallahir.equals("") && !noIdentitas.equals("") && !narasi.equals("")
+                        && !latitude.equals("") && !longitude.equals("")) {
                     FirebaseUser user = mAuth.getCurrentUser();
                     String userID = user.getUid();
-                    UserPenerima newUser = new UserPenerima(userID, nama, noIdentitas, nohp, alamat, tanggallahir,latitude,longitude, narasi,"false", "false", "false",4);
+                    UserPenerima newUser = new UserPenerima(userID, nama, noIdentitas, nohp, alamat, tanggallahir, latitude, longitude, narasi, "false", "false", "false", 4);
                     myRef.child("SHAFOOD").child("USER").child("PENERIMA").child(userID).setValue(newUser);
                     Intent i = new Intent(lengkapidata_penerima.this, Berhasil.class);
                     startActivity(i);
+                }else {
+                    showSnackbar(v, "Harap Lengkapi Semua Kolom", 3000);
+                    return;
                 }
 
             }
@@ -202,27 +243,76 @@ public class lengkapidata_penerima extends AppCompatActivity implements OnMapRea
         });
         lispoints = new ArrayList<>();
 
+        mDisplayDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Calendar cal = Calendar.getInstance();
+                int year = cal.get(Calendar.YEAR);
+                int month = cal.get(Calendar.MONTH);
+                int day = cal.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog dialog = new DatePickerDialog(
+                        lengkapidata_penerima.this,
+                        android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+                        mDateSetListener,
+                        year, month, day);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
+            }
+        });
+
+        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                month = month + 1;
+                Log.d(TAG, "onDateSet: dd/mm/yyy: " + day + "/" + month + "/" + year);
+
+                String date = day + "/" + month + "/" + year;
+                mDisplayDate.setText(date);
+            }
+        };
+
     }
 
-    public void chooseImageIdentitasDonatur() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST_1);
+    public void chooseImageIdentitasPenerima() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Options");
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                if (items[i].equals("Camera")) {
+                    EasyImage.openCamera(lengkapidata_penerima.this, REQUEST_CODE_CAMERA_IDENTITAS);
+                } else if (items[i].equals("Gallery")) {
+                    EasyImage.openGallery(lengkapidata_penerima.this, REQUEST_CODE_GALLERY_IDENTITAS);
+                }
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
-    public void chooseImageFotoDonatur() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST_2);
+    public void chooseImageFotoPenerima() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Options");
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                if (items[i].equals("Camera")) {
+                    EasyImage.openCamera(lengkapidata_penerima.this, REQUEST_CODE_CAMERA_FOTO);
+                } else if (items[i].equals("Gallery")) {
+                    EasyImage.openGallery(lengkapidata_penerima.this, REQUEST_CODE_GALLERY_FOTO);
+                }
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == RESULT_OK && data != null && data.getData() != null) {
+        /*if (resultCode == RESULT_OK && data != null && data.getData() != null) {
             if (requestCode == PICK_IMAGE_REQUEST_1) {
                 filePath1 = data.getData();
                 try {
@@ -240,47 +330,93 @@ public class lengkapidata_penerima extends AppCompatActivity implements OnMapRea
                     e.printStackTrace();
                 }
             }
-        }
-        else if (resultCode == RESULT_OK) {
-            //Toast.makeText(this, "Sini Gaes2", Toast.LENGTH_SHORT).show();
-            // Tampung Data tempat ke variable
-            Place placeData = PlaceAutocomplete.getPlace(this, data);
+        }*/
 
-            if (placeData.isDataValid()) {
-                // Show in Log Cat
-                Log.d("autoCompletePlace Data", placeData.toString());
-
-                // Dapatkan Detail
-                String placeAddress = placeData.getAddress().toString();
-                LatLng placeLatLng = placeData.getLatLng();
-                String placeName = placeData.getName().toString();
-
-                // Cek user milih titik jemput atau titik tujuan
-                switch (REQUEST_CODE) {
-                    case ALAMAT:
-                        // Set ke widget lokasi asal
-                        editTextAlamat.setText(placeAddress);
-                        alamatLatLng = placeData.getLatLng();
+        EasyImage.handleActivityResult(requestCode, resultCode, data, this, new DefaultCallback() {
+            @Override
+            public void onImagePicked(File imageFile, EasyImage.ImageSource source, int type) {
+                switch (type) {
+                    case REQUEST_CODE_CAMERA_IDENTITAS:
+                        Glide.with(lengkapidata_penerima.this)
+                                .load(imageFile)
+                                .centerCrop()
+                                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                .into(imageViewIdentitasDonatur);
+                        filePath1 = Uri.fromFile(imageFile);
+                        System.out.println("PATH ============== " + filePath1);
+                        System.out.println("PATH ============== " + DiskCacheStrategy.ALL.toString());
+                        break;
+                    case REQUEST_CODE_GALLERY_IDENTITAS:
+                        Glide.with(lengkapidata_penerima.this)
+                                .load(imageFile)
+                                .centerCrop()
+                                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                .into(imageViewIdentitasDonatur);
+                        filePath1 = Uri.fromFile(imageFile);
+                        break;
+                    case REQUEST_CODE_CAMERA_FOTO:
+                        Glide.with(lengkapidata_penerima.this)
+                                .load(imageFile)
+                                .centerCrop()
+                                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                .into(imgViewFotoDonatur);
+                        filePath2 = Uri.fromFile(imageFile);
+                        break;
+                    case REQUEST_CODE_GALLERY_FOTO:
+                        Glide.with(lengkapidata_penerima.this)
+                                .load(imageFile)
+                                .centerCrop()
+                                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                .into(imgViewFotoDonatur);
+                        filePath2 = Uri.fromFile(imageFile);
                         break;
                 }
-                if (alamatLatLng != null) {
-                    onMapLongClick(alamatLatLng);
-                    lispoints.add(alamatLatLng);
-                    mMap.moveCamera(CameraUpdateFactory.newLatLng(alamatLatLng));
-                    CameraUpdateFactory.newLatLng(alamatLatLng);
-                    CameraUpdateFactory.newLatLngZoom(alamatLatLng,16);
-                    mMap.addMarker(new MarkerOptions().position(alamatLatLng).title(placeAddress));
-                }
+            }
+        });
 
-            } else {
-                // Data tempat tidak valid
-                Toast.makeText(this, "Invalid Place !", Toast.LENGTH_SHORT).show();
+        if (resultCode == RESULT_OK) {
+            //Toast.makeText(this, "Sini Gaes2", Toast.LENGTH_SHORT).show();
+            // Tampung Data tempat ke variable
+            try {
+                Place placeData = PlaceAutocomplete.getPlace(this, data);
+
+                if (placeData.isDataValid()) {
+                    // Show in Log Cat
+                    Log.d("autoCompletePlace Data", placeData.toString());
+
+                    // Dapatkan Detail
+                    String placeAddress = placeData.getAddress().toString();
+                    LatLng placeLatLng = placeData.getLatLng();
+                    String placeName = placeData.getName().toString();
+
+                    // Cek user milih titik jemput atau titik tujuan
+                    switch (REQUEST_CODE) {
+                        case ALAMAT:
+                            // Set ke widget lokasi asal
+                            editTextAlamat.setText(placeAddress);
+                            alamatLatLng = placeData.getLatLng();
+                            break;
+                    }
+                    if (alamatLatLng != null) {
+                        onMapLongClick(alamatLatLng);
+                        lispoints.add(alamatLatLng);
+                        mMap.moveCamera(CameraUpdateFactory.newLatLng(alamatLatLng));
+                        CameraUpdateFactory.newLatLng(alamatLatLng);
+                        CameraUpdateFactory.newLatLngZoom(alamatLatLng, 16);
+                        mMap.addMarker(new MarkerOptions().position(alamatLatLng).title(placeAddress));
+                    }
+
+                } else {
+                    // Data tempat tidak valid
+                    Toast.makeText(this, "Invalid Place !", Toast.LENGTH_SHORT).show();
+                }
+            } catch (RuntimeException e) {
+                e.printStackTrace();
             }
         }
-
     }
 
-    private void uploadImageIdentitasDonatur() {
+    private void uploadImageIdentitasPenerima() {
 
         if (filePath1 != null) {
             final ProgressDialog progressDialog = new ProgressDialog(this);
@@ -317,7 +453,7 @@ public class lengkapidata_penerima extends AppCompatActivity implements OnMapRea
         }
     }
 
-    private void uploadImageFotoDonatur() {
+    private void uploadImageFotoPenerima() {
 
         if (filePath2 != null) {
             final ProgressDialog progressDialog = new ProgressDialog(this);
@@ -368,8 +504,6 @@ public class lengkapidata_penerima extends AppCompatActivity implements OnMapRea
         }
     }
 
-
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -388,19 +522,18 @@ public class lengkapidata_penerima extends AppCompatActivity implements OnMapRea
         String[] indo = "-6.175 , 106.828333".split(",");
         Double lat = Double.parseDouble(indo[0]);
         Double lng = Double.parseDouble(indo[1]);
-        indonesia = new LatLng(lat,lng);
+        indonesia = new LatLng(lat, lng);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(indonesia));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(indonesia,16));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(indonesia, 16));
         mMap.setOnMapLongClickListener(this);
     }
 
     @Override
     public void onMapLongClick(LatLng latLng) {
-        if (lispoints.size() >= 1){
+        if (lispoints.size() >= 1) {
             mMap.clear();
             lispoints.clear();
-        }
-        else {
+        } else {
             lispoints.add(latLng);
             MarkerOptions mMarkerOptions = new MarkerOptions();
             mMarkerOptions.position(latLng);
@@ -431,8 +564,14 @@ public class lengkapidata_penerima extends AppCompatActivity implements OnMapRea
     }
 
     //add a toast to show when successfully signed in
+
     /**
      * customizable toast
+     *
      * @param message
      */
+
+    public void showSnackbar(View v, String message, int duration) {
+        Snackbar.make(v, message, duration).show();
+    }
 }
