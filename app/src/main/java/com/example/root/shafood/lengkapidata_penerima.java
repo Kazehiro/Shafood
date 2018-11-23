@@ -196,27 +196,32 @@ public class lengkapidata_penerima extends AppCompatActivity implements OnMapRea
                 String tanggallahir = editTextTanggalLahir.getText().toString().trim();
                 String noIdentitas = editTextIdentitas.getText().toString().trim();
                 String narasi = editTextNarasi.getText().toString().trim();
-                String latitude = alamatLatitude.toString().trim();
-                String longitude = alamatLongitude.toString().trim();
+                String latitude = "";
+                String longitude = "";
+                if(alamatLatitude != null){
+                    latitude = alamatLatitude.toString().trim();
+                    longitude = alamatLongitude.toString().trim();
+                }
 
                 Log.d("ISI", nama + " , " + nohp + " , " + alamat + " , " + tanggallahir + " , " + noIdentitas);
 
+
+                if (!nama.equals("") && !nohp.equals("") && !alamat.equals("") && !tanggallahir.equals("") && !noIdentitas.equals("") && !narasi.equals("")
+                        && !latitude.equals("") && !longitude.equals("")) {
                 if (filePath1 == null && filePath2 == null){
                     showSnackbar(v, "Harap Lengkapi Foto", 3000);
                     return;
                 }else if (filePath1 == null){
-                    showSnackbar(v, "Harap Lengkapi Foto Profil", 3000);
+                    showSnackbar(v, "Harap Lengkapi Foto KTP", 3000);
                     return;
                 }else if(filePath2 == null) {
-                    showSnackbar(v, "Harap Lengkapi Foto KTP ", 3000);
+                    showSnackbar(v, "Harap Lengkapi Foto Profil ", 3000);
                     return;
                 }else {
                     uploadImageFotoPenerima();
                     uploadImageIdentitasPenerima();
                 }
 
-                if (!nama.equals("") && !nohp.equals("") && !alamat.equals("") && !tanggallahir.equals("") && !noIdentitas.equals("") && !narasi.equals("")
-                        && !latitude.equals("") && !longitude.equals("")) {
                     FirebaseUser user = mAuth.getCurrentUser();
                     String userID = user.getUid();
                     UserPenerima newUser = new UserPenerima(userID, nama, noIdentitas, nohp, alamat, tanggallahir, latitude, longitude, narasi, "false", "false", "false", 4);
