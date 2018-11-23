@@ -39,7 +39,12 @@
         <activity android:name=".ViewDatabase" />
         <activity android:name=".Register" />
         <activity android:name=".Penerima_Main" />
+        <service android:name=".services.BackgroundProcess">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
 
+        </service>
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />

@@ -132,7 +132,6 @@ public class Penerima_Verifikasi extends AppCompatActivity {
                 i++;
             }
         }
-        System.out.println(text2Qr);
 
         
         MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
