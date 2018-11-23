@@ -2,6 +2,7 @@ package com.example.root.shafood;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -17,6 +18,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -34,6 +36,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.AutocompleteFilter;
@@ -55,12 +58,18 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.File;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
+
+import pl.aprilapps.easyphotopicker.DefaultCallback;
+import pl.aprilapps.easyphotopicker.EasyImage;
 
 public class Donatur_Main extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, GoogleMap.OnMapLongClickListener, OnMapReadyCallback ,Dialog.OnDismissListener {
@@ -71,6 +80,7 @@ public class Donatur_Main extends AppCompatActivity
     private DatabaseReference myRef,myRef1,myRef2;
     private FirebaseStorage storage;
     private StorageReference storageRef;
+    StorageReference storageReference;
     private long backPressedTime;
     private Toast backToast;
     private String userID;
@@ -99,6 +109,14 @@ public class Donatur_Main extends AppCompatActivity
     ArrayList<LatLng> lispoints;
     public LatLng alamatLatLng = null;
     public Double alamatLatitude, alamatLongitude;
+
+    //Gambar
+    private Button BtnFotoBarang;
+    private ImageView ImgViewBarang;
+    private Uri filePath1;
+    public static final int REQUEST_CODE_CAMERA_BARANG = 0022;
+    private String[] items = {"Camera"};
+
 
 
     @Override
@@ -133,6 +151,8 @@ public class Donatur_Main extends AppCompatActivity
         btnCari = (Button) header.findViewById(R.id.buttonKirim);
         cari = (TextView) findViewById(R.id.cari);
         listViewBelumTerkirim = (ListView) findViewById(R.id.listViewBelumTerkirim);
+        BtnFotoBarang = (Button) findViewById(R.id.BtnFotoBarang);
+        ImgViewBarang = (ImageView) findViewById(R.id.ImgViewBarang);
 
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
@@ -141,6 +161,10 @@ public class Donatur_Main extends AppCompatActivity
         userID = user.getUid();
         myRef1 = mFirebaseDatabase.getReference().child("SHAFOOD").child("TRANSAKSI");
         myRef2 = mFirebaseDatabase.getReference().child("SHAFOOD").child("NOTIFIKASI");
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
+
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, REQUEST_CODE_CAMERA_BARANG);
 
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -231,6 +255,28 @@ public class Donatur_Main extends AppCompatActivity
             }
         });
 
+        BtnFotoBarang.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                chooseImageBarang();
+            }
+        });
+
+    }
+
+    public void chooseImageBarang() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Options");
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                if (items[i].equals("Camera")) {
+                    EasyImage.openCamera(Donatur_Main.this, REQUEST_CODE_CAMERA_BARANG);
+                }
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private void showData1(Map<String, Object> dataSnapshot) {
@@ -419,6 +465,26 @@ public class Donatur_Main extends AppCompatActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        EasyImage.handleActivityResult(requestCode, resultCode, data, this, new DefaultCallback() {
+            @Override
+            public void onImagePicked(File imageFile, EasyImage.ImageSource source, int type) {
+                switch (type) {
+                    case REQUEST_CODE_CAMERA_BARANG:
+                        Glide.with(Donatur_Main.this)
+                                .load(imageFile)
+                                .centerCrop()
+                                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                .into(ImgViewBarang);
+                        filePath1 = Uri.fromFile(imageFile);
+                        System.out.println("PATH ============== " + filePath1);
+                        System.out.println("PATH ============== " + DiskCacheStrategy.ALL.toString());
+                        break;
+
+                }
+            }
+        });
+
         if (resultCode == RESULT_OK) {
             //Toast.makeText(this, "Sini Gaes2", Toast.LENGTH_SHORT).show();
             // Tampung Data tempat ke variable
@@ -459,6 +525,8 @@ public class Donatur_Main extends AppCompatActivity
             }
         }
     }
+
+
 
     private void showData(DataSnapshot dataSnapshot) {
         for (DataSnapshot ds : dataSnapshot.getChildren()) {
@@ -524,6 +592,7 @@ public class Donatur_Main extends AppCompatActivity
         search.putExtra("Longitude Donatur", alamatLongitude.toString());
         search.putExtra("Id Donatur", userID);
         search.putExtra("Pesan", etPesan.getText().toString());
+        search.putExtra("ImaageFile",filePath1);
         startActivity(search);
     }
 

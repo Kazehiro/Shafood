@@ -1,7 +1,9 @@
 package com.example.root.shafood;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
@@ -15,6 +17,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.credentials.IdentityProviders;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -22,6 +26,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.lang.ref.ReferenceQueue;
 import java.util.ArrayList;
@@ -42,9 +50,10 @@ public class ShowKurir extends AppCompatActivity {
     private String userID;
 
     private ListView mListViewKurir;
-
-    private String Pesan, Barang, SKuantitas, NamaDonatur, NamaPenerima, Id_Donatur, Lat_Donatur, Lng_Donatur, Id_Penerima, Lat_Penerima, Lng_Penerima, Nama_Penerima, Alamat_Penerima, TeleponPenerima, Narasi;
-
+    FirebaseStorage storage;
+    StorageReference storageReference;
+    private String Pesan,pathfile, Barang, SKuantitas, NamaDonatur, NamaPenerima, Id_Donatur, Lat_Donatur, Lng_Donatur, Id_Penerima, Lat_Penerima, Lng_Penerima, Nama_Penerima, Alamat_Penerima, TeleponPenerima, Narasi;
+    private Uri filePath1;
 
 
     @Override
@@ -53,7 +62,8 @@ public class ShowKurir extends AppCompatActivity {
         setContentView(R.layout.activity_show_kurir);
 
         mListViewKurir = (ListView) findViewById(R.id.listviewKurir);
-
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
         Barang = getIntent().getStringExtra("Barang");
         SKuantitas = getIntent().getStringExtra("Kuantitas");
         NamaDonatur = getIntent().getStringExtra("Nama Donatur");
@@ -65,6 +75,7 @@ public class ShowKurir extends AppCompatActivity {
         Lat_Penerima = getIntent().getStringExtra("Latitude Penerima");
         Lng_Penerima = getIntent().getStringExtra("Longitude Penerima");
         Pesan = getIntent().getStringExtra("Pesan");
+        filePath1 = getIntent().getData();
 
 
         //declare the database reference object. This is what we use to access the database.
@@ -112,6 +123,8 @@ public class ShowKurir extends AppCompatActivity {
         });
 
     }
+
+
 
     private void showData(Map<String, Object> dataSnapshot) {
         Location currentUser = new Location("");
@@ -181,6 +194,7 @@ public class ShowKurir extends AppCompatActivity {
                 myRefUpload.child("SHAFOOD").child("TRANSAKSI").child(userID + ts).setValue(newTransaksi);
                 myRef1.child("SHAFOOD").child("USER").child("KURIR").child(Id_Kurir).child("narik").setValue("true");
                 toastMessage("Terima Kasih");
+                uploadImageBarang();
                 Intent mIntent = new Intent(ShowKurir.this,Donatur_Main.class);
                 startActivity(mIntent);
             }
@@ -201,6 +215,41 @@ public class ShowKurir extends AppCompatActivity {
         super.onStop();
         if (mAuthListener != null) {
             mAuth.removeAuthStateListener(mAuthListener);
+        }
+    }
+
+    private void uploadImageBarang() {
+
+        if (filePath1 != null) {
+            final ProgressDialog progressDialog = new ProgressDialog(this);
+            progressDialog.setTitle("Uploading...");
+            progressDialog.show();
+            StorageReference ref = storageReference.child("Transaksi/" + Id_Penerima);
+            ref.putFile(filePath1)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            progressDialog.dismiss();
+                            Toast.makeText(ShowKurir.this, "Uploaded Berhasil", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            progressDialog.dismiss();
+                            Toast.makeText(ShowKurir.this, "Upload Gagal " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot
+                                    .getTotalByteCount());
+                            progressDialog.setMessage("Uploaded " + (int) progress + "%");
+                        }
+                    });
+        } else {
+            Toast.makeText(ShowKurir.this, "Gagal uyyyyyy", Toast.LENGTH_SHORT).show();
         }
     }
 
