@@ -599,7 +599,7 @@ public class Donatur_Main extends AppCompatActivity
         search.putExtra("Longitude Donatur", alamatLongitude.toString());
         search.putExtra("Id Donatur", userID);
         search.putExtra("Pesan", etPesan.getText().toString());
-        search.putExtra("ImaageFile",filePath1);
+        search.setData(filePath1);
         startActivity(search);
     }
 

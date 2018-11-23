@@ -76,7 +76,11 @@ public class ShowKurir extends AppCompatActivity {
         Lng_Penerima = getIntent().getStringExtra("Longitude Penerima");
         Pesan = getIntent().getStringExtra("Pesan");
         filePath1 = getIntent().getData();
-
+        try {
+            System.out.println("INI FILEPATH KURIR =======" + filePath1.toString());
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
 
         //declare the database reference object. This is what we use to access the database.
         //NOTE: Unless you are signed in, this will not be useable.
