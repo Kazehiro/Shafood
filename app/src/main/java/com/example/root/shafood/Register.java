@@ -20,6 +20,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class Register extends AppCompatActivity {
 
@@ -31,6 +34,11 @@ public class Register extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private Spinner spPilih;
 
+    private FirebaseDatabase mFirebaseDatabase;
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+    private DatabaseReference myRef;
+
     //defining firebaseauth object
     private FirebaseAuth firebaseAuth;
 
@@ -39,6 +47,9 @@ public class Register extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        mAuth = FirebaseAuth.getInstance();
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        myRef = mFirebaseDatabase.getReference();
         //initializing firebase auth object
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -97,17 +108,22 @@ public class Register extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         //checking if success
                         if(task.isSuccessful()) {
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            final String userID = user.getUid();
                             //display some message here
                             Toast.makeText(Register.this, "Successfully registered "+spPilih.getSelectedItem(), Toast.LENGTH_LONG).show();
                             if (spPilih.getSelectedItem().toString().equals("Donatur")) {
+                                myRef.child("SHAFOOD").child("USER").child("DONATUR").child(userID).child("level").setValue(2);
                                 Intent register = new Intent(Register.this, lengkapidata_donatur.class);
                                 startActivity(register);
                             }
                             else if(spPilih.getSelectedItem().toString().equals("Kurir")){
+                                myRef.child("SHAFOOD").child("USER").child("KURIR").child(userID).child("level").setValue(3);
                                 Intent register = new Intent(Register.this, lengkapidata_kurir.class);
                                 startActivity(register);
                             }
                             else if(spPilih.getSelectedItem().toString().equals("Penerima")){
+                                myRef.child("SHAFOOD").child("USER").child("PENERIMA").child(userID).child("level").setValue(4);
                                 Intent register = new Intent(Register.this, lengkapidata_penerima.class);
                                 startActivity(register);
                             }
