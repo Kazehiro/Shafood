@@ -100,6 +100,13 @@ public class Berhasil extends AppCompatActivity {
                 if (uInfo.getLevel() == 2) {
                     Intent mIntent = new Intent(Berhasil.this, Donatur_Main.class);
                     startActivity(mIntent);
+                    try{
+                        uInfo.setNama(ds.child("USER").child("DONATUR").child(userID).getValue(ProfileDonatur.class).getNama());
+                    }
+                    catch (NullPointerException e){
+                        Intent sIntent  = new Intent(Berhasil.this, lengkapidata_donatur.class);
+                        startActivity(sIntent);
+                    }
                 }
             } catch (NullPointerException e) {
                 return e;
@@ -125,10 +132,19 @@ public class Berhasil extends AppCompatActivity {
                     } else{
                         toastMessage("Akun Anda Belum Ter-Verifikasi");
                     }
+                    try{
+                        kuInfo.setNama(ds.child("USER").child("KURIR").child(userID).getValue(ProfileKurir.class).getNama());
+                    }
+                    catch (NullPointerException e){
+                        Intent sIntent  = new Intent(Berhasil.this, lengkapidata_kurir.class);
+                        startActivity(sIntent);
+                    }
                 }
 
 
             } catch (NullPointerException e) {
+                Intent mIntent = new Intent(Berhasil.this, lengkapidata_kurir.class);
+                startActivity(mIntent);
                 return e;
             }
         }
@@ -140,7 +156,6 @@ public class Berhasil extends AppCompatActivity {
             System.out.println("INI SHOWDATA 3");
             ProfilePenerima peInfo = new ProfilePenerima();
             try {
-
                 peInfo.setLevel(ds.child("USER").child("PENERIMA").child(userID).getValue(ProfilePenerima.class).getLevel());
                 peInfo.setVerifikasi(ds.child("USER").child("PENERIMA").child(userID).getValue(ProfilePenerima.class).getVerifikasi());
                 peInfo.setLatitude(ds.child("USER").child("PENERIMA").child(userID).getValue(ProfilePenerima.class).getLatitude());
@@ -149,12 +164,18 @@ public class Berhasil extends AppCompatActivity {
 
                 if (peInfo.getLevel() == 4) {
                     if(peInfo.getVerifikasi().equals("true")){
-                        if(peInfo.getLatitude().equals("0") && peInfo.getLongitude().equals("0")){
-                            Intent mIntent = new Intent(Berhasil.this, lengkapidata_penerima.class);
-                            startActivity(mIntent);
+                        try {
+                            if(peInfo.getLatitude().equals("0") && peInfo.getLongitude().equals("0")){
+                                Intent mIntent = new Intent(Berhasil.this, lengkapidata_penerima.class);
+                                startActivity(mIntent);
+                            }
+                            else {
+                                Intent mIntent = new Intent(Berhasil.this, Penerima_Main.class);
+                                startActivity(mIntent);
+                            }
                         }
-                        else {
-                            Intent mIntent = new Intent(Berhasil.this, Penerima_Main.class);
+                        catch (NullPointerException e){
+                            Intent mIntent = new Intent(Berhasil.this, lengkapidata_penerima.class);
                             startActivity(mIntent);
                         }
                     } else{
