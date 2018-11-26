@@ -382,6 +382,7 @@ public class Donatur_Main extends AppCompatActivity
                 if (Show.get(i).equals("true")) {
                     Ngaran = (Nm_Penerima.get(i));
                     Waktos = (Waktu.get(i));
+                    notif(Ngaran,Waktos);
                     showNotification();
                 }
                 i++;
@@ -397,7 +398,6 @@ public class Donatur_Main extends AppCompatActivity
         waktu  = (TextView) myNotif.findViewById(R.id.editTextWaktuPopup);
         ty.setText("Terimakasih Kiriman Anda Sudah Diterima oleh " + Ngaran);
         waktu.setText("Pada " + Waktos);
-        notif(Ngaran,Waktos);
 
 
         txtclose.setOnClickListener(new View.OnClickListener() {
