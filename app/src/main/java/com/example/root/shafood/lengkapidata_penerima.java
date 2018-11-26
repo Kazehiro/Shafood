@@ -60,6 +60,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.UUID;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import pl.aprilapps.easyphotopicker.DefaultCallback;
 import pl.aprilapps.easyphotopicker.EasyImage;
 
@@ -97,7 +98,7 @@ public class lengkapidata_penerima extends AppCompatActivity implements OnMapRea
     public static final int REQUEST_CODE_CAMERA_FOTO = 0020;
     public static final int REQUEST_CODE_GALLERY_FOTO = 0021;
     private String[] items = {"Camera", "Gallery"};
-    private ImageView BtnFotoProfile;
+    private CircleImageView BtnFotoProfile;
 
     //add Firebase Database stuff
     private FirebaseDatabase mFirebaseDatabase;
@@ -132,7 +133,7 @@ public class lengkapidata_penerima extends AppCompatActivity implements OnMapRea
         btnChooseIdentitasDonatur = (Button) findViewById(R.id.btnChooseIdentitasDonatur);
         imageViewIdentitasDonatur = (ImageView) findViewById(R.id.imgViewIdentitasDonatur);
         imgViewFotoDonatur = (ImageView) findViewById(R.id.imgViewFotoDonatur);
-        BtnFotoProfile = (ImageView) findViewById(R.id.BtnFotoProfile);
+        BtnFotoProfile = (CircleImageView) findViewById(R.id.BtnFotoProfile);
 
         //declare the database reference object. This is what we use to access the database.
         //NOTE: Unless you are signed in, this will not be useable.
@@ -174,7 +175,7 @@ public class lengkapidata_penerima extends AppCompatActivity implements OnMapRea
             }
         });
 
-        btnChooseIdentitasDonatur.setOnClickListener(new View.OnClickListener() {
+        BtnFotoProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 chooseImageIdentitasPenerima();
@@ -279,12 +280,6 @@ public class lengkapidata_penerima extends AppCompatActivity implements OnMapRea
             }
         };
 
-        BtnFotoProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                chooseImageFotoPenerima();
-            }
-        });
 
     }
 
