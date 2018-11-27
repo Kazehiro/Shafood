@@ -33,6 +33,7 @@ public class Berhasil extends AppCompatActivity {
     private String userID;
     private long backPressedTime;
     private Toast backToast;
+    private String re;
 
     private ListView mListView;
 
@@ -99,11 +100,10 @@ public class Berhasil extends AppCompatActivity {
                 if (uInfo.getLevel() == 2) {
                     Intent mIntent = new Intent(Berhasil.this, Donatur_Main.class);
                     startActivity(mIntent);
-                    try{
+                    try {
                         uInfo.setNama(ds.child("USER").child("DONATUR").child(userID).getValue(ProfileDonatur.class).getNama());
-                    }
-                    catch (NullPointerException e){
-                        Intent sIntent  = new Intent(Berhasil.this, lengkapidata_donatur.class);
+                    } catch (NullPointerException e) {
+                        Intent sIntent = new Intent(Berhasil.this, lengkapidata_donatur.class);
                         startActivity(sIntent);
                     }
                 }
@@ -121,29 +121,26 @@ public class Berhasil extends AppCompatActivity {
             try {
 
                 kuInfo.setLevel(ds.child("USER").child("KURIR").child(userID).getValue(ProfileKurir.class).getLevel());
-                kuInfo.setVerifikasi(ds.child("USER").child("KURIR").child(userID).getValue(ProfileKurir.class).getVerifikasi());
                 System.out.println("kuInfo = " + kuInfo.getLevel());
 
                 if (kuInfo.getLevel() == 3) {
-                    if(kuInfo.getVerifikasi().equals("true")){
-                            Intent mIntent = new Intent(Berhasil.this, Kurir_Main_MAIN.class);
-                            startActivity(mIntent);
-                    } else{
+                    kuInfo.setVerifikasi(ds.child("USER").child("KURIR").child(userID).getValue(ProfileKurir.class).getVerifikasi());
+                    if (kuInfo.getVerifikasi().equals("true")) {
+                        Intent mIntent = new Intent(Berhasil.this, Kurir_Main_MAIN.class);
+                        startActivity(mIntent);
+                    } else {
                         toastMessage("Akun Anda Belum Ter-Verifikasi");
                     }
-                    try{
+                    try {
                         kuInfo.setNama(ds.child("USER").child("KURIR").child(userID).getValue(ProfileKurir.class).getNama());
-                    }
-                    catch (NullPointerException e){
-                        Intent sIntent  = new Intent(Berhasil.this, lengkapidata_kurir.class);
+                    } catch (NullPointerException e) {
+                        Intent sIntent = new Intent(Berhasil.this, lengkapidata_kurir.class);
                         startActivity(sIntent);
                     }
                 }
 
 
             } catch (NullPointerException e) {
-                Intent mIntent = new Intent(Berhasil.this, lengkapidata_kurir.class);
-                startActivity(mIntent);
                 return e;
             }
         }
@@ -155,30 +152,28 @@ public class Berhasil extends AppCompatActivity {
             System.out.println("INI SHOWDATA 3");
             ProfilePenerima peInfo = new ProfilePenerima();
             try {
-                peInfo.setLevel(ds.child("USER").child("PENERIMA").child(userID).getValue(ProfilePenerima.class).getLevel());
-                peInfo.setVerifikasi(ds.child("USER").child("PENERIMA").child(userID).getValue(ProfilePenerima.class).getVerifikasi());
-                peInfo.setLatitude(ds.child("USER").child("PENERIMA").child(userID).getValue(ProfilePenerima.class).getLatitude());
-                peInfo.setLongitude(ds.child("USER").child("PENERIMA").child(userID).getValue(ProfilePenerima.class).getLongitude());
                 System.out.println("kuInfo = " + peInfo.getLevel());
+                peInfo.setLevel(ds.child("USER").child("PENERIMA").child(userID).getValue(ProfilePenerima.class).getLevel());
 
                 if (peInfo.getLevel() == 4) {
-                    if(peInfo.getVerifikasi().equals("true")){
-                        try {
-                            if(peInfo.getLatitude().equals("0") && peInfo.getLongitude().equals("0")){
+                    try {
+                        peInfo.setVerifikasi(ds.child("USER").child("PENERIMA").child(userID).getValue(ProfilePenerima.class).getVerifikasi());
+                        if (peInfo.getVerifikasi().equals("true")) {
+                            peInfo.setLatitude(ds.child("USER").child("PENERIMA").child(userID).getValue(ProfilePenerima.class).getLatitude());
+                            peInfo.setLongitude(ds.child("USER").child("PENERIMA").child(userID).getValue(ProfilePenerima.class).getLongitude());
+                            if (peInfo.getLatitude().equals("0") && peInfo.getLongitude().equals("0")) {
                                 Intent mIntent = new Intent(Berhasil.this, lengkapidata_penerima.class);
                                 startActivity(mIntent);
-                            }
-                            else {
+                            } else {
                                 Intent mIntent = new Intent(Berhasil.this, Penerima_Main.class);
                                 startActivity(mIntent);
                             }
+                        } else {
+                            toastMessage("Akun Anda Belum Ter-Verifikasi");
                         }
-                        catch (NullPointerException e){
-                            Intent mIntent = new Intent(Berhasil.this, lengkapidata_penerima.class);
-                            startActivity(mIntent);
-                        }
-                    } else{
-                        toastMessage("Akun Anda Belum Ter-Verifikasi");
+                    } catch (NullPointerException e) {
+                        Intent mIntent = new Intent(Berhasil.this, lengkapidata_penerima.class);
+                        startActivity(mIntent);
                     }
                 }
 
