@@ -68,7 +68,7 @@ public class Penerima_Main extends AppCompatActivity {
     private String request;
     private ListView listViewBelumTerkirim;
     private TextView etNamaBarang1, etKuantitas1, etNamaPengirim1, etAlamatPenerima1, etNamaDonatur1;
-    private String NamaBarang, NamaPengirim, IdPenerima, NamaDonaturPopup, KuantitasBarang,IdDonatur;
+    private String NamaBarang, NamaPengirim, IdPenerima, NamaDonaturPopup, KuantitasBarang, IdDonatur;
 
     private Button BtnQrcode;
     private ImageButton BtnRequest;
@@ -220,7 +220,7 @@ public class Penerima_Main extends AppCompatActivity {
                         listNamaDonatur.add(Nm_Donatur.get(i));
                         listNamaPenerima.add(Nm_Penerima.get(i));
                         listIdDonatur.add(Id_Donatur.get(i));
-                        notif(listNamaBarang.get(i),listKuantitas.get(i));
+                        notif(listNamaBarang.get(i), listKuantitas.get(i));
                     }
                 }
                 i++;
@@ -232,7 +232,7 @@ public class Penerima_Main extends AppCompatActivity {
                     KuantitasBarang = listKuantitas.get(position);
                     NamaPengirim = listNamaPengirim.get(position);
                     NamaDonaturPopup = listNamaDonatur.get(position);
-                    IdDonatur =  listIdDonatur.get(position);
+                    IdDonatur = listIdDonatur.get(position);
                     ShowPopupHistory(view);
                 }
             });
@@ -319,7 +319,7 @@ public class Penerima_Main extends AppCompatActivity {
         mBuilder.setContentTitle("Anda Memiliki barang yang akan diterima");
         mBuilder.setContentText("Anda Mendapat " + namabarang + ", sejumlah " + kuantitas);
         mBuilder.setPriority(Notification.PRIORITY_MAX);
-        long[] v = {100,200,400,800,400,800};
+        long[] v = {100, 200, 400, 800, 400, 800};
         mBuilder.setVibrate(v);
         mBuilder.setSound(uri);
         mBuilder.setOnlyAlertOnce(true);

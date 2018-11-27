@@ -42,6 +42,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.UUID;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import pl.aprilapps.easyphotopicker.DefaultCallback;
 import pl.aprilapps.easyphotopicker.EasyImage;
 
@@ -78,7 +79,7 @@ public class lengkapidata_kurir extends AppCompatActivity {
     private ImageView ivImage;
     private TextView tvPath;
     private String[] items = {"Camera", "Gallery"};
-    private ImageView BtnFotoProfile;
+    private CircleImageView BtnFotoProfile;
 
     //add Firebase Database stuff
     private FirebaseDatabase mFirebaseDatabase;
@@ -107,7 +108,7 @@ public class lengkapidata_kurir extends AppCompatActivity {
         imageViewSTNK = (ImageView) findViewById(R.id.imgViewSTNK);
         btnChooseSIM = (Button) findViewById(R.id.btnChooseSIM);
         imageViewSIM = (ImageView) findViewById(R.id.imgViewSIM);
-        BtnFotoProfile = (ImageView) findViewById(R.id.BtnFotoProfile);
+        BtnFotoProfile = (CircleImageView) findViewById(R.id.BtnFotoProfile);
 
         //declare the database reference object. This is what we use to access the database.
         //NOTE: Unless you are signed in, this will not be useable.
@@ -151,7 +152,7 @@ public class lengkapidata_kurir extends AppCompatActivity {
             }
         });
 
-        btnChooseIdentitas.setOnClickListener(new View.OnClickListener() {
+        BtnFotoProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 chooseImageIdentitas();
@@ -214,13 +215,6 @@ public class lengkapidata_kurir extends AppCompatActivity {
                     startActivity(i);
                 }
 
-            }
-        });
-
-        BtnFotoProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                chooseImageIdentitas();
             }
         });
 

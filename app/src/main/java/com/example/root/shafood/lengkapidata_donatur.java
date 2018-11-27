@@ -60,6 +60,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.UUID;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import pl.aprilapps.easyphotopicker.DefaultCallback;
 import pl.aprilapps.easyphotopicker.EasyImage;
 
@@ -90,12 +91,12 @@ public class lengkapidata_donatur extends AppCompatActivity implements OnMapRead
     private ImageView imageViewIdentitasDonatur, imgViewFotoDonatur;
     private Uri filePath1;
     private Uri filePath2;
+    private CircleImageView BtnFotoProfile;
     public static final int REQUEST_CODE_CAMERA_IDENTITAS = 0022;
     public static final int REQUEST_CODE_GALLERY_IDENTITAS = 0023;
     public static final int REQUEST_CODE_CAMERA_FOTO = 0020;
     public static final int REQUEST_CODE_GALLERY_FOTO = 0021;
     private String[] items = {"Camera", "Gallery"};
-    private ImageView BtnFotoProfile;
 
     //add Firebase Database stuff
     private FirebaseDatabase mFirebaseDatabase;
@@ -124,7 +125,7 @@ public class lengkapidata_donatur extends AppCompatActivity implements OnMapRead
         mDisplayDate = (TextView) findViewById(R.id.EditTexttanggallahir);
 
         //Initialize Views
-        btnChooseFotoDonatur = (Button) findViewById(R.id.btnChooseFotoDonatur);
+        BtnFotoProfile = (CircleImageView) findViewById(R.id.BtnFotoProfile);
         btnChooseIdentitasDonatur = (Button) findViewById(R.id.btnChooseIdentitasDonatur);
         imageViewIdentitasDonatur = (ImageView) findViewById(R.id.imgViewIdentitasDonatur);
         imgViewFotoDonatur = (ImageView) findViewById(R.id.imgViewFotoDonatur);
@@ -178,7 +179,7 @@ public class lengkapidata_donatur extends AppCompatActivity implements OnMapRead
             }
         });
 
-        btnChooseFotoDonatur.setOnClickListener(new View.OnClickListener() {
+        BtnFotoProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 chooseImageFotoDonatur();
@@ -272,14 +273,6 @@ public class lengkapidata_donatur extends AppCompatActivity implements OnMapRead
                 mDisplayDate.setText(date);
             }
         };
-
-        imgViewFotoDonatur.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                chooseImageFotoDonatur();
-
-            }
-        });
     }
 
     public void chooseImageIdentitasDonatur() {
@@ -366,15 +359,16 @@ public class lengkapidata_donatur extends AppCompatActivity implements OnMapRead
                                 .load(imageFile)
                                 .centerCrop()
                                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                                .into(imgViewFotoDonatur);
+                                .into(BtnFotoProfile);
                         filePath2 = Uri.fromFile(imageFile);
+                        System.out.println("PATH ============== " + filePath2);
                         break;
                     case REQUEST_CODE_GALLERY_FOTO:
                         Glide.with(lengkapidata_donatur.this)
                                 .load(imageFile)
                                 .centerCrop()
                                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                                .into(imgViewFotoDonatur);
+                                .into(BtnFotoProfile);
                         filePath2 = Uri.fromFile(imageFile);
                         break;
                 }
