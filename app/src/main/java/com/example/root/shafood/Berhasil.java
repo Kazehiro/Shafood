@@ -96,12 +96,11 @@ public class Berhasil extends AppCompatActivity {
             ProfileDonatur uInfo = new ProfileDonatur();
             try {
                 uInfo.setLevel(ds.child("USER").child("DONATUR").child(userID).getValue(ProfileDonatur.class).getLevel());
-                System.out.println("uInfo = " + uInfo.getLevel());
                 if (uInfo.getLevel() == 2) {
-                    Intent mIntent = new Intent(Berhasil.this, Donatur_Main.class);
-                    startActivity(mIntent);
                     try {
                         uInfo.setNama(ds.child("USER").child("DONATUR").child(userID).getValue(ProfileDonatur.class).getNama());
+                        Intent mIntent = new Intent(Berhasil.this, Donatur_Main.class);
+                        startActivity(mIntent);
                     } catch (NullPointerException e) {
                         Intent sIntent = new Intent(Berhasil.this, lengkapidata_donatur.class);
                         startActivity(sIntent);
@@ -124,6 +123,7 @@ public class Berhasil extends AppCompatActivity {
                 System.out.println("kuInfo = " + kuInfo.getLevel());
 
                 if (kuInfo.getLevel() == 3) {
+                    try {
                     kuInfo.setVerifikasi(ds.child("USER").child("KURIR").child(userID).getValue(ProfileKurir.class).getVerifikasi());
                     if (kuInfo.getVerifikasi().equals("true")) {
                         Intent mIntent = new Intent(Berhasil.this, Kurir_Main_MAIN.class);
@@ -131,8 +131,6 @@ public class Berhasil extends AppCompatActivity {
                     } else {
                         toastMessage("Akun Anda Belum Ter-Verifikasi");
                     }
-                    try {
-                        kuInfo.setNama(ds.child("USER").child("KURIR").child(userID).getValue(ProfileKurir.class).getNama());
                     } catch (NullPointerException e) {
                         Intent sIntent = new Intent(Berhasil.this, lengkapidata_kurir.class);
                         startActivity(sIntent);
