@@ -41,7 +41,6 @@ public class Berhasil extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_berhasil);
 
-        mListView = (ListView) findViewById(R.id.listview);
 
         //declare the database reference object. This is what we use to access the database.
         //NOTE: Unless you are signed in, this will not be useable.
