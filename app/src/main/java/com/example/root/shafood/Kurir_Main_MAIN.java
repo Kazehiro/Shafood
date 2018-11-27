@@ -121,7 +121,7 @@ public class Kurir_Main_MAIN extends AppCompatActivity implements GoogleApiClien
         System.out.println("INI UID ======== " + userID);
         storage = FirebaseStorage.getInstance();
         storageRef = storage.getReferenceFromUrl("gs://shafood93.appspot.com");
-
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSION_REQUEST_CODE);
 
         myRef1.addValueEventListener(new ValueEventListener() {
             @Override
