@@ -18,6 +18,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -151,6 +152,7 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback, 
     private static int FASTEST_INTERVAL = 2000;
     private static int DISTANCE = 10;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -171,6 +173,13 @@ public class Kurir_Main extends FragmentActivity implements OnMapReadyCallback, 
         userID = user.getUid();
         tempatDonatur = (RelativeLayout) findViewById(R.id.tempatDonatur);
         tempatPenerima = (RelativeLayout) findViewById(R.id.tempatPenerima);
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION} , LOCATION_REQUEST);
+            ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.ACCESS_FINE_LOCATION);
+            ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.ACCESS_COARSE_LOCATION);
+        }
 
         myRef1.addValueEventListener(new ValueEventListener() {
             @Override
