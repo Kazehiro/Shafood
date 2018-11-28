@@ -9,12 +9,11 @@
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.REQUEST_COMPANION_RUN_IN_BACKGROUND"/>
-    <uses-permission android:name="android.permission.REQUEST_COMPANION_USE_DATA_IN_BACKGROUND"/>
+    <uses-permission android:name="android.permission.REQUEST_COMPANION_RUN_IN_BACKGROUND" />
+    <uses-permission android:name="android.permission.REQUEST_COMPANION_USE_DATA_IN_BACKGROUND" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
 
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
@@ -28,7 +27,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <uses-library android:name="org.apache.http.legacy" android:required="false"/>
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+
         <activity android:name=".SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -41,12 +43,13 @@
         <activity android:name=".ViewDatabase" />
         <activity android:name=".Register" />
         <activity android:name=".Penerima_Main" />
+
         <service android:name=".services.BackgroundProcess">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
-
         </service>
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
@@ -78,11 +81,12 @@
         <activity android:name=".Kurir_Main_MAIN" />
         <activity android:name=".Daftar_donatur" />
         <activity android:name=".Kurir_History" />
-        <activity android:name=".Kurir_Account"></activity>
+        <activity android:name=".Kurir_Account" />
         <activity android:name=".Daftar_Kurir" />
         <activity android:name=".Daftar_penerima" />
         <activity android:name=".Authors" />
-        <activity android:name=".Penerima_profile"></activity>
+        <activity android:name=".Penerima_profile" />
+        <activity android:name=".GantiPassword"></activity>
     </application>
 
 </manifest>

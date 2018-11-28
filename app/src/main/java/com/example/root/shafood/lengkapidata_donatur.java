@@ -85,6 +85,8 @@ public class lengkapidata_donatur extends AppCompatActivity implements OnMapRead
     public Double alamatLatitude, alamatLongitude;
     public LatLng indonesia;
     private static final int LOCATION_REQUEST = 500;
+    private long backPressedTime;
+    private Toast backToast;
 
     //Date
     private TextView mDisplayDate;
@@ -639,5 +641,20 @@ public class lengkapidata_donatur extends AppCompatActivity implements OnMapRead
                 requestPermissionLocation();
             }
         }
+    }
+    @Override
+    public void onBackPressed() {
+        if (backPressedTime + 2000 > System.currentTimeMillis()) {
+            backToast.cancel();
+            super.onBackPressed();
+            Intent intent = new Intent(lengkapidata_donatur.this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra("EXIT", true);
+            startActivity(intent);
+        } else {
+            backToast = Toast.makeText(getBaseContext(), "Tekan Lagi Untuk Keluar", Toast.LENGTH_SHORT);
+            backToast.show();
+        }
+        backPressedTime = System.currentTimeMillis();
     }
 }

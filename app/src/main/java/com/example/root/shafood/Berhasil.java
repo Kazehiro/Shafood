@@ -33,7 +33,7 @@ public class Berhasil extends AppCompatActivity {
     private String userID;
     private long backPressedTime;
     private Toast backToast;
-    private String re;
+    private String re,email,pass;
 
     private ListView mListView;
 
@@ -50,6 +50,8 @@ public class Berhasil extends AppCompatActivity {
         myRef = mFirebaseDatabase.getReference();
         FirebaseUser user = mAuth.getCurrentUser();
         userID = user.getUid();
+        email = getIntent().getStringExtra("email");
+        pass = getIntent().getStringExtra("pass");
         System.out.println("User = " + userID);
 
 
@@ -153,7 +155,7 @@ public class Berhasil extends AppCompatActivity {
             try {
                 System.out.println("kuInfo = " + peInfo.getLevel());
                 peInfo.setLevel(ds.child("USER").child("PENERIMA").child(userID).getValue(ProfilePenerima.class).getLevel());
-
+                int level = peInfo.getLevel();
                 if (peInfo.getLevel() == 4) {
                     try {
                         peInfo.setVerifikasi(ds.child("USER").child("PENERIMA").child(userID).getValue(ProfilePenerima.class).getVerifikasi());
@@ -161,7 +163,10 @@ public class Berhasil extends AppCompatActivity {
                             peInfo.setLatitude(ds.child("USER").child("PENERIMA").child(userID).getValue(ProfilePenerima.class).getLatitude());
                             peInfo.setLongitude(ds.child("USER").child("PENERIMA").child(userID).getValue(ProfilePenerima.class).getLongitude());
                             if (peInfo.getLatitude().equals("0") && peInfo.getLongitude().equals("0")) {
-                                Intent mIntent = new Intent(Berhasil.this, lengkapidata_penerima.class);
+                                Intent mIntent = new Intent(Berhasil.this, GantiPassword.class);
+                                mIntent.putExtra("email",email);
+                                mIntent.putExtra("pass",pass);
+                                mIntent.putExtra("level",level);
                                 startActivity(mIntent);
                             } else {
                                 Intent mIntent = new Intent(Berhasil.this, Penerima_Main.class);
@@ -171,7 +176,8 @@ public class Berhasil extends AppCompatActivity {
                             toastMessage("Akun Anda Belum Ter-Verifikasi");
                         }
                     } catch (NullPointerException e) {
-                        Intent mIntent = new Intent(Berhasil.this, lengkapidata_penerima.class);
+                        Intent mIntent = new Intent(Berhasil.this, GantiPassword.class);
+                        mIntent.putExtra("level",peInfo.getLevel());
                         startActivity(mIntent);
                     }
                 }

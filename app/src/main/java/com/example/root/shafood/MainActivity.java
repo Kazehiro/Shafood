@@ -20,8 +20,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+
 import com.firebase.ui.auth.AuthUI;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.FirebaseAuthProvider;
 import com.mukeshsolanki.sociallogin.google.GoogleHelper;
 import com.mukeshsolanki.sociallogin.google.GoogleListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -41,12 +49,16 @@ public class MainActivity extends AppCompatActivity {
     private long backPressedTime;
     private Toast backToast;
     private int progressStatus = 0;
-    private final static int LOGIN_PERMISSION=1000;
+    private final static int LOGIN_PERMISSION = 1000;
+    private String email, pass;
+    private FirebaseUser user1;
+    private FirebaseAuthException mFirebaseAuthException;
 
     // UI references.
     private EditText mEmail, mPassword;
     private Button btnSignIn;
-    private Button btnGoogle;;
+    private Button btnGoogle;
+    ;
     private FirebaseAuth firebaseAuth;
     private static final int LOCATION_REQUEST = 500;
     public static final int REQUEST_CODE_CAMERA_FOTO = 0020;
@@ -65,9 +77,9 @@ public class MainActivity extends AppCompatActivity {
         btnGoogle = (Button) findViewById(R.id.btnGoogle);
         mAuth = FirebaseAuth.getInstance();
         progressDialog = new ProgressDialog(this);
-        btnGoogle.setOnClickListener(new View.OnClickListener(){
+        btnGoogle.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 /*startActivityForResult(
                         AuthUI.getInstance().createSignInIntentBuilder()
                                 .setIsSmartLockEnabled(true)
@@ -104,10 +116,10 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
+                user1 = firebaseAuth.getCurrentUser();
+                if (user1 != null) {
                     // User is signed in
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user1.getUid());
                     Intent i = new Intent(MainActivity.this, Berhasil.class);
                     MainActivity.this.startActivity(i);
                 } else {
@@ -120,10 +132,20 @@ public class MainActivity extends AppCompatActivity {
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String email = mEmail.getText().toString();
-                String pass = mPassword.getText().toString();
+                email = mEmail.getText().toString();
+                pass = mPassword.getText().toString();
                 if (!email.equals("") && !pass.equals("")) {
-                    mAuth.signInWithEmailAndPassword(email, pass);
+                    mAuth.signInWithEmailAndPassword(email, pass).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                        @Override
+                        public void onSuccess(AuthResult authResult) {
+                            Toast.makeText(MainActivity.this,"Masuk Sebagai "+ email,Toast.LENGTH_LONG).show();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(MainActivity.this,"Login Failed !!!",Toast.LENGTH_LONG).show();
+                        }
+                    });
                 } else {
                     showSnackbar(view, "Harap isi semua kolom", 3000);
                     return;
@@ -217,29 +239,38 @@ public class MainActivity extends AppCompatActivity {
         }
         backPressedTime = System.currentTimeMillis();
     }
+
     public void showSnackbar(View view, String message, int duration) {
         Snackbar.make(view, message, duration).show();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == LOGIN_PERMISSION)
-        {
-            startNewActivity(resultCode,data);
+        if (requestCode == LOGIN_PERMISSION) {
+            startNewActivity(resultCode, data);
+        } else {
+            Toast.makeText(this, "Login Failed !!!", Toast.LENGTH_LONG).show();
+        }
+        if (user1 == null) {
+            Toast.makeText(MainActivity.this, "Login Failed !!!", Toast.LENGTH_LONG).show();
         }
     }
+
     private void startNewActivity(int resultCode, Intent data) {
-        if (resultCode == RESULT_OK)
-        {
-            Intent intent = new Intent(MainActivity.this,Berhasil.class);
+        if (resultCode == RESULT_OK) {
+            Intent intent = new Intent(MainActivity.this, Berhasil.class);
+            intent.putExtra("email", email);
+            intent.putExtra("pass", pass);
             startActivity(intent);
             finish();
-        }
-        else
-        {
+        } else {
             Toast.makeText(this, "Login Failed !!!", Toast.LENGTH_SHORT).show();
         }
+        if (user1 == null) {
+            Toast.makeText(MainActivity.this, "Login Failed !!!", Toast.LENGTH_LONG).show();
+        }
     }
+
     private boolean checkPermissionLocation() {
         return (ContextCompat.checkSelfPermission(getApplicationContext(), ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED);
     }
@@ -281,4 +312,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+
 }

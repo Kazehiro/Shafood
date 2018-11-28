@@ -56,6 +56,8 @@ public class lengkapidata_kurir extends AppCompatActivity {
     public static final int REQUEST_CODE_GALLERY_STNK = 0015;
     public static final int REQUEST_CODE_CAMERA_SIM = 0016;
     public static final int REQUEST_CODE_GALLERY_SIM = 0017;
+    private long backPressedTime;
+    private Toast backToast;
 
     private static final String TAG = "Kurir";
     EditText editTextNama;
@@ -494,5 +496,21 @@ public class lengkapidata_kurir extends AppCompatActivity {
      */
     public void showSnackbar(View v, String message, int duration) {
         Snackbar.make(v, message, duration).show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (backPressedTime + 2000 > System.currentTimeMillis()) {
+            backToast.cancel();
+            super.onBackPressed();
+            Intent intent = new Intent(lengkapidata_kurir.this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra("EXIT", true);
+            startActivity(intent);
+        } else {
+            backToast = Toast.makeText(getBaseContext(), "Tekan Lagi Untuk Keluar", Toast.LENGTH_SHORT);
+            backToast.show();
+        }
+        backPressedTime = System.currentTimeMillis();
     }
 }

@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -89,8 +90,7 @@ public class Register extends AppCompatActivity {
             return;
         }
         if (password.equals(repassword)) {
-        }
-        else{
+        } else {
             Toast.makeText(this, "Password Tidak Sesuai", Toast.LENGTH_LONG).show();
             return;
         }
@@ -102,41 +102,41 @@ public class Register extends AppCompatActivity {
         progressDialog.show();
 
         //creating a new user
-        firebaseAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        //checking if success
-                        if(task.isSuccessful()) {
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            final String userID = user.getUid();
-                            //display some message here
-                            Toast.makeText(Register.this, "Successfully registered "+spPilih.getSelectedItem(), Toast.LENGTH_LONG).show();
-                            if (spPilih.getSelectedItem().toString().equals("Donatur")) {
-                                myRef.child("SHAFOOD").child("USER").child("DONATUR").child(userID).child("level").setValue(2);
-                                Intent register = new Intent(Register.this, lengkapidata_donatur.class);
-                                startActivity(register);
-                            }
-                            else if(spPilih.getSelectedItem().toString().equals("Kurir")){
-                                myRef.child("SHAFOOD").child("USER").child("KURIR").child(userID).child("level").setValue(3);
-                                Intent register = new Intent(Register.this, lengkapidata_kurir.class);
-                                startActivity(register);
-                            }
-                            else if(spPilih.getSelectedItem().toString().equals("Penerima")){
-                                myRef.child("SHAFOOD").child("USER").child("PENERIMA").child(userID).child("level").setValue(4);
-                                Intent register = new Intent(Register.this, lengkapidata_penerima.class);
-                                startActivity(register);
-                            }
-                            else{
-                                Toast.makeText(Register.this,"Pilih Level",Toast.LENGTH_LONG).show();
-                            }
-                        }
-                        else{
-                            //display some message here
-                            Toast.makeText(Register.this,"Registration Error",Toast.LENGTH_LONG).show();
-                        }
-                        progressDialog.dismiss();
+        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(Register.this, "Register Failed !!!", Toast.LENGTH_LONG).show();
+            }
+        }).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                //checking if success
+                if (task.isSuccessful()) {
+                    FirebaseUser user = mAuth.getCurrentUser();
+                    final String userID = user.getUid();
+                    //display some message here
+                    Toast.makeText(Register.this, "Successfully registered " + spPilih.getSelectedItem(), Toast.LENGTH_LONG).show();
+                    if (spPilih.getSelectedItem().toString().equals("Donatur")) {
+                        myRef.child("SHAFOOD").child("USER").child("DONATUR").child(userID).child("level").setValue(2);
+                        Intent register = new Intent(Register.this, lengkapidata_donatur.class);
+                        startActivity(register);
+                    } else if (spPilih.getSelectedItem().toString().equals("Kurir")) {
+                        myRef.child("SHAFOOD").child("USER").child("KURIR").child(userID).child("level").setValue(3);
+                        Intent register = new Intent(Register.this, lengkapidata_kurir.class);
+                        startActivity(register);
+                    } else if (spPilih.getSelectedItem().toString().equals("Penerima")) {
+                        myRef.child("SHAFOOD").child("USER").child("PENERIMA").child(userID).child("level").setValue(4);
+                        Intent register = new Intent(Register.this, lengkapidata_penerima.class);
+                        startActivity(register);
+                    } else {
+                        Toast.makeText(Register.this, "Pilih Level", Toast.LENGTH_LONG).show();
                     }
-                });
+                } else {
+                    //display some message here
+                    Toast.makeText(Register.this, "Registration Error", Toast.LENGTH_LONG).show();
+                }
+                progressDialog.dismiss();
+            }
+        });
     }
 }

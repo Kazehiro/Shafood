@@ -104,6 +104,8 @@ public class lengkapidata_penerima extends AppCompatActivity implements OnMapRea
     public static final int REQUEST_CODE_GALLERY_FOTO = 0021;
     private String[] items = {"Camera", "Gallery"};
     private CircleImageView BtnFotoProfile;
+    private long backPressedTime;
+    private Toast backToast;
 
     //add Firebase Database stuff
     private FirebaseDatabase mFirebaseDatabase;
@@ -648,5 +650,20 @@ public class lengkapidata_penerima extends AppCompatActivity implements OnMapRea
                 requestPermissionLocation();
             }
         }
+    }
+    @Override
+    public void onBackPressed() {
+        if (backPressedTime + 2000 > System.currentTimeMillis()) {
+            backToast.cancel();
+            super.onBackPressed();
+            Intent intent = new Intent(lengkapidata_penerima.this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra("EXIT", true);
+            startActivity(intent);
+        } else {
+            backToast = Toast.makeText(getBaseContext(), "Tekan Lagi Untuk Keluar", Toast.LENGTH_SHORT);
+            backToast.show();
+        }
+        backPressedTime = System.currentTimeMillis();
     }
 }

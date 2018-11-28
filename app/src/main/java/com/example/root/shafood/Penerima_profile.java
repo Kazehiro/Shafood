@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -42,6 +43,7 @@ public class Penerima_profile extends AppCompatActivity {
     private FirebaseStorage storage;
     private StorageReference storageRef;
     private TextView desc;
+    private Button btnEditPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +52,7 @@ public class Penerima_profile extends AppCompatActivity {
 
         ImgBtnBack = findViewById(R.id.imageButton);
         desc = (TextView) findViewById(R.id.desc);
-
+        btnEditPassword = (Button) findViewById(R.id.btnEditPassword);
         mAuth = FirebaseAuth.getInstance();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         myRef = mFirebaseDatabase.getReference();
@@ -58,6 +60,13 @@ public class Penerima_profile extends AppCompatActivity {
         userID = user.getUid();
         storage = FirebaseStorage.getInstance();
         storageRef = storage.getReferenceFromUrl("gs://shafood93.appspot.com");
+
+        btnEditPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showSnackbar(view, "Layanan Belum Tersedia", 3000);
+            }
+        });
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -123,5 +132,8 @@ public class Penerima_profile extends AppCompatActivity {
             tanggalLahir.setText("Tanggal Lahir : "+uInfo.getTanggallahir());
             desc.setText("Deskripsi : " +uInfo.getNarasi());
         }
+    }
+    public void showSnackbar(View view, String message, int duration) {
+        Snackbar.make(view, message, duration).show();
     }
 }
