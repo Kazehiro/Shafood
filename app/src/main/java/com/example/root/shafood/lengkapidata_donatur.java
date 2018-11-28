@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -64,6 +65,9 @@ import java.util.UUID;
 import de.hdodenhof.circleimageview.CircleImageView;
 import pl.aprilapps.easyphotopicker.DefaultCallback;
 import pl.aprilapps.easyphotopicker.EasyImage;
+
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+import static android.Manifest.permission.CAMERA;
 
 public class lengkapidata_donatur extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener {
 
@@ -139,7 +143,28 @@ public class lengkapidata_donatur extends AppCompatActivity implements OnMapRead
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         myRef = mFirebaseDatabase.getReference();
 
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, REQUEST_CODE_CAMERA_IDENTITAS);
+        int currentApiVersion = Build.VERSION.SDK_INT;
+        if (currentApiVersion >= Build.VERSION_CODES.M) {
+            if (checkPermissionCamera()) {
+            } else {
+                requestPermissionCamera();
+            }
+            if(checkPermissionLocation()){
+            }
+            else{
+                requestPermissionLocation();
+            }
+        }else {
+            if (checkPermissionCamera()) {
+            } else {
+                requestPermissionCamera();
+            }
+            if(checkPermissionLocation()){
+            }
+            else{
+                requestPermissionLocation();
+            }
+        }
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -572,5 +597,47 @@ public class lengkapidata_donatur extends AppCompatActivity implements OnMapRead
      */
     public void showSnackbar(View v, String message, int duration) {
         Snackbar.make(v, message, duration).show();
+    }
+    private boolean checkPermissionLocation() {
+        return (ContextCompat.checkSelfPermission(getApplicationContext(), ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED);
+    }
+
+    private void requestPermissionLocation() {
+        ActivityCompat.requestPermissions(this, new String[]{ACCESS_FINE_LOCATION}, LOCATION_REQUEST);
+
+    }
+    private boolean checkPermissionCamera() {
+        return (ContextCompat.checkSelfPermission(getApplicationContext(), CAMERA) == PackageManager.PERMISSION_GRANTED);
+    }
+
+    private void requestPermissionCamera() {
+        ActivityCompat.requestPermissions(this, new String[]{CAMERA}, REQUEST_CODE_CAMERA_FOTO);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        int currentApiVersion = Build.VERSION.SDK_INT;
+        if (currentApiVersion >= Build.VERSION_CODES.M) {
+            if (checkPermissionCamera()) {
+            } else {
+                requestPermissionCamera();
+            }
+            if(checkPermissionLocation()){
+            }
+            else{
+                requestPermissionLocation();
+            }
+        }else {
+            if (checkPermissionCamera()) {
+            } else {
+                requestPermissionCamera();
+            }
+            if(checkPermissionLocation()){
+            }
+            else{
+                requestPermissionLocation();
+            }
+        }
     }
 }

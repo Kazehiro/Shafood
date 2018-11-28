@@ -99,6 +99,7 @@ public class Berhasil extends AppCompatActivity {
                 if (uInfo.getLevel() == 2) {
                     try {
                         uInfo.setNama(ds.child("USER").child("DONATUR").child(userID).getValue(ProfileDonatur.class).getNama());
+                        uInfo.setLatitude(ds.child("USER").child("DONATUR").child(userID).getValue(ProfileDonatur.class).getLatitude());
                         Intent mIntent = new Intent(Berhasil.this, Donatur_Main.class);
                         startActivity(mIntent);
                     } catch (NullPointerException e) {

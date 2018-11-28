@@ -14,6 +14,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -78,6 +79,9 @@ import java.util.Map;
 import pl.aprilapps.easyphotopicker.DefaultCallback;
 import pl.aprilapps.easyphotopicker.EasyImage;
 
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+import static android.Manifest.permission.CAMERA;
+
 public class Donatur_Main extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, GoogleMap.OnMapLongClickListener, OnMapReadyCallback ,Dialog.OnDismissListener {
 
@@ -91,7 +95,7 @@ public class Donatur_Main extends AppCompatActivity
     private long backPressedTime;
     private Toast backToast;
     private String userID;
-    private TextView cari,kiriman;
+    private TextView cari,kiriman,kirimBarang;
     private GoogleMap mMap;
     private static int REQUEST_CODE = 0;
     public static final int PICK_UP = 1;
@@ -126,6 +130,12 @@ public class Donatur_Main extends AppCompatActivity
     private final static int REQUEST_CODE_ASK_PERMISSIONS = 1;
     private static final String[] REQUIRED_SDK_PERMISSIONS = new String[] {
             Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE };
+    public static final int REQUEST_CODE_CAMERA_IDENTITAS = 0022;
+    public static final int REQUEST_CODE_GALLERY_IDENTITAS = 0023;
+    public static final int REQUEST_CODE_CAMERA_FOTO = 0020;
+    public static final int REQUEST_CODE_GALLERY_FOTO = 0021;
+    public static final int REQUEST_CODE_GPS_FINE = 7171;
+    public static final int REQUEST_CODE_GPS_COARSE = 7272;
 
 
 
@@ -163,6 +173,7 @@ public class Donatur_Main extends AppCompatActivity
         listViewBelumTerkirim = (ListView) findViewById(R.id.listViewBelumTerkirim);
         BtnFotoBarang = (Button) findViewById(R.id.BtnFotoBarang);
         ImgViewBarang = (ImageView) findViewById(R.id.ImgViewBarang);
+        kirimBarang = (TextView) findViewById(R.id.kirimBarang);
 
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
@@ -174,9 +185,34 @@ public class Donatur_Main extends AppCompatActivity
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
 
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, REQUEST_CODE_CAMERA_BARANG);
-
-        /////////
+        int currentApiVersion = Build.VERSION.SDK_INT;
+        if (currentApiVersion >= Build.VERSION_CODES.M) {
+            if (checkPermissionCamera()) {
+            } else {
+                requestPermissionCamera();
+            }
+            if(checkPermissionLocation()){
+            }
+            else{
+                requestPermissionLocation();
+            }
+        }else {
+            if (checkPermissionCamera()) {
+            } else {
+                requestPermissionCamera();
+            }
+            if(checkPermissionLocation()){
+            }
+            else{
+                requestPermissionLocation();
+            }
+        }
+        etBarang.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(Donatur_Main.this,Donatur_Main.class));
+            }
+        });
 
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -552,8 +588,13 @@ public class Donatur_Main extends AppCompatActivity
             LatDonatur = uInfo.getLatitude();
             LngDonatur = uInfo.getLongitude();
 
-            alamatLatitude = Double.parseDouble(LatDonatur);
-            alamatLongitude = Double.parseDouble(LngDonatur);
+            try{
+                alamatLatitude = Double.parseDouble(LatDonatur);
+                alamatLongitude = Double.parseDouble(LngDonatur);
+            }catch (NullPointerException e){
+                Intent sIntent = new Intent(Donatur_Main.this, lengkapidata_donatur.class);
+                startActivity(sIntent);
+            }
             LatLng imah = new LatLng(alamatLatitude,alamatLongitude);
             mMap.addMarker(new MarkerOptions().position(imah).title(NamaDonatur));
             mMap.moveCamera(CameraUpdateFactory.newLatLng(imah));
@@ -732,5 +773,48 @@ public class Donatur_Main extends AppCompatActivity
 
         mNotificationManager.notify(001, mBuilder.build());
 
+    }
+
+    private boolean checkPermissionLocation() {
+        return (ContextCompat.checkSelfPermission(getApplicationContext(), ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED);
+    }
+
+    private void requestPermissionLocation() {
+        ActivityCompat.requestPermissions(this, new String[]{ACCESS_FINE_LOCATION}, REQUEST_CODE_GPS_FINE);
+
+    }
+    private boolean checkPermissionCamera() {
+        return (ContextCompat.checkSelfPermission(getApplicationContext(), CAMERA) == PackageManager.PERMISSION_GRANTED);
+    }
+
+    private void requestPermissionCamera() {
+        ActivityCompat.requestPermissions(this, new String[]{CAMERA}, REQUEST_CODE_CAMERA_FOTO);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        int currentApiVersion = Build.VERSION.SDK_INT;
+        if (currentApiVersion >= Build.VERSION_CODES.M) {
+            if (checkPermissionCamera()) {
+            } else {
+                requestPermissionCamera();
+            }
+            if(checkPermissionLocation()){
+            }
+            else{
+                requestPermissionLocation();
+            }
+        }else {
+            if (checkPermissionCamera()) {
+            } else {
+                requestPermissionCamera();
+            }
+            if(checkPermissionLocation()){
+            }
+            else{
+                requestPermissionLocation();
+            }
+        }
     }
 }

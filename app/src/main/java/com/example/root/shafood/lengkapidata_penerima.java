@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -64,6 +65,9 @@ import java.util.UUID;
 import de.hdodenhof.circleimageview.CircleImageView;
 import pl.aprilapps.easyphotopicker.DefaultCallback;
 import pl.aprilapps.easyphotopicker.EasyImage;
+
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+import static android.Manifest.permission.CAMERA;
 
 public class lengkapidata_penerima extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener {
 
@@ -142,13 +146,27 @@ public class lengkapidata_penerima extends AppCompatActivity implements OnMapRea
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         myRef = mFirebaseDatabase.getReference();
 
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, REQUEST_CODE_CAMERA_IDENTITAS);
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION} , LOCATION_REQUEST);
-            ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.ACCESS_FINE_LOCATION);
-            ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.ACCESS_COARSE_LOCATION);
+        int currentApiVersion = Build.VERSION.SDK_INT;
+        if (currentApiVersion >= Build.VERSION_CODES.M) {
+            if (checkPermissionCamera()) {
+            } else {
+                requestPermissionCamera();
+            }
+            if (checkPermissionLocation()) {
+            } else {
+                requestPermissionLocation();
+            }
+        } else {
+            if (checkPermissionCamera()) {
+            } else {
+                requestPermissionCamera();
+            }
+            if (checkPermissionLocation()) {
+            } else {
+                requestPermissionLocation();
+            }
         }
+
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -184,14 +202,14 @@ public class lengkapidata_penerima extends AppCompatActivity implements OnMapRea
         BtnFotoProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                chooseImageIdentitasPenerima();
+                chooseImageFotoPenerima();
             }
         });
 
-        btnChooseFotoDonatur.setOnClickListener(new View.OnClickListener() {
+        btnChooseIdentitasDonatur.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                chooseImageFotoPenerima();
+            public void onClick(View view) {
+                chooseImageIdentitasPenerima();
             }
         });
 
@@ -207,7 +225,7 @@ public class lengkapidata_penerima extends AppCompatActivity implements OnMapRea
                 String narasi = editTextNarasi.getText().toString().trim();
                 String latitude = "";
                 String longitude = "";
-                if(alamatLatitude != null){
+                if (alamatLatitude != null) {
                     latitude = alamatLatitude.toString().trim();
                     longitude = alamatLongitude.toString().trim();
                 }
@@ -217,19 +235,19 @@ public class lengkapidata_penerima extends AppCompatActivity implements OnMapRea
 
                 if (!nama.equals("") && !nohp.equals("") && !alamat.equals("") && !tanggallahir.equals("") && !noIdentitas.equals("") && !narasi.equals("")
                         && !latitude.equals("") && !longitude.equals("")) {
-                if (filePath1 == null && filePath2 == null){
-                    showSnackbar(v, "Harap Lengkapi Foto", 3000);
-                    return;
-                }else if (filePath1 == null){
-                    showSnackbar(v, "Harap Lengkapi Foto KTP", 3000);
-                    return;
-                }else if(filePath2 == null) {
-                    showSnackbar(v, "Harap Lengkapi Foto Profil ", 3000);
-                    return;
-                }else {
-                    uploadImageFotoPenerima();
-                    uploadImageIdentitasPenerima();
-                }
+                    if (filePath1 == null && filePath2 == null) {
+                        showSnackbar(v, "Harap Lengkapi Foto", 3000);
+                        return;
+                    } else if (filePath1 == null) {
+                        showSnackbar(v, "Harap Lengkapi Foto KTP", 3000);
+                        return;
+                    } else if (filePath2 == null) {
+                        showSnackbar(v, "Harap Lengkapi Foto Profil ", 3000);
+                        return;
+                    } else {
+                        uploadImageFotoPenerima();
+                        uploadImageIdentitasPenerima();
+                    }
 
                     FirebaseUser user = mAuth.getCurrentUser();
                     String userID = user.getUid();
@@ -237,7 +255,7 @@ public class lengkapidata_penerima extends AppCompatActivity implements OnMapRea
                     myRef.child("SHAFOOD").child("USER").child("PENERIMA").child(userID).setValue(newUser);
                     Intent i = new Intent(lengkapidata_penerima.this, Berhasil.class);
                     startActivity(i);
-                }else {
+                } else {
                     showSnackbar(v, "Harap Lengkapi Semua Kolom", 3000);
                     return;
                 }
@@ -588,5 +606,47 @@ public class lengkapidata_penerima extends AppCompatActivity implements OnMapRea
 
     public void showSnackbar(View v, String message, int duration) {
         Snackbar.make(v, message, duration).show();
+    }
+
+    private boolean checkPermissionLocation() {
+        return (ContextCompat.checkSelfPermission(getApplicationContext(), ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED);
+    }
+
+    private void requestPermissionLocation() {
+        ActivityCompat.requestPermissions(this, new String[]{ACCESS_FINE_LOCATION}, LOCATION_REQUEST);
+
+    }
+
+    private boolean checkPermissionCamera() {
+        return (ContextCompat.checkSelfPermission(getApplicationContext(), CAMERA) == PackageManager.PERMISSION_GRANTED);
+    }
+
+    private void requestPermissionCamera() {
+        ActivityCompat.requestPermissions(this, new String[]{CAMERA}, REQUEST_CODE_CAMERA_FOTO);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        int currentApiVersion = Build.VERSION.SDK_INT;
+        if (currentApiVersion >= Build.VERSION_CODES.M) {
+            if (checkPermissionCamera()) {
+            } else {
+                requestPermissionCamera();
+            }
+            if (checkPermissionLocation()) {
+            } else {
+                requestPermissionLocation();
+            }
+        } else {
+            if (checkPermissionCamera()) {
+            } else {
+                requestPermissionCamera();
+            }
+            if (checkPermissionLocation()) {
+            } else {
+                requestPermissionLocation();
+            }
+        }
     }
 }

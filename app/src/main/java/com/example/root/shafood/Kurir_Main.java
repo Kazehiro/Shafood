@@ -31,12 +31,7 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.example.root.shafood.Responses.Distance;
-import com.example.root.shafood.Responses.Duration;
-import com.example.root.shafood.Responses.LegsItem;
-import com.example.root.shafood.Responses.ResponseRoute;
-import com.example.root.shafood.network.*;
-import com.example.root.shafood.Responses.*;
+
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
