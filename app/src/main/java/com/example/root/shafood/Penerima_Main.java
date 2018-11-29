@@ -41,6 +41,8 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Map;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class Penerima_Main extends AppCompatActivity {
 
 
@@ -72,14 +74,14 @@ public class Penerima_Main extends AppCompatActivity {
 
     private Button BtnQrcode;
     private ImageButton BtnRequest;
-    private ImageButton ImgBtnProfile;
+    private CircleImageView ImgBtnProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_penerima__main);
         notif = new Dialog(this);
-        ImgBtnProfile = (ImageButton) findViewById(R.id.imgBtnProfile);
+        ImgBtnProfile = (CircleImageView) findViewById(R.id.imgBtnProfile);
 
         listViewBelumTerkirim = (ListView) findViewById(R.id.BelumDiterima);
         mAuth = FirebaseAuth.getInstance();
@@ -145,6 +147,18 @@ public class Penerima_Main extends AppCompatActivity {
             public void onClick(View v) {
                 Intent mIntent = new Intent(Penerima_Main.this, Penerima_Verifikasi.class);
                 startActivity(mIntent);
+            }
+        });
+        storageRef.child("Penerima/FotoProfil/" + userID).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                System.out.println(uri);
+                Glide.with(getApplicationContext()).load(uri).into(ImgBtnProfile);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
             }
         });
     }

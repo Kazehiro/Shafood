@@ -4,204 +4,273 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Penerima_profile"
-    android:background="@color/colorPrimary">
+    android:background="@color/colorPrimary"
+    tools:context=".Penerima_profile">
 
-    <RelativeLayout
-        android:id="@+id/RlAwal"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true">
+        android:layout_height="match_parent">
 
-
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@color/colorPrimary">
-            <ImageButton
-                android:id="@+id/imageButton"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginStart="0dp"
-                android:layout_marginTop="0dp"
+            android:layout_height="match_parent">
 
-                android:background="@color/transparent"
-                app:srcCompat="@drawable/ic_arrow_white" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                android:layout_marginBottom="40dp"
-                android:fontFamily="sans-serif-medium"
-                android:text="Akun Anda"
-                android:textColor="@color/white"
-                android:textSize="22sp" />
-        </LinearLayout>
-
-
-    </RelativeLayout>
-
-
-    <RelativeLayout
-        android:id="@+id/RlFoto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/RlAwal"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="90dp">
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/fotoProfile"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/RlNama"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/RlFoto"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="20dp">
-
-        <TextView
-            android:id="@+id/namaProfile"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="10dp"
-            android:text="Nama : "
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/RlAlamat"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/RlNama"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="10dp">
-
-        <HorizontalScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scrollbars="none">
-
-            <TextView
-                android:id="@+id/alamatProfile"
+            <RelativeLayout
+                android:id="@+id/RlAwal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginStart="10dp"
-                android:text="Alamat : "
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-        </HorizontalScrollView>
+                android:layout_alignParentTop="true">
 
-    </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/RlNoTelp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/RlAlamat"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="10dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@color/colorPrimary">
 
-        <TextView
-            android:id="@+id/noTelp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="10dp"
-            android:text="Nomor Telepon : "
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+                    <ImageButton
+                        android:id="@+id/imageButton"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginTop="0dp"
 
-    </RelativeLayout>
+                        android:background="@color/transparent"
+                        app:srcCompat="@drawable/ic_arrow_white" />
 
-    <RelativeLayout
-        android:id="@+id/RlTanggalLahir"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/RlNoTelp"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="10dp">
+                </LinearLayout>
 
-        <TextView
-            android:id="@+id/tanggalLahir"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="10dp"
-            android:text="Tanggal Lahir : "
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true">
 
-    </RelativeLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="40dp"
+                        android:layout_marginBottom="40dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="Akun Anda"
+                        android:textColor="@color/white"
+                        android:textSize="22sp" />
+                </LinearLayout>
 
-    <RelativeLayout
-        android:id="@+id/RlDesc"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/RlTanggalLahir"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="10dp">
 
-        <TextView
-            android:id="@+id/desc"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="10dp"
-            android:text="Deskripsi :"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            </RelativeLayout>
 
-    </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <Button
-            android:id="@+id/btnEditPassword"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:background="@drawable/buttonstyle"
-            android:text="GANTI PASSWORD"
-            android:textColor="@color/white"
-            android:layout_marginBottom="15dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentStart="true"/>
-    </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/RlFoto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/RlAwal"
+                android:layout_centerHorizontal="true">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/fotoProfile"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/RlNama"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/RlFoto"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="20dp">
+
+                <TextView
+                    android:id="@+id/namaProfile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="10dp"
+                    android:text="Nama : "
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/RlAlamat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/RlNama"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="10dp">
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none">
+
+                    <TextView
+                        android:id="@+id/alamatProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginStart="10dp"
+                        android:text="Alamat : "
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+                </HorizontalScrollView>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/RlNoTelp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/RlAlamat"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/noTelp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="10dp"
+                    android:text="Nomor Telepon : "
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/RlTanggalLahir"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/RlNoTelp"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/tanggalLahir"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="10dp"
+                    android:text="Tanggal Lahir : "
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/RlDesc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/RlTanggalLahir"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/desc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="10dp"
+                    android:text="Deskripsi : "
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/RlEdit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/RlDesc">
+
+                <Button
+                    android:id="@+id/btnEditFoto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginBottom="15dp"
+                    android:background="@drawable/buttonstyle"
+                    android:text="Ganti Foto"
+                    android:textColor="@color/white" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/RlSave"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/RlEdit">
+
+                <Button
+                    android:id="@+id/btnSave"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="15dp"
+                    android:background="@drawable/buttonstyle"
+                    android:text="Save Foto"
+                    android:textColor="@color/white" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/RlSave"
+                android:id="@+id/editPro">
+
+                <Button
+                    android:id="@+id/btnEditPro"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="15dp"
+                    android:background="@drawable/buttonstyle"
+                    android:text="GANTI Profile"
+                    android:textColor="@color/white" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/editPro"
+                android:layout_marginBottom="20dp">
+
+                <Button
+                    android:id="@+id/btnEditPassword"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="15dp"
+                    android:background="@drawable/buttonstyle"
+                    android:text="GANTI PASSWORD"
+                    android:textColor="@color/white" />
+            </RelativeLayout>
+        </RelativeLayout>
+    </ScrollView>
 
 </RelativeLayout>

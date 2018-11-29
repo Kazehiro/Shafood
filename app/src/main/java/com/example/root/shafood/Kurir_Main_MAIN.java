@@ -2,6 +2,7 @@ package com.example.root.shafood;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.app.IntentService;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -35,6 +36,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.root.shafood.services.BackgroundProcess;
+import com.example.root.shafood.services.TrackingKurir;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -56,6 +59,8 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 import java.util.Map;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class Kurir_Main_MAIN extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
@@ -68,7 +73,8 @@ public class Kurir_Main_MAIN extends AppCompatActivity implements GoogleApiClien
     private Toast backToast;
     private ImageView fotoHistory;
     private Button btn_buka_maps, kerja, btn_buka_history, btn_account, btnGo;
-    private ImageView foto, icon_maps, icon_history, icon_account;
+    private ImageView icon_maps, icon_history, icon_account;
+    private CircleImageView foto;
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -91,6 +97,8 @@ public class Kurir_Main_MAIN extends AppCompatActivity implements GoogleApiClien
     private static int FASTEST_INTERVAL = 2000;
     private static int DISTANCE = 10;
     private static final int LOCATION_REQUEST = 500;
+    private BackgroundProcess mBackgroundProcess;
+    private TrackingKurir mTrackingKurir;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,7 +108,7 @@ public class Kurir_Main_MAIN extends AppCompatActivity implements GoogleApiClien
         nama = (TextView) findViewById(R.id.nama);
         check = (ImageView) findViewById(R.id.check);
         mulai = (LinearLayout) findViewById(R.id.mulai);
-        foto = (ImageView) findViewById(R.id.foto);
+        foto = (CircleImageView) findViewById(R.id.foto);
         btn_buka_maps = (Button) findViewById(R.id.btn_buka_maps);
         icon_maps = (ImageView) findViewById(R.id.icon_maps);
         fab_Logout = (FloatingActionButton) findViewById(R.id.fab_Logout);
@@ -114,12 +122,12 @@ public class Kurir_Main_MAIN extends AppCompatActivity implements GoogleApiClien
 
 
         mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        userID = user.getUid();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         myRef = mFirebaseDatabase.getReference();
         myRef2 = mFirebaseDatabase.getReference().child("SHAFOOD").child("USER").child("KURIR");
         myRef1 = mFirebaseDatabase.getReference().child("SHAFOOD").child("TRANSAKSI");
-        FirebaseUser user = mAuth.getCurrentUser();
-        userID = user.getUid();
         System.out.println("INI UID ======== " + userID);
         storage = FirebaseStorage.getInstance();
         storageRef = storage.getReferenceFromUrl("gs://shafood93.appspot.com");
@@ -226,9 +234,6 @@ public class Kurir_Main_MAIN extends AppCompatActivity implements GoogleApiClien
 
             }
         });
-        buildGoogleApiClient();
-        updateLokasi();
-        createLocationRequest();
 
         fab_Logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -238,6 +243,10 @@ public class Kurir_Main_MAIN extends AppCompatActivity implements GoogleApiClien
                 startActivity(mIntent);
             }
         });
+
+        buildGoogleApiClient();
+        createLocationRequest();
+        updateLokasi();
 
     }
 

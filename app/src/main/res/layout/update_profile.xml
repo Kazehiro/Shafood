@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:background="@color/colorPrimaryDark"
+    android:orientation="vertical"
+    android:padding="5dp">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_margin="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="Edit Profile Anda"
+                    android:textColor="@color/white"
+                    android:textSize="30dp" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:id="@+id/RlNama"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp">
+
+                    <ImageView
+                        android:id="@+id/icAcc"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_account_" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:id="@+id/namaEdit"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/icAcc"
+                        android:backgroundTint="@color/white"
+                        android:textColor="@color/white" />
+                </RelativeLayout>
+
+                <!--<RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp">
+
+                    <ImageView
+                        android:id="@+id/icAlamat"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_location_on_black_376dp"
+                        android:tint="@color/white" />
+
+                    <TextView
+                        android:id="@+id/TvAlamat"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_toRightOf="@+id/icAlamat"
+                        android:backgroundTint="@color/white"
+                        android:textColor="@color/white" />
+                </RelativeLayout>
+
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scrollbars="none">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:paddingLeft="30dp"
+                        android:paddingRight="30dp">
+
+                        <fragment
+                            android:id="@+id/map"
+                            android:name="com.google.android.gms.maps.SupportMapFragment"
+                            android:layout_width="match_parent"
+                            android:layout_height="400dp" />
+
+                    </RelativeLayout>
+                </ScrollView>-->
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp">
+
+                    <ImageView
+                        android:id="@+id/icTelepon"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_local_phone_black_188dp"
+                        android:tint="@color/white" />
+
+                    <EditText
+                        android:id="@+id/etTelepon"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_toRightOf="@+id/icTelepon"
+                        android:backgroundTint="@color/white"
+                        android:textColor="@color/white" />
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp">
+
+                    <ImageView
+                        android:id="@+id/icTanggal"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_date_range_black_24dp"
+                        android:tint="@color/white" />
+
+                    <TextView
+                        android:id="@+id/tvTanggal"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_toRightOf="@+id/icTanggal"
+                        android:backgroundTint="@color/white"
+                        android:textColor="@color/white" />
+                </RelativeLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp">
+
+                    <EditText
+                        android:id="@+id/etDesk"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:layout_toRightOf="@+id/icDesk"
+                        android:backgroundTint="@color/white"
+                        android:textColor="@color/white"
+                        android:inputType="textMultiLine"
+                        android:overScrollMode="always"
+                        android:scrollbarStyle="insideInset"
+                        android:scrollbars="vertical"
+                        android:gravity="top"/>
+                </android.support.design.widget.TextInputLayout>
+                <Button
+                    android:id="@+id/Selesai"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@color/white"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="SAVE"
+                    android:textColor="@color/colorPrimary" />
+                <Button
+                    android:id="@+id/Cancel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@color/white"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="Cancel"
+                    android:textColor="@color/colorPrimary" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
