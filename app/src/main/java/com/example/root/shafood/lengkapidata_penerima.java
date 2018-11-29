@@ -111,7 +111,8 @@ public class lengkapidata_penerima extends AppCompatActivity implements OnMapRea
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-    private DatabaseReference myRef;
+    private DatabaseReference myRef, myRef2;
+    private String userID,verifikasi;
     public static final int ALAMAT = 1;
     private static int REQUEST_CODE = 0;
     FirebaseStorage storage;
@@ -145,8 +146,12 @@ public class lengkapidata_penerima extends AppCompatActivity implements OnMapRea
         //declare the database reference object. This is what we use to access the database.
         //NOTE: Unless you are signed in, this will not be useable.
         mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        mAuth = FirebaseAuth.getInstance();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
+        userID = user.getUid();
         myRef = mFirebaseDatabase.getReference();
+        myRef2 = mFirebaseDatabase.getReference();
 
         int currentApiVersion = Build.VERSION.SDK_INT;
         if (currentApiVersion >= Build.VERSION_CODES.M) {
@@ -198,6 +203,18 @@ public class lengkapidata_penerima extends AppCompatActivity implements OnMapRea
             public void onCancelled(DatabaseError error) {
                 // Failed to read value
                 Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
+
+        myRef2.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                showData1(dataSnapshot);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
 
@@ -253,10 +270,17 @@ public class lengkapidata_penerima extends AppCompatActivity implements OnMapRea
 
                     FirebaseUser user = mAuth.getCurrentUser();
                     String userID = user.getUid();
-                    UserPenerima newUser = new UserPenerima(userID, nama, noIdentitas, nohp, alamat, tanggallahir, latitude, longitude, narasi, "false", "false", "false", 4);
-                    myRef.child("SHAFOOD").child("USER").child("PENERIMA").child(userID).setValue(newUser);
-                    Intent i = new Intent(lengkapidata_penerima.this, Berhasil.class);
-                    startActivity(i);
+                    if (verifikasi.equals("true")){
+                        UserPenerima newUser = new UserPenerima(userID, nama, noIdentitas, nohp, alamat, tanggallahir, latitude, longitude, narasi, "false", "false", "true", 4);
+                        myRef.child("SHAFOOD").child("USER").child("PENERIMA").child(userID).setValue(newUser);
+                        Intent i = new Intent(lengkapidata_penerima.this, Berhasil.class);
+                        startActivity(i);
+                    }else {
+                        UserPenerima newUser = new UserPenerima(userID, nama, noIdentitas, nohp, alamat, tanggallahir, latitude, longitude, narasi, "false", "false", "false", 4);
+                        myRef.child("SHAFOOD").child("USER").child("PENERIMA").child(userID).setValue(newUser);
+                        Intent i = new Intent(lengkapidata_penerima.this, Berhasil.class);
+                        startActivity(i);
+                    }
                 } else {
                     showSnackbar(v, "Harap Lengkapi Semua Kolom", 3000);
                     return;
@@ -305,8 +329,37 @@ public class lengkapidata_penerima extends AppCompatActivity implements OnMapRea
                 mDisplayDate.setText(date);
             }
         };
+    }
 
+    private void showData1(DataSnapshot dataSnapshot) {
+        for (DataSnapshot ds : dataSnapshot.getChildren()) {
+            ProfilePenerima uInfo = new ProfilePenerima();
+            uInfo.setNama(ds.child("USER").child("PENERIMA").child(userID).getValue(ProfilePenerima.class).getNama());
+            uInfo.setAlamat(ds.child("USER").child("PENERIMA").child(userID).getValue(ProfilePenerima.class).getAlamat());
+            uInfo.setTanggallahir(ds.child("USER").child("PENERIMA").child(userID).getValue(ProfilePenerima.class).getTanggallahir());
+            uInfo.setNohp(ds.child("USER").child("PENERIMA").child(userID).getValue(ProfilePenerima.class).getNohp());
+            uInfo.setLevel(ds.child("USER").child("PENERIMA").child(userID).getValue(ProfilePenerima.class).getLevel());
+            uInfo.setLongitude(ds.child("USER").child("PENERIMA").child(userID).getValue(ProfilePenerima.class).getLongitude());
+            uInfo.setLatitude(ds.child("USER").child("PENERIMA").child(userID).getValue(ProfilePenerima.class).getLatitude());
+            uInfo.setNoktp(ds.child("USER").child("PENERIMA").child(userID).getValue(ProfilePenerima.class).getNoktp());
+            uInfo.setNarasi(ds.child("USER").child("PENERIMA").child(userID).getValue(ProfilePenerima.class).getNarasi());
+            uInfo.setVerifikasi(ds.child("USER").child("PENERIMA").child(userID).getValue(ProfilePenerima.class).getVerifikasi());
 
+            verifikasi = uInfo.getVerifikasi().trim();
+            String nama = uInfo.getNama().trim();
+            String nohp = uInfo.getNohp().trim();
+            String tgllhr = uInfo.getTanggallahir();
+            String noktp = uInfo.getNoktp();
+
+            try{
+                editTextNama.setText(nama);
+                editTextNohp.setText(nohp);
+                editTextIdentitas.setText(noktp);
+                editTextTanggalLahir.setText(tgllhr);
+            }catch (NullPointerException e){
+                e.printStackTrace();
+            }
+        }
     }
 
     public void chooseImageIdentitasPenerima() {
@@ -651,6 +704,7 @@ public class lengkapidata_penerima extends AppCompatActivity implements OnMapRea
             }
         }
     }
+
     @Override
     public void onBackPressed() {
         if (backPressedTime + 2000 > System.currentTimeMillis()) {

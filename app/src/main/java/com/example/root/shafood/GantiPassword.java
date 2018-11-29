@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
@@ -67,6 +68,11 @@ public class GantiPassword extends AppCompatActivity {
                     }).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
+                        }
+                    }).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Toast.makeText(GantiPassword.this,"Password Berhasil Diganti" ,Toast.LENGTH_LONG).show();
                             gantiPassword();
                         }
                     });
@@ -79,6 +85,43 @@ public class GantiPassword extends AppCompatActivity {
     }
 
     public void gantiPassword() {
+        progressDialog.setMax(100);
+        progressDialog.setMessage("Tunggu Sebentar");
+        progressDialog.setTitle("Login");
+
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setIndeterminate(false);
+        progressDialog.show();
+        progressStatus = 0;
+        final Handler handle = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                progressDialog.incrementProgressBy(1);
+            }
+        };
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (progressStatus < 100) {
+                    progressStatus += 1;
+                    try {
+                        Thread.sleep(10);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    handle.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressDialog.setProgress(progressStatus);
+                            if (progressStatus == 100) {
+                                progressDialog.dismiss();
+                            }
+                        }
+                    });
+                }
+            }
+        }).start();
         user.updatePassword(newPassword).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
@@ -100,45 +143,9 @@ public class GantiPassword extends AppCompatActivity {
                         Intent mIntent = new Intent(GantiPassword.this, Penerima_Main.class);
                         startActivity(mIntent);
                     }*/
+                    progressDialog.dismiss();
                     Intent mIntent = new Intent(GantiPassword.this, lengkapidata_penerima.class);
                     startActivity(mIntent);
-                    progressDialog.setMax(100);
-                    progressDialog.setMessage("Tunggu Sebentar");
-                    progressDialog.setTitle("Login");
-
-                    progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-                    progressDialog.setIndeterminate(false);
-                    progressDialog.show();
-                    progressStatus = 0;
-                    final Handler handle = new Handler() {
-                        @Override
-                        public void handleMessage(Message msg) {
-                            super.handleMessage(msg);
-                            progressDialog.incrementProgressBy(1);
-                        }
-                    };
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            while (progressStatus < 100) {
-                                progressStatus += 1;
-                                try {
-                                    Thread.sleep(10);
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
-                                handle.post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        progressDialog.setProgress(progressStatus);
-                                        if (progressStatus == 100) {
-                                            progressDialog.dismiss();
-                                        }
-                                    }
-                                });
-                            }
-                        }
-                    }).start();
                 }
             }
         });
