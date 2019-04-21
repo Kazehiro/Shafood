@@ -115,6 +115,7 @@
                         android:layout_alignParentTop="true"
                         android:layout_toRightOf="@+id/imgView_namaIcon"
                         android:background="@color/editTextBG"
+                        android:paddingTop="10dp"
                         android:hint="Nama Pribadi/Perusahaan"
                         android:paddingLeft="20dp"
                         android:textSize="15sp" />
@@ -147,6 +148,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignBottom="@+id/imgView_identitasIcon"
                         android:layout_alignParentTop="true"
+                        android:paddingTop="10dp"
                         android:layout_toRightOf="@+id/imgView_identitasIcon"
                         android:background="@color/editTextBG"
                         android:hint="No KTP"
@@ -185,6 +187,7 @@
                         android:layout_alignParentTop="true"
                         android:layout_marginLeft="0dp"
                         android:layout_marginTop="0dp"
+                        android:paddingTop="10dp"
                         android:layout_marginBottom="0dp"
                         android:layout_toRightOf="@+id/imgView_alamatIcon"
                         android:background="@color/editTextBG"
@@ -244,6 +247,7 @@
                         android:layout_toRightOf="@+id/imgView_nohpIcon"
                         android:background="@color/editTextBG"
                         android:hint="No.HandPhone"
+                        android:paddingTop="10dp"
                         android:inputType="phone"
                         android:paddingLeft="20dp"
                         android:textSize="15sp" />
@@ -278,6 +282,7 @@
                         android:layout_toRightOf="@+id/imgView_dateIcon"
                         android:background="@color/editTextBG"
                         android:hint="30-12-1999"
+                        android:paddingTop="10dp"
                         android:inputType="date"
                         android:paddingLeft="20dp"
                         android:textSize="15sp" />
@@ -313,6 +318,7 @@
                         android:layout_toRightOf="@+id/imgView_narasiIcon"
                         android:background="@color/editTextBG"
                         android:hint="Tentang Anda"
+                        android:paddingTop="10dp"
                         android:inputType="textMultiLine"
                         android:paddingLeft="20dp"
                         android:textSize="15sp" />
@@ -394,6 +400,8 @@
                     android:background="@color/colorPrimary"
                     android:fontFamily="sans-serif-medium"
                     android:text="UPLOAD"
+                    android:padding="10dp"
+                    android:textAlignment="center"
                     android:textColor="@color/white" />
             </LinearLayout>
         </LinearLayout>

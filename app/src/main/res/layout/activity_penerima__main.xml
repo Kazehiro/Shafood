@@ -16,19 +16,23 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/imgBtnProfile">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:textSize="15dp"
+            android:layout_marginTop="20dp"
+            android:textAlignment="center"
             android:id="@+id/tv_atas"
             android:text="Kiriman yang akan anda terima : "/>
+
         <ListView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="60dp"
             android:layout_below="@+id/tv_atas"
+            android:layout_marginTop="20dp"
             android:background="@color/white"
             android:id="@+id/BelumDiterima">
 

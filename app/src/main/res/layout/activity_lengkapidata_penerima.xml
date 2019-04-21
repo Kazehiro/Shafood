@@ -98,6 +98,7 @@
                         android:layout_toRightOf="@+id/imgView_namaIcon"
                         android:background="@color/editTextBG"
                         android:hint="Nama Pribadi/Perusahaan"
+                        android:paddingTop="10dp"
                         android:paddingLeft="20dp"
                         android:textSize="15sp" />
 
@@ -132,6 +133,7 @@
                         android:layout_toRightOf="@+id/imgView_identitasIcon"
                         android:background="@color/editTextBG"
                         android:hint="No KTP"
+                        android:paddingTop="10dp"
                         android:maxLength="16"
                         android:inputType="number"
                         android:paddingLeft="20dp"
@@ -172,6 +174,7 @@
                         android:layout_toRightOf="@+id/imgView_alamatIcon"
                         android:background="@color/editTextBG"
                         android:hint="Alamat Lengkap"
+                        android:paddingTop="10dp"
                         android:paddingLeft="20dp"
                         android:textSize="15sp" />
 
@@ -227,6 +230,7 @@
                         android:layout_toRightOf="@+id/imgView_nohpIcon"
                         android:background="@color/editTextBG"
                         android:hint="No.HandPhone"
+                        android:paddingTop="10dp"
                         android:inputType="phone"
                         android:maxLength="11"
                         android:paddingLeft="20dp"
@@ -264,6 +268,7 @@
                         android:hint="30-12-1999"
                         android:inputType="date"
                         android:paddingLeft="20dp"
+                        android:paddingTop="10dp"
                         android:textSize="15sp" />
 
                 </RelativeLayout>
@@ -339,10 +344,13 @@
                     android:layout_marginTop="15dp"
                     android:layout_marginRight="30dp"
                     android:layout_marginBottom="10dp"
+                    android:padding="10dp"
+                    android:textAlignment="center"
                     android:background="@color/colorPrimary"
                     android:fontFamily="sans-serif-medium"
                     android:text="UPLOAD"
                     android:textColor="@color/white" />
+
             </LinearLayout>
 
         </LinearLayout>

@@ -100,6 +100,7 @@
                         android:background="@color/editTextBG"
                         android:hint="Nama Lengkap"
                         android:paddingLeft="20dp"
+                        android:paddingTop="10dp"
                         android:textSize="15sp" />
 
                 </RelativeLayout>
@@ -133,6 +134,7 @@
                         android:layout_toRightOf="@+id/imgView_alamatIcon"
                         android:background="@color/editTextBG"
                         android:hint="Alamat Lengkap"
+                        android:paddingTop="10dp"
                         android:paddingLeft="20dp"
                         android:textSize="15sp" />
 
@@ -167,6 +169,7 @@
                         android:layout_toRightOf="@+id/imgView_nohpIcon"
                         android:background="@color/editTextBG"
                         android:hint="No.HandPhone"
+                        android:paddingTop="10dp"
                         android:inputType="phone"
                         android:maxLength="13"
                         android:paddingLeft="20dp"
@@ -202,6 +205,7 @@
                         android:layout_toRightOf="@+id/imgView_dateIcon"
                         android:background="@color/editTextBG"
                         android:hint="30-12-1999"
+                        android:paddingTop="10dp"
                         android:inputType="date"
                         android:paddingLeft="20dp"
                         android:textSize="15sp" />
@@ -238,6 +242,7 @@
                         android:background="@color/editTextBG"
                         android:hint="Plat Nomor"
                         android:paddingLeft="20dp"
+                        android:paddingTop="10dp"
                         android:textSize="15sp" />
                 </RelativeLayout>
 
@@ -317,6 +322,8 @@
                     android:background="@color/colorPrimary"
                     android:fontFamily="sans-serif-medium"
                     android:text="UPLOAD"
+                    android:padding="10dp"
+                    android:textAlignment="center"
                     android:layout_marginBottom="10dp"
                     android:textColor="@color/white" />
 

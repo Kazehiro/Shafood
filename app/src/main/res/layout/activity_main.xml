@@ -72,6 +72,7 @@
                         android:layout_toRightOf="@+id/imgView_emailIcon"
                         android:background="@color/editTextBG"
                         android:hint="@string/prompt_email"
+                        android:paddingTop="10dp"
                         android:inputType="textEmailAddress"
                         android:maxLines="1"
                         android:paddingLeft="20dp"
@@ -106,11 +107,11 @@
                         android:layout_toRightOf="@+id/imgView_passIcon"
                         android:background="@color/editTextBG"
                         android:hint="Password"
+                        android:paddingTop="10dp"
                         android:imeActionId="@+id/login"
                         android:imeActionLabel="@string/action_sign_in_short"
                         android:imeOptions="actionUnspecified"
                         android:inputType="textPassword"
-                        android:maxLines="1"
                         android:paddingLeft="20dp"
                         android:textSize="15sp" />
 
@@ -122,6 +123,8 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/chkBox1"
                     android:layout_marginLeft="30dp"
+                    android:padding="15dp"
+                    android:textAlignment="center"
                     android:layout_marginRight="30dp"
                     android:layout_marginTop="15dp"
                     android:background="@color/colorButton"
@@ -129,18 +132,6 @@
                     android:text="LOGIN"
                     android:textColor="@color/white"/>
 
-                <Button
-                    android:id="@+id/btnGoogle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/chkBox1"
-                    android:layout_marginLeft="30dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginRight="30dp"
-                    android:background="@color/colorButton"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="LOGIN With Google"
-                    android:textColor="@color/white" />
 
                 <Button
                     android:layout_width="wrap_content"

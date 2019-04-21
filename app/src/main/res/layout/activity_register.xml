@@ -78,6 +78,7 @@
                         android:layout_toRightOf="@+id/imgView_emailIcon"
                         android:background="@color/editTextBG"
                         android:hint="Masukan Email"
+                        android:paddingTop="10dp"
                         android:inputType="textEmailAddress"
                         android:paddingLeft="20dp"
                         android:textSize="15sp" />
@@ -111,6 +112,7 @@
                         android:layout_toRightOf="@+id/imgView_passIcon"
                         android:background="@color/editTextBG"
                         android:hint="Masukan Password"
+                        android:paddingTop="10dp"
                         android:inputType="textPassword"
                         android:paddingLeft="20dp"
                         android:textSize="15sp" />
@@ -145,6 +147,7 @@
                         android:layout_toRightOf="@+id/imgView_rePassIcon"
                         android:background="@color/editTextBG"
                         android:hint="Confirm Password"
+                        android:paddingTop="10dp"
                         android:inputType="textPassword"
                         android:paddingLeft="20dp"
                         android:textSize="15sp" />
@@ -193,6 +196,8 @@
                     android:layout_marginLeft="30dp"
                     android:layout_marginRight="30dp"
                     android:layout_marginTop="30dp"
+                    android:textAlignment="center"
+                    android:padding="10dp"
                     android:background="@color/colorButton"
                     android:fontFamily="sans-serif-medium"
                     android:onClick="registerUser"
