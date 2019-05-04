@@ -57,8 +57,6 @@ public class MainActivity extends AppCompatActivity {
     // UI references.
     private EditText mEmail, mPassword;
     private Button btnSignIn;
-    private Button btnGoogle;
-    ;
     private FirebaseAuth firebaseAuth;
     private static final int LOCATION_REQUEST = 500;
     public static final int REQUEST_CODE_CAMERA_FOTO = 0020;
@@ -74,21 +72,8 @@ public class MainActivity extends AppCompatActivity {
         mEmail = (EditText) findViewById(R.id.email);
         mPassword = (EditText) findViewById(R.id.password);
         btnSignIn = (Button) findViewById(R.id.email_sign_in_button);
-        btnGoogle = (Button) findViewById(R.id.btnGoogle);
         mAuth = FirebaseAuth.getInstance();
         progressDialog = new ProgressDialog(this);
-        btnGoogle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                /*startActivityForResult(
-                        AuthUI.getInstance().createSignInIntentBuilder()
-                                .setIsSmartLockEnabled(true)
-                                .build(),LOGIN_PERMISSION);*/
-                showSnackbar(v, "Layanan Belum Tersedia", 3000);
-
-            }
-        });
-
 
         int currentApiVersion = Build.VERSION.SDK_INT;
         if (currentApiVersion >= Build.VERSION_CODES.M) {
